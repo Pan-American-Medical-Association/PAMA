@@ -160,6 +160,10 @@ th.num { text-align: right; }
 .table-scroll { overflow-x: auto; }
 .embed { position: relative; width: 100%; aspect-ratio: 16 / 10; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 1.5rem 0; background: var(--white); }
 .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* Wide infographics: full width, tap to open at full size */
+.infographic { margin: 2rem 0 1.5rem; }
+.infographic img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+.infographic figcaption { font-size: .9rem; color: var(--ink-soft); margin-top: .5rem; }
 /* Published Google Sheets charts, shown as images that scale to fit */
 .chart { margin: 1.5rem 0; max-width: 760px; }
 .chart img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--white); padding: .5rem; }
