@@ -610,3 +610,24 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .article-cta h2 { margin-top: 0; }
 .works-cited { font-size: .95rem; color: var(--ink-soft); }
 .formula { font-family: var(--serif); font-size: 1.3rem; color: var(--teal-deep); text-align: center; background: var(--mist); border-radius: 8px; padding: .9rem; }
+.figure-pair.wide img { aspect-ratio: 3 / 4; }
+.figure-pair.wide { margin: 1.5rem 0; }
+.org-card { display: grid; grid-template-columns: 160px 1fr; gap: 1.25rem; align-items: start; background: var(--mist); border-radius: 10px; padding: 1.25rem; margin: 1.75rem 0; }
+.org-card img { width: 100%; aspect-ratio: 1; object-fit: contain; background: var(--white); border-radius: 8px; padding: .5rem; box-sizing: border-box; }
+.org-card h2 { margin-top: 0; font-size: 1.35rem; }
+.event-card { display: grid; grid-template-columns: 1fr; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 1.5rem 0; background: var(--white); }
+.event-card > img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.event-card > div { padding: 1.25rem 1.5rem 1.5rem; }
+.event-card h3 { margin-top: .2rem; font-size: 1.5rem; }
+.event-kicker { color: var(--teal); font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; margin: 0; }
+.event-days { list-style: none; padding: 0 !important; }
+.event-days li { border-left: 3px solid var(--gold); padding-left: .75rem; margin-bottom: .6rem; }
+@media (max-width: 560px) { .org-card { grid-template-columns: 1fr; } .org-card img { max-width: 160px; } }
+.p4c-head .split { align-items: center; }
+.p4c-logo img { width: 100%; max-width: 280px; aspect-ratio: 3/2; object-fit: contain; background: var(--white); border-radius: 12px; padding: 1rem; box-sizing: border-box; display: block; margin-left: auto; }
+.event-wide { grid-template-columns: 1fr 1.2fr; }
+.event-wide > img { aspect-ratio: auto; height: 100%; }
+@media (max-width: 760px) { .event-wide { grid-template-columns: 1fr; } .event-wide > img { aspect-ratio: 16/9; height: auto; } .p4c-logo img { margin: 1rem 0 0; } }
+.p4c-gallery { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.p4c-gallery img { aspect-ratio: 4 / 3; object-fit: cover; }
+img[src$="p4c-volunteers.jpg"] { object-position: 50% 65%; } img[src$="p4c-books.jpg"] { object-position: 50% 60%; }
