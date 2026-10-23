@@ -30,7 +30,8 @@ Don't add the `CNAME` file before the DNS change: GitHub would start sending vis
 ## Before going live
 
 - **Forms:** replace `https://formspree.io/f/YOUR_FORM_ID` on the contact, volunteer, work-application, member and newsletter pages with a real form endpoint.
-- **Images still on Squarespace:** five images couldn't be found in Google Drive and still load from Squarespace: the Cuba maternal-health article cover, the classroom photo (About, Work Application), the LOVE Philadelphia graphic, the farmer portrait on Donate, and `IMG_5732` (the hospital-bed photo, which is in Drive but over the 10 MB download limit). Add them to `assets/img/` before canceling Squarespace.
+- **Images still on Squarespace:** three images couldn't be found in Google Drive and still load from Squarespace: the Cuba maternal-health article cover (Home, Blog), the classroom photo (About, Work Application) and the farmer portrait on Donate. Add them to `assets/img/` before canceling Squarespace.
+- **Financial Transparency:** figures come from the "The PAMA- Financial Books" Google Sheet (Totals, Category Summary and Expenses tabs). Update the page when the books change.
 - **Blog posts:** the six article pages linked from `/blog/` still need to be built from the Squarespace blog export.
 - **Member and SMIT pages:** add membership tiers and the full SMIT text.
 - **Member login and shop:** a static site needs an outside service for these (for example Memberstack or Outseta for logins; PayPal, Stripe Payment Links or Snipcart for the shop).
