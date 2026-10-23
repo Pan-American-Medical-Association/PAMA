@@ -107,21 +107,21 @@ p { margin: 0 0 1em; }
 @media (max-width: 800px) { .split { grid-template-columns: 1fr; } }
 .figure img { border-radius: 8px; width: 100%; object-fit: cover; }
 .figure-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.figure-pair img { aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; }
+.figure-pair img { aspect-ratio: 2 / 3; object-fit: cover; border-radius: 8px; }
 
 /* Pathways on the home page: rule-topped, not boxed */
-.paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2rem 1.75rem; margin-top: 2rem; }
+.paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem 1.25rem; margin-top: 2rem; }
 .path { border-top: 3px solid var(--teal); padding-top: 1rem; }
 .path:nth-child(2) { border-top-color: var(--gold); }
 .path h3 { margin-bottom: .35em; }
 .path h3 a { text-decoration: none; color: var(--teal-deep); }
 .path h3 a:hover { text-decoration: underline; }
 .path p { color: var(--ink-soft); margin: 0; }
-.path img { aspect-ratio: 3 / 2; object-fit: cover; border-radius: 6px; margin-bottom: .9rem; }
+.path img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 6px; margin-bottom: .9rem; }
 
 /* Mission list on About */
 .mission { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
-.mission li img { aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; margin-bottom: .8rem; }
+.mission li img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; margin-bottom: .8rem; }
 .mission h3 { border-left: 3px solid var(--gold); padding-left: .7rem; }
 
 /* Quotes */
@@ -130,7 +130,7 @@ blockquote { margin: 0; font-family: var(--serif); font-size: 1.25rem; line-heig
 blockquote footer { font-family: var(--sans); font-size: .95rem; color: var(--ink-soft); margin-top: .7rem; }
 .testimonial { display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; align-items: start; padding: 1.75rem 0; border-top: 1px solid var(--line); }
 .testimonial:first-of-type { border-top: 0; }
-.testimonial img { width: 160px; height: 160px; object-fit: cover; border-radius: 50%; }
+.testimonial img { width: 160px; height: 160px; object-fit: cover; object-position: 50% 22%; border-radius: 50%; }
 @media (max-width: 600px) { .testimonial { grid-template-columns: 1fr; } }
 
 /* Reasons to give */
@@ -223,6 +223,18 @@ th.num { text-align: right; }
 
 /* Photo gallery and wide photo band */
 .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+/* Infographics and graphics are shown whole inside a photo frame */
+img.fit-whole { object-fit: contain !important; background: var(--mist); padding: .5rem; }
+/* Per-photo focus points so faces stay in frame when cropped */
+img[src$="pediatric-exam.jpg"] { object-position: 50% 45%; }
+img[src$="airway-training.jpg"] { object-position: 50% 8%; }
+img[src$="clinical-training-group.jpg"] { object-position: 50% 35%; }
+img[src$="emergency-team.jpg"] { object-position: 50% 30%; }
+img[src$="havana-street-car.jpg"] { object-position: 50% 70%; }
+img[src$="woman-newspaper.jpg"] { object-position: 50% 30%; }
+img[src$="pitzal-ultrasound.jpg"] { object-position: 50% 35%; }
+img[src$="clinic-girls.jpg"] { object-position: 50% 60%; }
+
 .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; }
 .band { margin: 0 0 2.5rem; }
 .band img { width: 100%; aspect-ratio: 5 / 2; object-fit: cover; border-radius: 8px; }
