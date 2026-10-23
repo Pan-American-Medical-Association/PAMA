@@ -609,3 +609,4 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .article-cta { background: var(--mist); border-left: 4px solid var(--gold); border-radius: 8px; padding: 1.5rem; margin: 2.5rem 0; }
 .article-cta h2 { margin-top: 0; }
 .works-cited { font-size: .95rem; color: var(--ink-soft); }
+.formula { font-family: var(--serif); font-size: 1.3rem; color: var(--teal-deep); text-align: center; background: var(--mist); border-radius: 8px; padding: .9rem; }
