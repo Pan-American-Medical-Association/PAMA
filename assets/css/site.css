@@ -665,3 +665,4 @@ img[src$="p4c-volunteers.jpg"] { object-position: 50% 65%; } img[src$="p4c-books
 .eeo { font-style: italic; }
 .p4c-mark { width: 96px; height: 96px; background: none; padding: 0; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
 .org-card img[src$="p4c-logo.png"] { background: none; padding: 0; border-radius: 50%; }
+img[src$="quarterman-cuba-street.jpg"] { object-position: 50% 8%; } img[src$="quarterman-cuba-arrival.jpg"] { object-position: 50% 35%; }
