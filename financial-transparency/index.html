@@ -192,14 +192,23 @@
   </div>
   <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization.</div></div>
 </footer>
-<div class="modal" id="campaign" role="dialog" aria-modal="true" aria-labelledby="campaign-title">
-  <div class="modal-card">
-    <button class="modal-close" type="button" aria-label="Close">&times;</button>
-    <p class="modal-kicker">End of Year Campaign 2026</p>
-    <h2 id="campaign-title">Send Medical Supplies to Cuba</h2>
-    <p>Before the year ends, help the Pan-American Medical Association get essential medical supplies into the hands of doctors and families across Cuba. Every donation makes a difference.</p>
-    <a class="btn btn-gold" href="https://www.paypal.com/donate/?hosted_button_id=RUC6Z8YEYPXPA" target="_blank" rel="noopener">Donate through PayPal</a>
-    <p class="small">Secure donation through PayPal</p>
+<!-- End of Year campaign pop-up -->
+<div id="pamaOverlay" class="pama-overlay"></div>
+<div id="pamaPopup" class="pama-popup" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="pamaTitle" aria-hidden="true">
+  <div class="pama-band"></div>
+  <div class="pama-hearts" id="pamaHearts"></div>
+  <button class="pama-close" type="button" aria-label="Close">&times;</button>
+  <div class="pama-content">
+    <div class="pama-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+    <div class="pama-eyebrow">End of Year Campaign 2026</div>
+    <div class="pama-title" id="pamaTitle">Send <span>Medical Supplies</span> to Cuba</div>
+    <div class="pama-subtitle">Before the year ends, help the Pan-American Medical Association get essential medical supplies into the hands of doctors and families across Cuba. Every donation makes a difference.</div>
+    <div class="pama-donate-wrap">
+      <div id="paypal-donate-button-container"><a href="https://www.paypal.com/donate/?hosted_button_id=RUC6Z8YEYPXPA" target="_blank" rel="noopener"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="Donate with PayPal" width="147" height="47"></a></div>
+    </div>
+    <div class="pama-footnote">Secure donation through PayPal</div>
   </div>
 </div>
 <script src="../assets/js/site.js"></script>

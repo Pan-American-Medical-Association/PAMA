@@ -17,25 +17,117 @@
     });
   });
 
-  // Campaign pop-up: shows once per browser session on pages that include it.
-  var modal = document.getElementById("campaign");
-  if (!modal) return;
-  var KEY = "pama-campaign-seen";
-  var seen = false;
-  try { seen = sessionStorage.getItem(KEY) === "1"; } catch (err) {}
+  // End of Year campaign pop-up, on pages that include #pamaPopup.
+  // Opens 5 seconds after the page loads, at most once every 12 hours per visitor.
+  var popup = document.getElementById("pamaPopup");
+  var overlay = document.getElementById("pamaOverlay");
+  if (!popup || !overlay) return;
 
-  function close() {
-    modal.classList.remove("open");
-    try { sessionStorage.setItem(KEY, "1"); } catch (err) {}
+  var COOKIE = "pamaCubaEOY2026";
+  var DELAY_MS = 5000;
+  var REPEAT_HOURS = 12;
+  var lastFocus = null;
+
+  function setCookie(name, value, hours) {
+    var expires = "";
+    if (hours) {
+      var date = new Date();
+      date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
   }
 
-  if (!seen) {
-    setTimeout(function () { modal.classList.add("open"); }, 1200);
+  function getCookie(name) {
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].replace(/^\s+/, "");
+      if (c.indexOf(name + "=") === 0) return c.substring(name.length + 1);
+    }
+    return null;
   }
-  modal.addEventListener("click", function (e) {
-    if (e.target === modal || e.target.closest(".modal-close")) close();
+
+  // PayPal's donate button. The plain PayPal link already in the page
+  // stays in place if PayPal's script can't load.
+  function loadPayPalButton() {
+    var s = document.createElement("script");
+    s.src = "https://www.paypalobjects.com/donate/sdk/donate-sdk.js";
+    s.charset = "UTF-8";
+    s.onload = function () {
+      try {
+        var box = document.getElementById("paypal-donate-button-container");
+        box.innerHTML = "";
+        PayPal.Donation.Button({
+          env: "production",
+          hosted_button_id: "RUC6Z8YEYPXPA",
+          image: {
+            src: "https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif",
+            alt: "Donate with PayPal button",
+            title: "Donate with PayPal"
+          }
+        }).render("#paypal-donate-button-container");
+      } catch (err) {}
+    };
+    document.head.appendChild(s);
+  }
+
+  // Floating hearts in the card background
+  var heartsStarted = false;
+  function startHearts() {
+    if (heartsStarted) return;
+    heartsStarted = true;
+    var box = document.getElementById("pamaHearts");
+    if (!box) return;
+    var colors = ["var(--pama-accent)", "var(--pama-accent-2)", "var(--pama-primary)"];
+    for (var i = 0; i < 12; i++) {
+      var h = document.createElement("span");
+      h.className = "pama-heart-float";
+      h.textContent = "♥";
+      h.style.left = Math.random() * 95 + "%";
+      h.style.color = colors[i % colors.length];
+      h.style.fontSize = 12 + Math.random() * 14 + "px";
+      h.style.animationDuration = 5 + Math.random() * 4 + "s";
+      h.style.animationDelay = Math.random() * 6 + "s";
+      box.appendChild(h);
+    }
+  }
+
+  function openPopup() {
+    lastFocus = document.activeElement;
+    popup.classList.remove("pama-hide");
+    popup.classList.add("pama-show");
+    popup.setAttribute("aria-hidden", "false");
+    overlay.classList.add("pama-show");
+    startHearts();
+    popup.focus({ preventScroll: true });
+  }
+
+  function closePopup() {
+    if (!popup.classList.contains("pama-show")) return;
+    popup.classList.remove("pama-show");
+    popup.classList.add("pama-hide");
+    popup.setAttribute("aria-hidden", "true");
+    overlay.classList.remove("pama-show");
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+
+  // Once the drop-out animation ends, hide the card fully so it can't be tabbed to.
+  popup.addEventListener("animationend", function (e) {
+    if (e.animationName === "pamaDropOut") popup.classList.remove("pama-hide");
   });
+
+  overlay.addEventListener("click", closePopup);
+  popup.querySelector(".pama-close").addEventListener("click", closePopup);
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") close();
+    if (e.key === "Escape") closePopup();
+  });
+
+  loadPayPalButton();
+  window.addEventListener("load", function () {
+    if (getCookie(COOKIE)) return;
+    setTimeout(function () {
+      openPopup();
+      setCookie(COOKIE, "yes", REPEAT_HOURS);
+    }, DELAY_MS);
   });
 })();
