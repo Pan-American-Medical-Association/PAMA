@@ -30,7 +30,7 @@ Don't add the `CNAME` file before the DNS change: GitHub would start sending vis
 ## Before going live
 
 - **Forms:** replace `https://formspree.io/f/YOUR_FORM_ID` on the contact, volunteer, work-application, member and newsletter pages with a real form endpoint.
-- **Financial Transparency:** figures come from the "The PAMA- Financial Books" Google Sheet (Totals, Category Summary and Expenses tabs). The two embedded charts (totals and taxonomy) update on their own from the published sheet; the written figures need updating when the books change.
+- **Financial Transparency:** figures come from the "The PAMA- Financial Books" Google Sheet (Totals, Category Summary and Expenses tabs). The three embedded charts (totals and taxonomy here, CIM on Impact) come from the public "PAMA Website Charts (public)" sheet, which pulls summary figures from the books and updates on its own; the written figures need updating when the books change. Never publish the Financial Books itself.
 - **Blog posts:** the six article pages linked from `/blog/` still need to be built from the Squarespace blog export.
 - **Member and SMIT pages:** add membership tiers and the full SMIT text.
 - **Member login and shop:** a static site needs an outside service for these (for example Memberstack or Outseta for logins; PayPal, Stripe Payment Links or Snipcart for the shop).
