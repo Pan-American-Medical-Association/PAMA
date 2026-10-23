@@ -637,3 +637,5 @@ img[src$="p4c-volunteers.jpg"] { object-position: 50% 65%; } img[src$="p4c-books
 .site-footer .social a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.1); color: var(--white); transition: background .15s, color .15s; text-decoration: none; }
 .site-footer .social a:hover, .site-footer .social a:focus-visible { background: var(--gold); color: var(--ink); }
 .site-footer .social svg { width: 20px; height: 20px; fill: currentColor; }
+.btn-outline-dark { border-color: var(--teal-dark); color: var(--teal-dark); } .btn-outline-dark:hover { background: var(--teal-dark); color: var(--white); }
+.figures-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
