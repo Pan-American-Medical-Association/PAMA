@@ -92,7 +92,7 @@ p { margin: 0 0 1em; }
 .hero .wrap { position: relative; padding-top: clamp(3.5rem, 8vw, 6.5rem); padding-bottom: clamp(3.5rem, 8vw, 6.5rem); }
 .hero h1 { color: var(--white); max-width: 15ch; font-size: clamp(2.6rem, 6.5vw, 4.6rem); line-height: 1.04; }
 .hero p { color: #d7e7e6; font-size: 1.2rem; max-width: 56ch; }
-.hero-logo { width: 96px; height: 96px; object-fit: contain; margin-bottom: 1.5rem; background: var(--white); border-radius: 50%; padding: 6px; }
+.hero-logo { width: 148px; height: auto; margin-bottom: 1.5rem; background: var(--white); border-radius: 18px; padding: 12px 14px; box-sizing: content-box; }
 .page-head { background: var(--mist); border-bottom: 1px solid var(--line); }
 .page-head .wrap { padding-top: 3rem; padding-bottom: 2.5rem; }
 .page-head h1 { margin-bottom: .3em; }
@@ -589,3 +589,9 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .trust-list strong { display: block; color: var(--teal-deep); }
 .trust-list span { font-size: .92rem; color: var(--ink-soft); }
 @media (prefers-reduced-motion: reduce) { .way { transition: none; } .way:hover { transform: none; } }
+
+/* Logistics coalition partner logos: identical tiles */
+.partner-grid { list-style: none; padding: 0; margin: 2rem 0 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.25rem; }
+.partner-grid li { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: .75rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.partner-grid img { width: 100%; aspect-ratio: 3 / 2; object-fit: contain; }
+.partner-grid span { margin-top: .6rem; font-size: .9rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
