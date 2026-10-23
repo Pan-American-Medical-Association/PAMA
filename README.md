@@ -34,3 +34,6 @@ Don't add the `CNAME` file before the DNS change: GitHub would start sending vis
 - **Blog posts:** the six article pages linked from `/blog/` still need to be built from the Squarespace blog export.
 - **Member and SMIT pages:** add membership tiers and the full SMIT text.
 - **Member login and shop:** a static site needs an outside service for these (for example Memberstack or Outseta for logins; PayPal, Stripe Payment Links or Snipcart for the shop).
+## Credits
+
+Footer social icons: [Font Awesome Free](https://fontawesome.com) brand icons, licensed CC BY 4.0.

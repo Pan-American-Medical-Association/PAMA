@@ -631,3 +631,9 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .p4c-gallery { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 .p4c-gallery img { aspect-ratio: 4 / 3; object-fit: cover; }
 img[src$="p4c-volunteers.jpg"] { object-position: 50% 65%; } img[src$="p4c-books.jpg"] { object-position: 50% 60%; }
+
+/* Footer social icons (Font Awesome Free brand icons, CC BY 4.0) */
+.site-footer .social { list-style: none; padding: 0; margin: .5rem 0 0; display: flex; gap: .75rem; flex-wrap: wrap; }
+.site-footer .social a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.1); color: var(--white); transition: background .15s, color .15s; text-decoration: none; }
+.site-footer .social a:hover, .site-footer .social a:focus-visible { background: var(--gold); color: var(--ink); }
+.site-footer .social svg { width: 20px; height: 20px; fill: currentColor; }
