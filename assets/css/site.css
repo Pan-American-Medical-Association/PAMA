@@ -598,3 +598,14 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .partner-group { margin-top: 2.75rem; }
 .btn-small { padding: .45rem .9rem; font-size: .9rem; margin-top: .5rem; }
 .tag-current { display: inline-block; margin-left: .4rem; padding: .1rem .5rem; border-radius: 999px; background: var(--gold); color: var(--ink); font-size: .75rem; font-weight: 700; vertical-align: middle; }
+
+/* Blog articles */
+.article-body { max-width: 760px; }
+.article-body h2 { margin-top: 2.2rem; }
+.article-body h3 { margin-top: 1.4rem; font-size: 1.15rem; }
+.article-figure { margin: 0 0 2rem; }
+.article-figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; }
+.article-figure figcaption { font-size: .9rem; color: var(--ink-soft); margin-top: .5rem; }
+.article-cta { background: var(--mist); border-left: 4px solid var(--gold); border-radius: 8px; padding: 1.5rem; margin: 2.5rem 0; }
+.article-cta h2 { margin-top: 0; }
+.works-cited { font-size: .95rem; color: var(--ink-soft); }
