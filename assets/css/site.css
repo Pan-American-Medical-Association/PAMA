@@ -663,3 +663,5 @@ img[src$="p4c-volunteers.jpg"] { object-position: 50% 65%; } img[src$="p4c-books
 .form-status.success { background: #e3f2ec; color: #0b5f5d; }
 .form-status.error { background: #fdecea; color: #8a1c13; }
 .eeo { font-style: italic; }
+.p4c-mark { width: 96px; height: 96px; background: none; padding: 0; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.org-card img[src$="p4c-logo.png"] { background: none; padding: 0; border-radius: 50%; }
