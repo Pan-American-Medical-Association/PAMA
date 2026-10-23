@@ -595,3 +595,4 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .partner-grid li { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: .75rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .partner-grid img { width: 100%; aspect-ratio: 3 / 2; object-fit: contain; }
 .partner-grid span { margin-top: .6rem; font-size: .9rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.partner-group { margin-top: 2.75rem; }
