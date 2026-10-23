@@ -92,7 +92,7 @@ p { margin: 0 0 1em; }
 .hero .wrap { position: relative; padding-top: clamp(3.5rem, 8vw, 6.5rem); padding-bottom: clamp(3.5rem, 8vw, 6.5rem); }
 .hero h1 { color: var(--white); max-width: 15ch; font-size: clamp(2.6rem, 6.5vw, 4.6rem); line-height: 1.04; }
 .hero p { color: #d7e7e6; font-size: 1.2rem; max-width: 56ch; }
-.hero-logo { width: 148px; height: auto; margin-bottom: 1.5rem; background: var(--white); border-radius: 18px; padding: 12px 14px; box-sizing: content-box; }
+.hero-logo { width: 160px; height: 160px; object-fit: contain; margin-bottom: 1.5rem; background: var(--white); border-radius: 50%; padding: 22px; box-sizing: border-box; }
 .page-head { background: var(--mist); border-bottom: 1px solid var(--line); }
 .page-head .wrap { padding-top: 3rem; padding-bottom: 2.5rem; }
 .page-head h1 { margin-bottom: .3em; }
