@@ -29,23 +29,34 @@
   </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Become a Member</h1><p class="lead">Join a coalition of healthcare professionals, students and partners working for health equity across the Americas.</p></div></section>
-<!-- NOTE: The live /member page could not be read from outside Squarespace. Add membership tiers and dues here. -->
+<section class="page-head"><div class="wrap"><h1>Membership Application</h1><p class="lead">Join a coalition of healthcare professionals, students and supporters working for health equity across the Americas.</p></div></section>
 <section class="section"><div class="wrap">
-<form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-  <input type="hidden" name="_subject" value="Membership application"><label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
-  <div class="row">
-    <div><label for="m-first">First name</label><input id="m-first" name="first_name" required autocomplete="given-name"></div>
-    <div><label for="m-last">Last name</label><input id="m-last" name="last_name" required autocomplete="family-name"></div>
-  </div>
-  <div><label for="m-email">Email</label><input id="m-email" type="email" name="email" required autocomplete="email"></div>
-  <div class="row">
-    <div><label for="m-prof">Profession or credentials</label><input id="m-prof" name="profession" placeholder="MD, RN, medical student…"></div>
-    <div><label for="m-inst">Institution <span class="hint">(optional)</span></label><input id="m-inst" name="institution" autocomplete="organization"></div>
-  </div>
-  <div><label for="m-country">Country</label><input id="m-country" name="country" autocomplete="country-name"></div>
-  <div><button class="btn btn-teal" type="submit">Apply for membership</button></div>
+<form class="form pama-form" data-form="membership" novalidate>
+<p class="form-intro">Join a coalition of clinicians, students and supporters working for health equity across the Americas. Complete this application and we’ll follow up with your membership payment link and welcome information.</p>
+<label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+<h2 class="form-section">1. Membership category</h2>
+<fieldset class="choices" data-required="true"><legend>Membership category <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="radio" name="category" value="Physician — $25/month" required> Physician — $25/month</label><label class="choice"><input type="radio" name="category" value="Resident, PA, NP or RN — $20/month"> Resident, PA, NP or RN — $20/month</label><label class="choice"><input type="radio" name="category" value="General supporter — $15/month"> General supporter — $15/month</label><label class="choice"><input type="radio" name="category" value="Medical student — $5/month"> Medical student — $5/month</label></div></fieldset>
+<fieldset class="choices" data-required="true"><legend>Preferred billing <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="radio" name="billing" value="Monthly" required> Monthly</label><label class="choice"><input type="radio" name="billing" value="Annual"> Annual</label></div></fieldset>
+<h2 class="form-section">2. Contact information</h2>
+<div class="row"><div><label for="membership-first-name">First name <span class="req" aria-hidden="true">*</span></label><input id="membership-first-name" name="first_name" type="text" autocomplete="given-name" required></div><div><label for="membership-last-name">Last name <span class="req" aria-hidden="true">*</span></label><input id="membership-last-name" name="last_name" type="text" autocomplete="family-name" required></div></div>
+<div class="row"><div><label for="membership-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="membership-email" name="email" type="email" autocomplete="email" required></div><div><label for="membership-phone">Phone number <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="membership-phone-hint">Include country code if outside the U.S.</span><input id="membership-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="membership-phone-hint"></div></div>
+<div class="row"><div><label for="membership-city">City <span class="req" aria-hidden="true">*</span></label><input id="membership-city" name="city" type="text" autocomplete="address-level2" required></div><div><label for="membership-state">State / province</label><input id="membership-state" name="state" type="text" autocomplete="address-level1"></div></div>
+<div><label for="membership-country">Country <span class="req" aria-hidden="true">*</span></label><input id="membership-country" name="country" type="text" autocomplete="country-name" required></div>
+<h2 class="form-section">3. Professional profile</h2>
+<div class="row"><div><label for="membership-credentials">Profession or credentials <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="membership-credentials-hint">For example: MD, RN, MPH, medical student</span><input id="membership-credentials" name="credentials" type="text" required aria-describedby="membership-credentials-hint"></div><div><label for="membership-specialty">Specialty or field <span class="hint">(optional)</span></label><input id="membership-specialty" name="specialty" type="text"></div></div>
+<div><label for="membership-institution">Institution, practice or school <span class="hint">(optional)</span></label><input id="membership-institution" name="institution" type="text" autocomplete="organization"></div>
+<fieldset class="choices"><legend>Languages you speak</legend><div class="choice-grid"><label class="choice"><input type="checkbox" name="languages" value="English"> English</label><label class="choice"><input type="checkbox" name="languages" value="Spanish"> Spanish</label><label class="choice"><input type="checkbox" name="languages" value="Portuguese"> Portuguese</label><label class="choice"><input type="checkbox" name="languages" value="French"> French</label><label class="choice"><input type="checkbox" name="languages" value="Haitian Creole"> Haitian Creole</label><label class="choice"><input type="checkbox" name="languages" value="K’iche’ or another Mayan language"> K’iche’ or another Mayan language</label><label class="choice"><input type="checkbox" name="languages" value="Other"> Other</label></div></fieldset>
+<fieldset class="choices" data-required="true"><legend>What would you like to be part of? <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="checkbox" name="interests" value="Medical supply missions"> Medical supply missions</label><label class="choice"><input type="checkbox" name="interests" value="Solidarity Medical Impact Teams"> Solidarity Medical Impact Teams</label><label class="choice"><input type="checkbox" name="interests" value="Continuing education and webinars"> Continuing education and webinars</label><label class="choice"><input type="checkbox" name="interests" value="Research and publications"> Research and publications</label><label class="choice"><input type="checkbox" name="interests" value="Mentorship"> Mentorship</label><label class="choice"><input type="checkbox" name="interests" value="Advocacy and policy education"> Advocacy and policy education</label><label class="choice"><input type="checkbox" name="interests" value="Local chapter events"> Local chapter events</label><label class="choice"><input type="checkbox" name="interests" value="Fundraising and campaigns"> Fundraising and campaigns</label></div></fieldset>
+<div><label for="membership-reason">Why are you joining PAMA? <span class="req" aria-hidden="true">*</span></label><textarea id="membership-reason" name="reason" required></textarea></div>
+<h2 class="form-section">4. Final details</h2>
+<div><label for="membership-heard-from">How did you hear about PAMA?</label><select id="membership-heard-from" name="heard_from"><option value="">Choose one</option><option>Friend or colleague</option><option>Social media</option><option>Event or presentation</option><option>School or university</option><option>Partner organization</option><option>Search engine</option><option>Other</option></select></div>
+<label class="consent"><input type="checkbox" name="attestation" value="Yes" required> <span>I confirm the information above is accurate and agree to PAMA’s mission of ethical, coalition-based care. <span class="req" aria-hidden="true">*</span></span></label>
+<label class="consent"><input type="checkbox" name="updates_opt_in" value="Yes" checked> <span>Send me PAMA news and updates by email. You can unsubscribe at any time.</span></label>
+<p class="hint"><span class="req" aria-hidden="true">*</span> Required</p>
+<div><button class="btn btn-teal" type="submit">Apply for membership</button></div>
+<div class="form-status" role="status" aria-live="polite"></div>
 </form>
+<p class="hint" style="margin-top:1.5rem">Membership dues support PAMA’s programs. After you apply, we’ll email your PayPal membership link. Questions? <a href="mailto:info@pan-american.org">info@pan-american.org</a></p>
 </div></section>
 </main>
 <section class="serve" aria-labelledby="serve-title">
@@ -89,5 +100,6 @@
   <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization, EIN 33-2193485. Gifts are tax-deductible as allowed by law.</div></div>
 </footer>
 <script src="../assets/js/site.js"></script>
+<script src="../assets/js/forms.js"></script>
 </body>
 </html>

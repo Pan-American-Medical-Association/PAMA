@@ -29,31 +29,42 @@
   </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Volunteer</h1><p class="lead">Interested in volunteering? Fill out some info and we will be in touch shortly! We can't wait to hear from you!</p></div></section>
+<section class="page-head"><div class="wrap"><h1>Volunteer Application</h1><p class="lead">Clinicians, students, logisticians, translators and storytellers all strengthen our coalition. Tell us how you’d like to help.</p></div></section>
 <section class="section"><div class="wrap">
-<form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-  <input type="hidden" name="_subject" value="Volunteer application"><label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
-  <div class="row">
-    <div><label for="v-first">First name</label><input id="v-first" name="first_name" required autocomplete="given-name"></div>
-    <div><label for="v-last">Last name</label><input id="v-last" name="last_name" required autocomplete="family-name"></div>
-  </div>
-  <div class="row">
-    <div><label for="v-email">Email</label><input id="v-email" type="email" name="email" required autocomplete="email"></div>
-    <div><label for="v-phone">Phone <span class="hint">(optional)</span></label><input id="v-phone" type="tel" name="phone" autocomplete="tel"></div>
-  </div>
-  <div><label for="v-role">Profession or field of study</label><input id="v-role" name="profession"></div>
-  <fieldset><legend>Areas of interest</legend>
-    <div class="checks">
-      <label><input type="checkbox" name="interests" value="Research"> Research</label>
-      <label><input type="checkbox" name="interests" value="Global health"> Global health</label>
-      <label><input type="checkbox" name="interests" value="Logistics"> Logistics</label>
-      <label><input type="checkbox" name="interests" value="Storytelling and media"> Storytelling and media</label>
-      <label><input type="checkbox" name="interests" value="Coalition building"> Coalition building</label>
-    </div>
-  </fieldset>
-  <div><label for="v-msg">Tell us about yourself</label><textarea id="v-msg" name="message"></textarea></div>
-  <div><button class="btn btn-teal" type="submit">Send volunteer form</button></div>
+<form class="form pama-form" data-form="volunteer" novalidate>
+<p class="form-intro">Thank you for offering your time. Please complete each section so our volunteer coordinator can match you with the right role. Required fields are marked.</p>
+<label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+<h2 class="form-section">1. Contact information</h2>
+<div class="row"><div><label for="volunteer-first-name">First name <span class="req" aria-hidden="true">*</span></label><input id="volunteer-first-name" name="first_name" type="text" autocomplete="given-name" required></div><div><label for="volunteer-last-name">Last name <span class="req" aria-hidden="true">*</span></label><input id="volunteer-last-name" name="last_name" type="text" autocomplete="family-name" required></div></div>
+<div class="row"><div><label for="volunteer-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="volunteer-email" name="email" type="email" autocomplete="email" required></div><div><label for="volunteer-phone">Phone number <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="volunteer-phone-hint">Include country code if outside the U.S.</span><input id="volunteer-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="volunteer-phone-hint"></div></div>
+<div class="row"><div><label for="volunteer-city">City <span class="req" aria-hidden="true">*</span></label><input id="volunteer-city" name="city" type="text" autocomplete="address-level2" required></div><div><label for="volunteer-state">State / province</label><input id="volunteer-state" name="state" type="text" autocomplete="address-level1"></div></div>
+<div><label for="volunteer-country">Country <span class="req" aria-hidden="true">*</span></label><input id="volunteer-country" name="country" type="text" autocomplete="country-name" required></div>
+<fieldset class="choices"><legend>Languages you speak</legend><div class="choice-grid"><label class="choice"><input type="checkbox" name="languages" value="English"> English</label><label class="choice"><input type="checkbox" name="languages" value="Spanish"> Spanish</label><label class="choice"><input type="checkbox" name="languages" value="Portuguese"> Portuguese</label><label class="choice"><input type="checkbox" name="languages" value="French"> French</label><label class="choice"><input type="checkbox" name="languages" value="Haitian Creole"> Haitian Creole</label><label class="choice"><input type="checkbox" name="languages" value="K’iche’ or another Mayan language"> K’iche’ or another Mayan language</label><label class="choice"><input type="checkbox" name="languages" value="Other"> Other</label></div></fieldset>
+<h2 class="form-section">2. Background</h2>
+<div><label for="volunteer-role">Which best describes you? <span class="req" aria-hidden="true">*</span></label><select id="volunteer-role" name="role" required><option value="">Choose one</option><option>Physician</option><option>Resident or fellow</option><option>Nurse practitioner or physician assistant</option><option>Registered nurse</option><option>Pharmacist</option><option>EMT or paramedic</option><option>Medical, nursing or health sciences student</option><option>Public health professional</option><option>Logistics or warehouse</option><option>Communications, media or design</option><option>Fundraising or grant writing</option><option>IT, data or research</option><option>Interpreter or translator</option><option>Community member</option><option>Other</option></select></div>
+<div><label for="volunteer-license">Active clinical license or certification <span class="hint">(optional)</span></label><span class="hint field-hint" id="volunteer-license-hint">Type and state or country, for example “RN, Pennsylvania.” Do not include license numbers.</span><input id="volunteer-license" name="license" type="text" aria-describedby="volunteer-license-hint"></div>
+<div><label for="volunteer-organization">Current employer, school or organization <span class="hint">(optional)</span></label><input id="volunteer-organization" name="organization" type="text" autocomplete="organization"></div>
+<h2 class="form-section">3. How you’d like to help</h2>
+<fieldset class="choices" data-required="true"><legend>Areas of interest <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="checkbox" name="interests" value="Sorting and packing medical supplies"> Sorting and packing medical supplies</label><label class="choice"><input type="checkbox" name="interests" value="Organizing a supply drive"> Organizing a supply drive</label><label class="choice"><input type="checkbox" name="interests" value="Solidarity Medical Impact Team (SMIT) deployments"> Solidarity Medical Impact Team (SMIT) deployments</label><label class="choice"><input type="checkbox" name="interests" value="Clinical teaching and training"> Clinical teaching and training</label><label class="choice"><input type="checkbox" name="interests" value="Interpretation and translation"> Interpretation and translation</label><label class="choice"><input type="checkbox" name="interests" value="Grant writing and fundraising"> Grant writing and fundraising</label><label class="choice"><input type="checkbox" name="interests" value="Social media, photography and storytelling"> Social media, photography and storytelling</label><label class="choice"><input type="checkbox" name="interests" value="Research, data and impact measurement"> Research, data and impact measurement</label><label class="choice"><input type="checkbox" name="interests" value="Event support"> Event support</label><label class="choice"><input type="checkbox" name="interests" value="Other"> Other</label></div></fieldset>
+<fieldset class="choices" data-required="true"><legend>Preferred format <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="radio" name="format" value="In person" required> In person</label><label class="choice"><input type="radio" name="format" value="Remote"> Remote</label><label class="choice"><input type="radio" name="format" value="Either"> Either</label></div></fieldset>
+<fieldset class="choices" data-required="true"><legend>When are you usually available? <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="checkbox" name="availability" value="Weekday daytime"> Weekday daytime</label><label class="choice"><input type="checkbox" name="availability" value="Weekday evenings"> Weekday evenings</label><label class="choice"><input type="checkbox" name="availability" value="Weekends"> Weekends</label></div></fieldset>
+<div><label for="volunteer-hours">Hours per month <span class="req" aria-hidden="true">*</span></label><select id="volunteer-hours" name="hours" required><option value="">Choose one</option><option>1–4 hours</option><option>5–10 hours</option><option>11–20 hours</option><option>More than 20 hours</option><option>A one-time project</option></select></div>
+<fieldset class="choices" data-required="true"><legend>Would you consider international travel with a medical team? <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="radio" name="travel" value="Yes" required> Yes</label><label class="choice"><input type="radio" name="travel" value="Maybe"> Maybe</label><label class="choice"><input type="radio" name="travel" value="No"> No</label></div></fieldset>
+<fieldset class="choices"><legend>Do you have a valid passport?</legend><div class="choice-grid"><label class="choice"><input type="radio" name="passport" value="Yes"> Yes</label><label class="choice"><input type="radio" name="passport" value="No"> No</label><label class="choice"><input type="radio" name="passport" value="Not sure"> Not sure</label></div></fieldset>
+<div><label for="volunteer-experience">Relevant experience and skills <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="volunteer-experience-hint">Tell us about volunteer, clinical, logistics or community work you’ve done.</span><textarea id="volunteer-experience" name="experience" required aria-describedby="volunteer-experience-hint"></textarea></div>
+<div><label for="volunteer-motivation">Why do you want to volunteer with PAMA? <span class="req" aria-hidden="true">*</span></label><textarea id="volunteer-motivation" name="motivation" required></textarea></div>
+<h2 class="form-section">4. Emergency contact</h2><p class="hint">Needed for in-person and travel roles.</p>
+<div class="row"><div><label for="volunteer-emergency-name">Emergency contact name <span class="hint">(optional)</span></label><input id="volunteer-emergency-name" name="emergency_name" type="text"></div><div><label for="volunteer-emergency-phone">Emergency contact phone <span class="hint">(optional)</span></label><input id="volunteer-emergency-phone" name="emergency_phone" type="tel"></div></div>
+<h2 class="form-section">5. Final details</h2>
+<div><label for="volunteer-heard-from">How did you hear about PAMA?</label><select id="volunteer-heard-from" name="heard_from"><option value="">Choose one</option><option>Friend or colleague</option><option>Social media</option><option>Event or presentation</option><option>School or university</option><option>Partner organization</option><option>Search engine</option><option>Other</option></select></div>
+<label class="consent"><input type="checkbox" name="background_check" value="Yes" required> <span>I understand that clinical, travel and youth-facing roles may require a background check, proof of licensure or immunization records before I begin. <span class="req" aria-hidden="true">*</span></span></label>
+<label class="consent"><input type="checkbox" name="attestation" value="Yes" required> <span>I confirm the information above is accurate and agree that PAMA may contact me about volunteer opportunities. <span class="req" aria-hidden="true">*</span></span></label>
+<label class="consent"><input type="checkbox" name="updates_opt_in" value="Yes" checked> <span>Send me PAMA news and updates by email. You can unsubscribe at any time.</span></label>
+<p class="hint"><span class="req" aria-hidden="true">*</span> Required</p>
+<div><button class="btn btn-teal" type="submit">Submit volunteer application</button></div>
+<div class="form-status" role="status" aria-live="polite"></div>
 </form>
+
 </div></section>
 </main>
 <section class="serve" aria-labelledby="serve-title">
@@ -97,5 +108,6 @@
   <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization, EIN 33-2193485. Gifts are tax-deductible as allowed by law.</div></div>
 </footer>
 <script src="../assets/js/site.js"></script>
+<script src="../assets/js/forms.js"></script>
 </body>
 </html>

@@ -646,3 +646,20 @@ img[src$="p4c-volunteers.jpg"] { object-position: 50% 65%; } img[src$="p4c-books
 .photo-grid img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; }
 .photo-grid figcaption { font-size: .85rem; color: var(--ink-soft); margin-top: .35rem; }
 @media (max-width: 520px) { .photo-grid { grid-template-columns: 1fr; } }
+
+/* Website forms */
+.form-intro { background: var(--mist); border-left: 4px solid var(--gold); padding: .9rem 1rem; border-radius: 6px; margin: 0; }
+.form-section { font-size: 1.25rem; margin: 1.25rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); }
+.form .req { color: #b3261e; }
+.form .field-hint { display: block; margin: -.15rem 0 .35rem; }
+.choice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .35rem .9rem; }
+.form label.choice, .form label.consent { font-weight: 400; display: flex; gap: .5rem; align-items: flex-start; margin: 0; }
+.form label.choice input, .form label.consent input { width: auto; margin-top: .3rem; accent-color: var(--teal); }
+.form label.consent { background: var(--mist); padding: .7rem .8rem; border-radius: 6px; }
+.form input[type=file] { padding: .55rem; }
+.form.show-errors :invalid, .form fieldset.invalid { outline: 2px solid #b3261e; outline-offset: 2px; border-radius: 6px; }
+.form-status:empty { display: none; }
+.form-status { padding: .9rem 1rem; border-radius: 6px; }
+.form-status.success { background: #e3f2ec; color: #0b5f5d; }
+.form-status.error { background: #fdecea; color: #8a1c13; }
+.eeo { font-style: italic; }

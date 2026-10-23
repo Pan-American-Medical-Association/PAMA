@@ -29,19 +29,20 @@
   </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Contact Us</h1><p class="lead">Have a question, want to collaborate, or support our next mission? Contact us to discuss partnerships, donations, volunteering, or media inquiries. After reaching out, expect a response within 3–5 business days from our coordination team. We’ll guide you through next steps and connect you with the right initiative lead.</p></div></section>
+<section class="page-head"><div class="wrap"><h1>Contact Us</h1><p class="lead">Questions, partnerships, donations, media or volunteering: send us a note and we’ll connect you with the right person.</p></div></section>
 <section class="section"><div class="wrap">
-<form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-  <input type="hidden" name="_subject" value="Website contact form"><label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
-  <div class="row">
-    <div><label for="c-first">First name</label><input id="c-first" name="first_name" required autocomplete="given-name"></div>
-    <div><label for="c-last">Last name</label><input id="c-last" name="last_name" required autocomplete="family-name"></div>
-  </div>
-  <div><label for="c-email">Email</label><input id="c-email" type="email" name="email" required autocomplete="email"></div>
-  <div><label for="c-topic">Topic</label>
-    <select id="c-topic" name="topic"><option>Partnership</option><option>Donation</option><option>Volunteering</option><option>Media inquiry</option><option>Other</option></select></div>
-  <div><label for="c-msg">Message</label><textarea id="c-msg" name="message" required></textarea></div>
-  <div><button class="btn btn-teal" type="submit">Send message</button></div>
+<form class="form pama-form" data-form="contact" novalidate>
+<p class="form-intro">Please include your first and last name, phone, email and the reason you’re reaching out. Our coordination team replies within 3–5 business days.</p>
+<label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+<div class="row"><div><label for="contact-first-name">First name <span class="req" aria-hidden="true">*</span></label><input id="contact-first-name" name="first_name" type="text" autocomplete="given-name" required></div><div><label for="contact-last-name">Last name <span class="req" aria-hidden="true">*</span></label><input id="contact-last-name" name="last_name" type="text" autocomplete="family-name" required></div></div>
+<div class="row"><div><label for="contact-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="contact-email" name="email" type="email" autocomplete="email" required></div><div><label for="contact-phone">Phone number <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="contact-phone-hint">Include country code if outside the U.S.</span><input id="contact-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="contact-phone-hint"></div></div>
+<div><label for="contact-reason">Reason for contact <span class="req" aria-hidden="true">*</span></label><select id="contact-reason" name="reason" required><option value="">Choose one</option><option>General question</option><option>Making a donation</option><option>Donating medical supplies</option><option>Partnership or sponsorship</option><option>Volunteering</option><option>Media or press</option><option>Membership</option><option>Other</option></select></div>
+<div><label for="contact-organization">Organization <span class="hint">(optional)</span></label><input id="contact-organization" name="organization" type="text" autocomplete="organization"></div>
+<div><label for="contact-message">Message <span class="req" aria-hidden="true">*</span></label><textarea id="contact-message" name="message" required></textarea></div>
+<label class="consent"><input type="checkbox" name="updates_opt_in" value="Yes" checked> <span>Send me PAMA news and updates by email. You can unsubscribe at any time.</span></label>
+<p class="hint"><span class="req" aria-hidden="true">*</span> Required</p>
+<div><button class="btn btn-teal" type="submit">Send message</button></div>
+<div class="form-status" role="status" aria-live="polite"></div>
 </form>
 <p style="margin-top:1.5rem">Prefer email? Write to <a href="mailto:info@pan-american.org">info@pan-american.org</a>.</p>
 </div></section>
@@ -87,5 +88,6 @@
   <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization, EIN 33-2193485. Gifts are tax-deductible as allowed by law.</div></div>
 </footer>
 <script src="../assets/js/site.js"></script>
+<script src="../assets/js/forms.js"></script>
 </body>
 </html>

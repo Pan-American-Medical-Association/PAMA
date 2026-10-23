@@ -29,21 +29,44 @@
   </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Let’s work together</h1><p class="lead">Interested in working together? Fill out some info and we will be in touch shortly! We can't wait to hear from you!</p></div></section>
-<section class="section"><div class="wrap split top">
-<form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="margin-top:0">
-  <input type="hidden" name="_subject" value="Team application"><label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
-  <div class="row">
-    <div><label for="w-first">First name</label><input id="w-first" name="first_name" required autocomplete="given-name"></div>
-    <div><label for="w-last">Last name</label><input id="w-last" name="last_name" required autocomplete="family-name"></div>
-  </div>
-  <div><label for="w-email">Email</label><input id="w-email" type="email" name="email" required autocomplete="email"></div>
-  <div><label for="w-role">Role you're interested in</label><input id="w-role" name="role"></div>
-  <div><label for="w-link">LinkedIn or résumé link <span class="hint">(optional)</span></label><input id="w-link" type="url" name="resume_link" placeholder="https://"></div>
-  <div><label for="w-msg">Why do you want to join PAMA?</label><textarea id="w-msg" name="message"></textarea></div>
-  <div><button class="btn btn-teal" type="submit">Send application</button></div>
+<section class="page-head"><div class="wrap"><h1>Join Our Team</h1><p class="lead">Help build ethical, community-rooted health infrastructure across the Americas. Apply for an open role or send a general application.</p></div></section>
+<section class="section"><div class="wrap">
+<form class="form pama-form" data-form="work_application" novalidate>
+<p class="form-intro">Thank you for your interest in joining PAMA’s team. Please complete every section and attach your résumé. We review applications on a rolling basis and will contact candidates selected for an interview.</p>
+<label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+<h2 class="form-section">1. Position</h2>
+<div class="row"><div><label for="work-application-position">Position of interest <span class="req" aria-hidden="true">*</span></label><select id="work-application-position" name="position" required><option value="">Choose one</option><option>Program coordinator</option><option>Logistics and warehouse coordinator</option><option>Grants and development</option><option>Communications and media</option><option>Clinical lead, Solidarity Medical Impact Teams</option><option>Data and impact officer</option><option>Internship</option><option>General application</option></select></div><div><label for="work-application-employment-type">Type of role <span class="req" aria-hidden="true">*</span></label><select id="work-application-employment-type" name="employment_type" required><option value="">Choose one</option><option>Full time</option><option>Part time</option><option>Contract or consulting</option><option>Internship</option><option>Volunteer leadership role</option></select></div></div>
+<div><label for="work-application-start-date">Earliest start date <span class="req" aria-hidden="true">*</span></label><input id="work-application-start-date" name="start_date" type="date" required></div>
+<h2 class="form-section">2. Contact information</h2>
+<div class="row"><div><label for="work-application-first-name">First name <span class="req" aria-hidden="true">*</span></label><input id="work-application-first-name" name="first_name" type="text" autocomplete="given-name" required></div><div><label for="work-application-last-name">Last name <span class="req" aria-hidden="true">*</span></label><input id="work-application-last-name" name="last_name" type="text" autocomplete="family-name" required></div></div>
+<div class="row"><div><label for="work-application-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="work-application-email" name="email" type="email" autocomplete="email" required></div><div><label for="work-application-phone">Phone number <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="work-application-phone-hint">Include country code if outside the U.S.</span><input id="work-application-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="work-application-phone-hint"></div></div>
+<div class="row"><div><label for="work-application-city">City <span class="req" aria-hidden="true">*</span></label><input id="work-application-city" name="city" type="text" autocomplete="address-level2" required></div><div><label for="work-application-state">State / province</label><input id="work-application-state" name="state" type="text" autocomplete="address-level1"></div></div>
+<div><label for="work-application-country">Country <span class="req" aria-hidden="true">*</span></label><input id="work-application-country" name="country" type="text" autocomplete="country-name" required></div>
+<div><label for="work-application-linkedin">LinkedIn or portfolio link <span class="hint">(optional)</span></label><input id="work-application-linkedin" name="linkedin" type="url" autocomplete="url"></div>
+<h2 class="form-section">3. Qualifications</h2>
+<div><label for="work-application-resume">Résumé or CV <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="work-application-resume-hint">PDF or Word document, up to 5 MB.</span><input id="work-application-resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required aria-describedby="work-application-resume-hint"></div>
+<div><label for="work-application-education">Highest level of education <span class="req" aria-hidden="true">*</span></label><select id="work-application-education" name="education" required><option value="">Choose one</option><option>High school or equivalent</option><option>Some college</option><option>Associate degree</option><option>Bachelor’s degree</option><option>Master’s degree</option><option>Doctoral or professional degree (MD, DO, PhD, PharmD, etc.)</option><option>Other</option></select></div>
+<div><label for="work-application-experience-years">Years of relevant experience <span class="req" aria-hidden="true">*</span></label><select id="work-application-experience-years" name="experience_years" required><option value="">Choose one</option><option>Less than 1 year</option><option>1–2 years</option><option>3–5 years</option><option>6–10 years</option><option>More than 10 years</option></select></div>
+<div><label for="work-application-certifications">Professional licenses or certifications <span class="hint">(optional)</span></label><span class="hint field-hint" id="work-application-certifications-hint">For example: RN, MPH, PMP, CDL. Do not include license numbers.</span><input id="work-application-certifications" name="certifications" type="text" aria-describedby="work-application-certifications-hint"></div>
+<div><label for="work-application-languages">Languages and proficiency <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="work-application-languages-hint">For example: English (native), Spanish (professional).</span><input id="work-application-languages" name="languages" type="text" required aria-describedby="work-application-languages-hint"></div>
+<div><label for="work-application-cover-letter">Cover letter <span class="req" aria-hidden="true">*</span></label><span class="hint field-hint" id="work-application-cover-letter-hint">Why this role, and what would you bring to PAMA’s coalition?</span><textarea id="work-application-cover-letter" name="cover_letter" required aria-describedby="work-application-cover-letter-hint"></textarea></div>
+<h2 class="form-section">4. Work eligibility</h2>
+<fieldset class="choices" data-required="true"><legend>Are you legally authorized to work in the United States? <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="radio" name="work_authorized" value="Yes" required> Yes</label><label class="choice"><input type="radio" name="work_authorized" value="No"> No</label></div></fieldset>
+<fieldset class="choices" data-required="true"><legend>Will you now or in the future require visa sponsorship? <span class="req" aria-hidden="true">*</span></legend><div class="choice-grid"><label class="choice"><input type="radio" name="sponsorship" value="Yes" required> Yes</label><label class="choice"><input type="radio" name="sponsorship" value="No"> No</label></div></fieldset>
+<h2 class="form-section">5. References</h2><p class="hint">Two professional references. We contact references only with your permission.</p>
+<div class="row"><div><label for="work-application-ref1-name">Reference 1 name and relationship <span class="hint">(optional)</span></label><input id="work-application-ref1-name" name="ref1_name" type="text"></div><div><label for="work-application-ref1-contact">Reference 1 email or phone <span class="hint">(optional)</span></label><input id="work-application-ref1-contact" name="ref1_contact" type="text"></div></div>
+<div class="row"><div><label for="work-application-ref2-name">Reference 2 name and relationship <span class="hint">(optional)</span></label><input id="work-application-ref2-name" name="ref2_name" type="text"></div><div><label for="work-application-ref2-contact">Reference 2 email or phone <span class="hint">(optional)</span></label><input id="work-application-ref2-contact" name="ref2_contact" type="text"></div></div>
+<h2 class="form-section">6. Final details</h2>
+<div><label for="work-application-heard-from">How did you hear about this opportunity?</label><select id="work-application-heard-from" name="heard_from"><option value="">Choose one</option><option>PAMA website</option><option>LinkedIn</option><option>Job board</option><option>Friend or colleague</option><option>Social media</option><option>School or university</option><option>Other</option></select></div>
+<label class="consent"><input type="checkbox" name="attestation" value="Yes" required> <span>I certify that the information in this application is true and complete. I understand that false or incomplete information may disqualify me from consideration. <span class="req" aria-hidden="true">*</span></span></label>
+<label class="consent"><input type="checkbox" name="privacy_consent" value="Yes" required> <span>I agree that PAMA may store my application and contact me about this and future openings, as described in the privacy policy. <span class="req" aria-hidden="true">*</span></span></label>
+<label class="consent"><input type="checkbox" name="updates_opt_in" value="Yes" checked> <span>Send me PAMA news and updates by email. You can unsubscribe at any time.</span></label>
+<p class="hint eeo">The Pan-American Medical Association is an equal opportunity organization. We welcome applicants of every race, color, religion, sex, sexual orientation, gender identity, national origin, age, disability and veteran status, and we value multilingual and community-rooted experience.</p>
+<p class="hint"><span class="req" aria-hidden="true">*</span> Required</p>
+<div><button class="btn btn-teal" type="submit">Submit application</button></div>
+<div class="form-status" role="status" aria-live="polite"></div>
 </form>
-<div class="figure"><img src="../assets/img/clinical-training-group.jpg" alt="Clinicians gather around a trainee practicing airway skills on a training model." loading="lazy"></div>
+
 </div></section>
 </main>
 <section class="serve" aria-labelledby="serve-title">
@@ -87,5 +110,6 @@
   <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization, EIN 33-2193485. Gifts are tax-deductible as allowed by law.</div></div>
 </footer>
 <script src="../assets/js/site.js"></script>
+<script src="../assets/js/forms.js"></script>
 </body>
 </html>

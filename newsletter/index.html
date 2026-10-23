@@ -29,14 +29,20 @@
   </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Join Our Newsletter</h1><p class="lead">Sign up with your email address to receive news and updates.</p></div></section>
+<section class="page-head"><div class="wrap"><h1>Join Our Newsletter</h1><p class="lead">Field reports, shipment updates and ways to get involved, delivered to your inbox.</p></div></section>
 <section class="section"><div class="wrap">
-<form class="inline-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-  <input type="hidden" name="_subject" value="Newsletter signup"><label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
-  <label for="n-email" class="hp">Email address</label>
-  <input id="n-email" type="email" name="email" placeholder="Email address" required autocomplete="email" aria-label="Email address">
-  <button class="btn btn-gold" type="submit">Sign up</button>
+<form class="form pama-form" data-form="newsletter" novalidate>
+<p class="form-intro">Field reports, shipment updates and ways to get involved, delivered to your inbox.</p>
+<label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+<div class="row"><div><label for="newsletter-first-name">First name <span class="req" aria-hidden="true">*</span></label><input id="newsletter-first-name" name="first_name" type="text" autocomplete="given-name" required></div><div><label for="newsletter-last-name">Last name <span class="req" aria-hidden="true">*</span></label><input id="newsletter-last-name" name="last_name" type="text" autocomplete="family-name" required></div></div>
+<div class="row"><div><label for="newsletter-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="newsletter-email" name="email" type="email" autocomplete="email" required></div><div><label for="newsletter-phone">Phone number</label><span class="hint field-hint" id="newsletter-phone-hint">Include country code if outside the U.S.</span><input id="newsletter-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="newsletter-phone-hint"></div></div>
+<fieldset class="choices"><legend>What would you like to hear about?</legend><div class="choice-grid"><label class="choice"><input type="checkbox" name="interests" value="Cuba supply shipments"> Cuba supply shipments</label><label class="choice"><input type="checkbox" name="interests" value="Guatemala and Equity in Action"> Guatemala and Equity in Action</label><label class="choice"><input type="checkbox" name="interests" value="Philly for Cuba events"> Philly for Cuba events</label><label class="choice"><input type="checkbox" name="interests" value="Volunteer opportunities"> Volunteer opportunities</label><label class="choice"><input type="checkbox" name="interests" value="Research and impact reports"> Research and impact reports</label></div></fieldset>
+<label class="consent"><input type="checkbox" name="updates_opt_in" value="Yes" checked required> <span>Yes, add me to PAMA’s email list. You can unsubscribe at any time. <span class="req" aria-hidden="true">*</span></span></label>
+<p class="hint"><span class="req" aria-hidden="true">*</span> Required</p>
+<div><button class="btn btn-teal" type="submit">Subscribe</button></div>
+<div class="form-status" role="status" aria-live="polite"></div>
 </form>
+
 </div></section>
 </main>
 <section class="serve" aria-labelledby="serve-title">
@@ -80,5 +86,6 @@
   <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization, EIN 33-2193485. Gifts are tax-deductible as allowed by law.</div></div>
 </footer>
 <script src="../assets/js/site.js"></script>
+<script src="../assets/js/forms.js"></script>
 </body>
 </html>
