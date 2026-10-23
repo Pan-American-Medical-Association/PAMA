@@ -596,3 +596,5 @@ img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
 .partner-grid img { width: 100%; aspect-ratio: 3 / 2; object-fit: contain; }
 .partner-grid span { margin-top: .6rem; font-size: .9rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
 .partner-group { margin-top: 2.75rem; }
+.btn-small { padding: .45rem .9rem; font-size: .9rem; margin-top: .5rem; }
+.tag-current { display: inline-block; margin-left: .4rem; padding: .1rem .5rem; border-radius: 999px; background: var(--gold); color: var(--ink); font-size: .75rem; font-weight: 700; vertical-align: middle; }
