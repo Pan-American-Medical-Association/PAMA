@@ -73,6 +73,7 @@
         var res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
         var out = await res.json();
         if (!out.ok) throw new Error(out.error || 'Submission failed');
+        if (window.pamaTrack) window.pamaTrack('form_submit', { form_type: form.dataset.form, page_path: location.pathname });
         form.reset();
         form.classList.remove('show-errors');
         status(form, '<strong>Thank you!</strong> We received your submission and sent a confirmation to your email.', 'success');
