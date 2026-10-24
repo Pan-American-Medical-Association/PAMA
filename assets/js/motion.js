@@ -21,7 +21,7 @@
       el.classList.add(cls);
       var sibs = Array.prototype.filter.call(el.parentNode.children, function (c) { return seen.has(c); });
       var i = sibs.indexOf(el);
-      if (i > 0) el.style.transitionDelay = Math.min(i, 4) * 90 + "ms";
+      if (i > 0) el.style.transitionDelay = Math.min(i, 4) * 60 + "ms";
       io.observe(el);
     }
 
@@ -31,7 +31,7 @@
         var el = e.target;
         el.classList.add("in");
         io.unobserve(el);
-        setTimeout(function () { el.style.transitionDelay = ""; el.classList.add("done"); }, 1400);
+        setTimeout(function () { el.style.transitionDelay = ""; el.classList.add("done"); }, 1000);
       });
     }, { rootMargin: "0px 0px -8% 0px" });
 

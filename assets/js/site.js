@@ -17,6 +17,19 @@
     });
   }
 
+  // Click-to-play videos: swap the placeholder for the Google Drive player on click.
+  document.querySelectorAll(".video-play").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var f = document.createElement("iframe");
+      f.src = btn.getAttribute("data-src");
+      f.title = btn.getAttribute("data-title") || "Video";
+      f.allow = "autoplay; fullscreen";
+      f.setAttribute("allowfullscreen", "");
+      btn.replaceWith(f);
+      if (window.pamaTrack) window.pamaTrack("video_play", { video_title: f.title, page_path: location.pathname });
+    });
+  });
+
   // Close the "More" menu when clicking elsewhere
   document.addEventListener("click", function (e) {
     document.querySelectorAll(".site-nav details[open]").forEach(function (d) {
@@ -100,7 +113,9 @@
     }
   }
 
+  var paypalLoaded = false;
   function openPopup() {
+    if (!paypalLoaded) { paypalLoaded = true; loadPayPalButton(); }
     lastFocus = document.activeElement;
     popup.classList.remove("pama-hide");
     popup.classList.add("pama-show");
@@ -130,7 +145,6 @@
     if (e.key === "Escape") closePopup();
   });
 
-  loadPayPalButton();
   window.addEventListener("load", function () {
     if (getCookie(COOKIE)) return;
     var wait = Math.max(1000, DELAY_MS - (Date.now() - entered));

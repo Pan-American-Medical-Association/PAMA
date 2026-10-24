@@ -684,7 +684,7 @@ picture { display: contents; }
 
 /* ---------- Motion (added only when the visitor allows motion; see motion.js) ---------- */
 .motion .reveal, .motion .slide-l, .motion .slide-r {
-  opacity: 0; transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform;
+  opacity: 0; transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform;
 }
 .motion .reveal { transform: translateY(26px); }
 .motion .slide-l { transform: translateX(-48px) scale(1.04); }
@@ -711,3 +711,12 @@ picture { display: contents; }
 @keyframes pama-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 @keyframes pama-pop { from { opacity: 0; transform: scale(.85) rotate(-4deg); } to { opacity: 1; transform: none; } }
 @keyframes pama-spin { 0% { transform: perspective(900px) rotateY(0); } 22%, 100% { transform: perspective(900px) rotateY(360deg); } }
+
+/* Click-to-play videos: the Google Drive player loads only when the visitor presses play. */
+.video-play { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; background: var(--teal-deep); display: block; }
+.video-play img { width: 100%; height: 100%; object-fit: cover; opacity: .85; transition: opacity .2s ease; }
+.video-play:hover img, .video-play:focus-visible img { opacity: 1; }
+.video-play-icon { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%; background: rgba(255,255,255,.95); box-shadow: 0 6px 24px rgba(0,0,0,.25); transition: transform .2s ease; }
+.video-play-icon::after { content: ""; position: absolute; left: 31px; top: 24px; border-style: solid; border-width: 14px 0 14px 22px; border-color: transparent transparent transparent var(--teal-deep); }
+.video-play:hover .video-play-icon { transform: scale(1.08); }
+.video-play:focus-visible { outline: 3px solid var(--gold, #c9a227); outline-offset: 3px; }
