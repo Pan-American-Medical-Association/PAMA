@@ -1,5 +1,12 @@
 // PAMA site script: mobile menu and the campaign pop-up.
 (function () {
+  // Remember when the visitor first arrived on the site (this browser tab).
+  var entered = Date.now();
+  try {
+    var saved = parseInt(sessionStorage.getItem("pamaEntered"), 10);
+    if (saved) entered = saved; else sessionStorage.setItem("pamaEntered", String(entered));
+  } catch (e) {}
+
   // Mobile menu
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.getElementById("site-nav");
@@ -18,13 +25,14 @@
   });
 
   // End of Year campaign pop-up, on pages that include #pamaPopup.
-  // Opens 5 seconds after the page loads, at most once every 12 hours per visitor.
+  // Opens 20 seconds after the visitor first arrives on the site (the clock keeps
+  // running if they move to another page), at most once every 12 hours per visitor.
   var popup = document.getElementById("pamaPopup");
   var overlay = document.getElementById("pamaOverlay");
   if (!popup || !overlay) return;
 
   var COOKIE = "pamaCubaEOY2026";
-  var DELAY_MS = 5000;
+  var DELAY_MS = 20000;
   var REPEAT_HOURS = 12;
   var lastFocus = null;
 
@@ -125,9 +133,11 @@
   loadPayPalButton();
   window.addEventListener("load", function () {
     if (getCookie(COOKIE)) return;
+    var wait = Math.max(1000, DELAY_MS - (Date.now() - entered));
     setTimeout(function () {
+      if (getCookie(COOKIE)) return;
       openPopup();
       setCookie(COOKIE, "yes", REPEAT_HOURS);
-    }, DELAY_MS);
+    }, wait);
   });
 })();

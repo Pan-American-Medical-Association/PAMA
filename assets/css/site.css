@@ -92,7 +92,7 @@ p { margin: 0 0 1em; }
 .hero .wrap { position: relative; padding-top: clamp(3.5rem, 8vw, 6.5rem); padding-bottom: clamp(3.5rem, 8vw, 6.5rem); }
 .hero h1 { color: var(--white); max-width: 15ch; font-size: clamp(2.6rem, 6.5vw, 4.6rem); line-height: 1.04; }
 .hero p { color: #d7e7e6; font-size: 1.2rem; max-width: 56ch; }
-.hero-logo { width: 160px; height: 160px; object-fit: contain; margin-bottom: 1.5rem; background: var(--white); border-radius: 50%; padding: 22px; box-sizing: border-box; }
+.hero-logo { width: 168px; height: 168px; object-fit: contain; margin-bottom: 1.5rem; background: var(--white); border-radius: 50%; padding: 0; box-sizing: border-box; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
 .page-head { background: var(--mist); border-bottom: 1px solid var(--line); }
 .page-head .wrap { padding-top: 3rem; padding-bottom: 2.5rem; }
 .page-head h1 { margin-bottom: .3em; }
@@ -675,3 +675,38 @@ img[src$="quarterman-cuba-street.jpg"] { object-position: 50% 8%; } img[src$="qu
 .tier-alt { margin: 0 0 .6rem; color: var(--ink-soft); font-size: .92rem; }
 .tier .btn { text-align: center; }
 .tier-who { flex-grow: 1; } .tier .btn { padding-left: .8rem; padding-right: .8rem; }
+
+/* Images are wrapped in <picture> for WebP; keep layout as if the <img> were a direct child. */
+picture { display: contents; }
+.event-card > picture > img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.event-wide > picture > img { aspect-ratio: auto; height: 100%; }
+@media (max-width: 760px) { .event-wide > picture > img { aspect-ratio: 16/9; height: auto; } }
+
+/* ---------- Motion (added only when the visitor allows motion; see motion.js) ---------- */
+.motion .reveal, .motion .slide-l, .motion .slide-r {
+  opacity: 0; transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform;
+}
+.motion .reveal { transform: translateY(26px); }
+.motion .slide-l { transform: translateX(-48px) scale(1.04); }
+.motion .slide-r { transform: translateX(48px) scale(1.04); }
+.motion .reveal.in, .motion .slide-l.in, .motion .slide-r.in { opacity: 1; transform: none; }
+.motion .in.done { transition: transform .25s ease, box-shadow .25s ease; will-change: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Home hero: logo and headline ease in on arrival; the emblem then floats gently. */
+  .hero .wrap > * { animation: pama-rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  .hero .wrap > :nth-child(2) { animation-delay: .12s; }
+  .hero .wrap > :nth-child(3) { animation-delay: .24s; }
+  .hero .wrap > :nth-child(4) { animation-delay: .36s; }
+  .hero .wrap > :nth-child(5) { animation-delay: .48s; }
+  .hero-logo { animation: pama-pop .9s cubic-bezier(.2,.8,.2,1.2) both, pama-float 7s ease-in-out 1.2s infinite; }
+  /* Cards lift slightly on hover. */
+  .path, .way, .post, .partner-grid li, .tiers > *, .event-card, .steps > li { transition: transform .25s ease, box-shadow .25s ease; }
+  .path:hover, .way:hover, .post:hover, .partner-grid li:hover, .tiers > *:hover, .event-card:hover, .steps > li:hover,
+  .motion .in.done:is(.path, .way, .post, .partner-grid li, .tiers > *, .event-card, .steps > li):hover {
+    transform: translateY(-4px); box-shadow: 0 12px 28px rgba(15, 60, 60, .12);
+  }
+}
+@keyframes pama-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes pama-pop { from { opacity: 0; transform: scale(.85) rotate(-4deg); } to { opacity: 1; transform: none; } }
+@keyframes pama-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
