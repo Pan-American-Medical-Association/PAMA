@@ -720,7 +720,7 @@ function confirmToSender_(form, data) {
     contact: 'Thank you for contacting us. Our coordination team will reply within 3–5 business days.',
     volunteer: 'Thank you for applying to volunteer with PAMA. Our volunteer coordinator will review your application and contact you about next steps.',
     work_application: 'Thank you for applying to join PAMA’s team. We review applications on a rolling basis and will contact you if you are selected for an interview.',
-    membership: 'Thank you for applying for PAMA membership. We will follow up shortly with your membership payment link and welcome information.',
+    membership: 'Thank you for completing your PAMA member profile. If you haven’t paid your dues yet, you can join anytime at https://www.pan-american.org/member/ — please use this same email address in PayPal.',
     newsletter: 'You’re subscribed. Expect field reports, shipment updates and ways to get involved.'
   };
   MailApp.sendEmail({
