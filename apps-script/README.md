@@ -45,3 +45,17 @@ A daily job (`syncMembersGroup`, 6 AM) removes members whose access has expired 
 
 ## Changing the forms later
 Edit the form on the website page, and add a matching column header to the sheet tab (the script places answers by header name). After editing `Code.gs`: **Deploy → Manage deployments → Edit → Version: New version → Deploy** (the URL stays the same).
+
+## Live configuration (October 2026)
+- Web app URL (forms + PayPal IPN): https://script.google.com/macros/s/AKfycby1f1Q47q7VQ6Ds6yULHwH3TM8vAi_zIMVkr-lnVMXa576JRlMqaUxFAAzOUxU9c_mF/exec
+- PayPal IPN: enabled, pointing to the URL above.
+
+### Membership payment options (PayPal product "PAMA Membership")
+| Tier | Monthly subscription plan | Annual one-time link |
+|---|---|---|
+| Physician | $25 — plan P-3W156362404791359NLODANY | $300 — https://www.paypal.com/ncp/payment/EAAS5XWUCHZAS |
+| Resident, PA, NP or RN | $20 — plan P-37A50278G67210304NLODBGY | $240 — https://www.paypal.com/ncp/payment/5RXGH76CNCPEL |
+| General supporter | $15 — plan P-4W369231Y3881131RNLODCEA | $180 — https://www.paypal.com/ncp/payment/T4VJUZ725TYKA |
+| Medical student | $5 — plan P-86E67825UB359114ANLODEEI | $60 — https://www.paypal.com/ncp/payment/3R3BMQGN5H6D6 |
+
+Monthly subscribe link format: https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=PLAN_ID
