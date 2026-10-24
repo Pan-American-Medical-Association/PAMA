@@ -563,7 +563,7 @@ img[src$="clinic-girls.jpg"] { object-position: 50% 60%; }
 .steps h3 { display: flex; align-items: center; gap: .6rem; margin-bottom: .35em; }
 .steps h3::before { content: counter(step); flex: none; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--teal); color: var(--white); font-family: var(--sans); font-size: .95rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
 .steps p { color: var(--ink-soft); margin: 0; }
-img[src$="step-deliver.jpg"] { object-position: 50% 30%; }
+img[src$="step-deliver.jpg"], img[src$="step-gather.jpg"] { object-position: 50% 0%; }
 
 .pull-quote { margin: 0; padding: 1.5rem 0 1.5rem 1.5rem; border-left: 4px solid var(--gold); }
 .pull-quote blockquote { font-size: clamp(1.35rem, 2.6vw, 1.75rem); line-height: 1.35; }
