@@ -1,7 +1,7 @@
 /* PAMA website forms → Google Apps Script → Google Sheet.
    Paste the Apps Script web app URL below after deploying (Deploy → Web app). */
 (function () {
-  var ENDPOINT = window.PAMA_FORMS_ENDPOINT || '';  // e.g. 'https://script.google.com/macros/s/AKfy.../exec'
+  var ENDPOINT = window.PAMA_FORMS_ENDPOINT || 'https://script.google.com/macros/s/AKfycby1f1Q47q7VQ6Ds6yULHwH3TM8vAi_zIMVkr-lnVMXa576JRlMqaUxFAAzOUxU9c_mF/exec';
   var MAX_FILE = 5 * 1024 * 1024;
 
   function status(form, msg, kind) {

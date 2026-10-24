@@ -20,7 +20,7 @@ https://docs.google.com/spreadsheets/d/1Xu3_oxAGN0D-jShCKjek2CiO6KShGT5gDCniKFUg
    - Execute as: **Me (admin@pan-american.org)**
    - Who has access: **Anyone**
    - Click **Deploy** and copy the **Web app URL** (ends in `/exec`).
-6. Send the URL to Claude (or paste it into `assets/js/forms.js` as `ENDPOINT`).
+6. The current Web app URL is already set in `assets/js/forms.js` (`ENDPOINT`).
 
 ## Google Groups: allow outside email addresses
 Most donors and members use Gmail or work addresses, so both groups must accept external members:
