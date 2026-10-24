@@ -699,7 +699,8 @@ picture { display: contents; }
   .hero .wrap > :nth-child(3) { animation-delay: .24s; }
   .hero .wrap > :nth-child(4) { animation-delay: .36s; }
   .hero .wrap > :nth-child(5) { animation-delay: .48s; }
-  .hero-logo { animation: pama-pop .9s cubic-bezier(.2,.8,.2,1.2) both, pama-float 7s ease-in-out 1.2s infinite; }
+  /* The emblem turns like a coin: one full spin, then a pause, repeating every 8 seconds. */
+  .hero-logo { animation: pama-pop .9s cubic-bezier(.2,.8,.2,1.2) both, pama-spin 8s cubic-bezier(.45,0,.25,1) 1.5s infinite; backface-visibility: visible; }
   /* Cards lift slightly on hover. */
   .path, .way, .post, .partner-grid li, .tiers > *, .event-card, .steps > li { transition: transform .25s ease, box-shadow .25s ease; }
   .path:hover, .way:hover, .post:hover, .partner-grid li:hover, .tiers > *:hover, .event-card:hover, .steps > li:hover,
@@ -709,4 +710,4 @@ picture { display: contents; }
 }
 @keyframes pama-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 @keyframes pama-pop { from { opacity: 0; transform: scale(.85) rotate(-4deg); } to { opacity: 1; transform: none; } }
-@keyframes pama-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes pama-spin { 0% { transform: perspective(900px) rotateY(0); } 22%, 100% { transform: perspective(900px) rotateY(360deg); } }
