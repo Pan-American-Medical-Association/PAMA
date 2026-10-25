@@ -59,3 +59,26 @@ Edit the form on the website page, and add a matching column header to the sheet
 | Medical student | $5 — plan P-86E67825UB359114ANLODEEI | $60 — https://www.paypal.com/ncp/payment/3R3BMQGN5H6D6 |
 
 Monthly subscribe link format: https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=PLAN_ID
+
+## Member portal (www.pan-american.org/members/)
+
+**How sign-in works:** a member types their email. If it is an active member on the **Members** tab (In members@ group = Yes, not expired), the script emails a 6-digit code that works for 10 minutes. There are no passwords. A signed-in session lasts 30 days on that device (or until the browser closes, if they untick "Keep me signed in"). Every page load re-checks the Members tab, so when a membership lapses, portal access ends at the same time. Emails that aren't active members are sent to the membership page. `admin@` and `info@` can always sign in to preview the portal.
+
+**Install (one time, about 5 minutes):**
+1. Open the Apps Script project (Extensions → Apps Script from the PAMA Website Submissions spreadsheet).
+2. Replace everything in **Code.gs** with the new `apps-script/Code.gs` (two small changes: it sends portal requests to Portal.gs, and the welcome email links to the portal).
+3. Click **+ → Script**, name it **Portal**, and paste in `apps-script/Portal.gs`.
+4. Choose **setupPortal** in the function menu and click **Run**. It creates the signing key and confirms the portal tabs.
+5. **Deploy → Manage deployments →** pencil icon → Version: **New version** → **Deploy**. The web app URL stays the same, so the website needs no change.
+
+**Managing content — no design work:** edit rows in these tabs. Changes appear in the portal within 5 minutes (run `refreshPortalNow` to show them immediately).
+
+| Tab | What it controls | Tips |
+|---|---|---|
+| Portal Announcements | Overview announcements | Pinned = Yes keeps it on top; Show = No hides it |
+| Portal Events | Events tab and "Next up" | Date as YYYY-MM-DD; past events disappear automatically; members can add events to their calendar |
+| Portal Resources | Resources tab | Category creates the filter buttons |
+| Portal Opportunities | Opportunities tab and "Get involved" | Type creates the filter buttons; links can be web pages or mailto: |
+| Member Profiles | Written by members from "My profile" | Show in directory = Yes lists them for other members |
+
+Each tab has an **EXAMPLE** row (hidden with Show = No) to copy.

@@ -604,6 +604,7 @@ function doPost(e) {
   try {
     if (isPayPal_(e)) return handlePayPal_(e);
     const data = parseBody_(e);
+    if (/^portal_/.test(String(data.action || ''))) return handlePortal_(data);   // Portal.gs
     if (data._gotcha) return json_({ ok: true });            // spam trap
     const form = FORMS[data.form_type];
     if (!form) throw new Error('Unknown form_type: ' + data.form_type);
@@ -899,6 +900,9 @@ function welcomeMember_(m) {
     subject: 'Welcome to the Pan-American Medical Association',
     htmlBody: '<p>Hello ' + esc_(m.first || 'and welcome') + ',</p>' +
       '<p>Thank you for becoming a PAMA member. Your membership is active, and you’ll now receive member updates at this address.</p>' +
+      '<p><strong>Your member portal is ready.</strong> Sign in at <a href="https://www.pan-american.org/members/">pan-american.org/members</a> ' +
+      'with this email address — we’ll send you a one-time code, so there’s no password to remember. ' +
+      'Inside you’ll find events, resources, opportunities and the member directory.</p>' +
       '<p>Together with our members and partners, we strengthen health systems across the Americas.</p>' +
       '<p>— ' + CONFIG.ORG_NAME + '</p>'
   });

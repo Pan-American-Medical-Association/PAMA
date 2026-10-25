@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9LFSWGRWF2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9LFSWGRWF2');
+</script>
+<script src="../assets/js/analytics.js" defer></script>
+<script src="../assets/js/motion.js" defer></script>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Member Portal — The Pan-American Medical Association</title>
+<meta name="description" content="Sign in to the PAMA member portal for events, resources, opportunities and the member directory.">
+<link rel="canonical" href="https://www.pan-american.org/members/">
+<meta property="og:site_name" content="The Pan-American Medical Association">
+<meta property="og:title" content="Member Portal — The Pan-American Medical Association">
+<meta property="og:description" content="Sign in to the PAMA member portal for events, resources, opportunities and the member directory.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.pan-american.org/members/">
+<meta property="og:image" content="https://www.pan-american.org/assets/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../"><img src="../assets/img/pama-logo.png" alt="" width="44" height="44"><span>The Pan-American<br>Medical Association</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Main"><ul><li><a href="../">Home</a></li><li><a href="../about/">About</a></li><li><a href="../programs/">Programs</a></li><li><a href="../impact/">Impact</a></li><li><a href="../blog/">Blog</a></li><li><details><summary>More</summary><ul><li><a href="../financial-transparency/">Financial Transparency</a></li><li><a href="../coalition/">Logistics Coalition</a></li><li><a href="../newsletter/">Newsletter</a></li><li><a href="../faqs/">FAQs</a></li><li><a href="../privacy-transparency/">Privacy Policy</a></li><li><a href="../contact/">Contact Us</a></li></ul></details></li><li><a class="nav-login" href="../members/" aria-current="page">Member login</a></li><li><a class="btn-donate" href="../donate/">Donate</a></li></ul></nav>
+  </div>
+</header>
+<main id="main" class="portal" data-state="loading">
+
+<!-- Loading -->
+<section class="portal-loading" data-view="loading" aria-live="polite">
+  <div class="portal-spinner" aria-hidden="true"></div>
+  <p>Opening the member portal…</p>
+</section>
+
+<!-- Sign in -->
+<section class="portal-auth" data-view="auth" hidden>
+  <div class="portal-auth-intro">
+    <picture><source srcset="../assets/img/pama-emblem-v2.webp" type="image/webp"><img src="../assets/img/pama-emblem-v2.png" alt="" width="400" height="400" class="portal-emblem"></picture>
+    <p class="portal-eyebrow">Members only</p>
+    <h1>PAMA Member Portal</h1>
+    <p>Your home base in our coalition of clinicians, students and partners across the Americas.</p>
+    <ul class="portal-benefits">
+      <li><strong>Events</strong> member calls, screenings and trainings</li>
+      <li><strong>Resources</strong> research, field reports and program guides</li>
+      <li><strong>Opportunities</strong> volunteering, supply drives and fiscal sponsorship</li>
+      <li><strong>Directory</strong> connect with members across the region</li>
+    </ul>
+  </div>
+
+  <div class="portal-auth-card">
+    <!-- Step 1: email -->
+    <form class="portal-step" data-step="email" novalidate>
+      <h2>Sign in</h2>
+      <p class="portal-muted">Enter the email you used for your membership. We’ll send you a 6-digit code — no password needed.</p>
+      <label for="portal-email">Email address</label>
+      <input id="portal-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+      <button class="btn btn-teal portal-wide" type="submit">Email me a code</button>
+      <p class="portal-msg" role="alert"></p>
+      <p class="portal-muted portal-small">Not a member yet? <a href="../member/">Join PAMA</a></p>
+    </form>
+
+    <!-- Step 2: code -->
+    <form class="portal-step" data-step="code" novalidate hidden>
+      <h2>Check your email</h2>
+      <p class="portal-muted">We sent a 6-digit code to <strong data-bind="email"></strong>. It works for 10 minutes.</p>
+      <label for="portal-code">6-digit code</label>
+      <input id="portal-code" name="code" class="portal-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" required>
+      <label class="portal-check"><input type="checkbox" name="remember" checked> Keep me signed in on this device for 30 days</label>
+      <button class="btn btn-teal portal-wide" type="submit">Sign in</button>
+      <p class="portal-msg" role="alert"></p>
+      <p class="portal-muted portal-small">No email? Check spam, or <button type="button" class="portal-link" data-action="resend">send a new code</button> · <button type="button" class="portal-link" data-action="change-email">use a different email</button></p>
+    </form>
+
+    <!-- Not a member -->
+    <div class="portal-step" data-step="not-member" hidden>
+      <h2>Let’s get you in</h2>
+      <p>We couldn’t find an active membership for <strong data-bind="email"></strong>.</p>
+      <ul class="portal-tips">
+        <li>Use the same email address you used to pay in PayPal.</li>
+        <li>Just joined? It can take a few minutes for your membership to activate.</li>
+        <li>If your membership lapsed, renewing restores access right away.</li>
+      </ul>
+      <a class="btn btn-gold portal-wide" href="../member/">Become a member</a>
+      <p class="portal-muted portal-small"><button type="button" class="portal-link" data-action="change-email">Try a different email</button> · Questions? <a href="mailto:info@pan-american.org">info@pan-american.org</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Dashboard -->
+<section class="portal-app" data-view="app" hidden>
+  <div class="portal-top">
+    <div class="wrap portal-top-inner">
+      <div>
+        <p class="portal-eyebrow">Member Portal</p>
+        <h1 class="portal-hello">Welcome, <span data-bind="first"></span></h1>
+        <p class="portal-sub"><span class="portal-badge" data-bind="tier"></span> <span data-bind="member_id"></span></p>
+      </div>
+      <button type="button" class="portal-signout" data-action="sign-out">Sign out</button>
+    </div>
+    <nav class="portal-tabs wrap" aria-label="Member portal">
+      <a href="#overview" data-tab="overview">Overview</a>
+      <a href="#events" data-tab="events">Events</a>
+      <a href="#resources" data-tab="resources">Resources</a>
+      <a href="#opportunities" data-tab="opportunities">Opportunities</a>
+      <a href="#directory" data-tab="directory">Directory</a>
+      <a href="#profile" data-tab="profile">My profile</a>
+      <a href="#membership" data-tab="membership">Membership</a>
+    </nav>
+  </div>
+
+  <div class="wrap portal-body">
+    <p class="portal-admin" data-show="admin" hidden>You’re viewing the portal as the PAMA team. Edit announcements, events, resources and opportunities in the <strong>Portal</strong> tabs of the PAMA Website Submissions spreadsheet.</p>
+
+    <!-- Overview -->
+    <div class="portal-panel" data-panel="overview">
+      <div class="portal-grid-2">
+        <div class="portal-col">
+        <div class="member-card" aria-label="Digital membership card">
+          <div class="member-card-top">
+            <img src="../assets/img/pama-emblem-v2.png" alt="" width="56" height="56">
+            <div><p class="member-card-org">Pan-American Medical Association</p><p class="member-card-kind">Member</p></div>
+          </div>
+          <p class="member-card-name" data-bind="display_name"></p>
+          <p class="member-card-tier" data-bind="tier"></p>
+          <dl class="member-card-meta">
+            <div><dt>Member ID</dt><dd data-bind="member_id"></dd></div>
+            <div><dt>Member since</dt><dd data-bind="joined"></dd></div>
+            <div><dt>Status</dt><dd data-bind="status_label"></dd></div>
+          </dl>
+        </div>
+        <nav class="portal-quick" aria-label="Quick links">
+          <a href="#profile"><strong>Edit my profile</strong><span>Help us match you with opportunities</span></a>
+          <a href="#directory"><strong>Member directory</strong><span>Find colleagues across the Americas</span></a>
+          <a href="#resources"><strong>Resources</strong><span>Research, reports and program guides</span></a>
+          <a href="#membership"><strong>Membership and payments</strong><span>Plan, renewal and PayPal</span></a>
+        </nav>
+        </div>
+        <div class="portal-box">
+          <h2 class="portal-h">Your profile</h2>
+          <div class="portal-meter"><span data-bind-style="profile_pct"></span></div>
+          <p><strong data-bind="profile_pct_text"></strong> complete. <span data-bind="profile_hint"></span></p>
+          <a class="btn btn-teal btn-small" href="#profile">Update my profile</a>
+          <h2 class="portal-h portal-h-gap">Next up</h2>
+          <div data-list="next-event"></div>
+          <a class="portal-more" href="#events">All events →</a>
+        </div>
+      </div>
+      <h2 class="portal-h portal-h-gap">Announcements</h2>
+      <div class="portal-list" data-list="announcements"></div>
+      <h2 class="portal-h portal-h-gap">Get involved</h2>
+      <div class="portal-cards" data-list="opps-short"></div>
+      <a class="portal-more" href="#opportunities">All opportunities →</a>
+    </div>
+
+    <!-- Events -->
+    <div class="portal-panel" data-panel="events" hidden>
+      <h2 class="portal-h">Events</h2>
+      <p class="portal-muted">Member calls, trainings, screenings and coalition events. Add any event to your calendar.</p>
+      <div class="portal-list" data-list="events"></div>
+    </div>
+
+    <!-- Resources -->
+    <div class="portal-panel" data-panel="resources" hidden>
+      <h2 class="portal-h">Resources</h2>
+      <div class="portal-filters">
+        <input type="search" placeholder="Search resources" aria-label="Search resources" data-filter="resources">
+        <div class="portal-chips" data-chips="resources"></div>
+      </div>
+      <div class="portal-cards" data-list="resources"></div>
+    </div>
+
+    <!-- Opportunities -->
+    <div class="portal-panel" data-panel="opportunities" hidden>
+      <h2 class="portal-h">Opportunities</h2>
+      <div class="portal-filters"><div class="portal-chips" data-chips="opportunities"></div></div>
+      <div class="portal-list" data-list="opportunities"></div>
+    </div>
+
+    <!-- Directory -->
+    <div class="portal-panel" data-panel="directory" hidden>
+      <h2 class="portal-h">Member directory</h2>
+      <p class="portal-muted">Members who chose to be listed. Only signed-in members can see this page. <a href="#profile">Manage how you appear</a>.</p>
+      <div class="portal-filters"><input type="search" placeholder="Search by name, specialty, country or language" aria-label="Search the directory" data-filter="directory"></div>
+      <div class="portal-cards" data-list="directory"></div>
+    </div>
+
+    <!-- Profile -->
+    <div class="portal-panel" data-panel="profile" hidden>
+      <h2 class="portal-h">My profile</h2>
+      <p class="portal-muted">Your profile helps us match you with deployments, mentoring and events. You choose whether other members can see it.</p>
+      <form class="portal-form" data-form="profile" novalidate>
+        <div class="portal-fields">
+          <label>Name as it should appear<input name="display_name" maxlength="80" autocomplete="name"></label>
+          <label>Credentials<input name="credentials" maxlength="80" placeholder="MD, RN, MS3, MPH…"></label>
+          <label>Specialty or field<input name="specialty" maxlength="80"></label>
+          <label>Institution, practice or school<input name="institution" maxlength="120" autocomplete="organization"></label>
+          <label>City<input name="city" maxlength="60" autocomplete="address-level2"></label>
+          <label>State / province<input name="state" maxlength="60" autocomplete="address-level1"></label>
+          <label>Country<input name="country" maxlength="60" autocomplete="country-name"></label>
+          <label>Languages you speak<input name="languages" maxlength="120" placeholder="English, Spanish…"></label>
+          <label class="portal-span">LinkedIn profile link<input name="linkedin" maxlength="200" type="url" placeholder="https://www.linkedin.com/in/…"></label>
+          <label class="portal-span">Short bio<textarea name="bio" maxlength="600" rows="4" placeholder="Your work, and what you hope to contribute to the coalition."></textarea></label>
+        </div>
+        <fieldset class="portal-interests">
+          <legend>What would you like to be part of?</legend>
+          <label><input type="checkbox" name="interests" value="Medical supply missions"> Medical supply missions</label>
+          <label><input type="checkbox" name="interests" value="Solidarity Medical Impact Teams"> Solidarity Medical Impact Teams</label>
+          <label><input type="checkbox" name="interests" value="Continuing education and webinars"> Continuing education and webinars</label>
+          <label><input type="checkbox" name="interests" value="Research and publications"> Research and publications</label>
+          <label><input type="checkbox" name="interests" value="Mentorship"> Mentorship</label>
+          <label><input type="checkbox" name="interests" value="Advocacy and policy education"> Advocacy and policy education</label>
+          <label><input type="checkbox" name="interests" value="Local chapter events"> Local chapter events</label>
+          <label><input type="checkbox" name="interests" value="Fundraising and campaigns"> Fundraising and campaigns</label>
+        </fieldset>
+        <fieldset class="portal-privacy">
+          <legend>Directory and privacy</legend>
+          <label class="portal-switch"><input type="checkbox" name="show_in_directory"> <span>Show me in the member directory</span></label>
+          <label class="portal-switch"><input type="checkbox" name="show_email"> <span>Show my email address to other members</span></label>
+        </fieldset>
+        <button class="btn btn-teal" type="submit">Save profile</button>
+        <p class="portal-msg" role="status"></p>
+      </form>
+    </div>
+
+    <!-- Membership -->
+    <div class="portal-panel" data-panel="membership" hidden>
+      <h2 class="portal-h">Membership</h2>
+      <dl class="portal-details" data-list="membership"></dl>
+      <div class="btn-row">
+        <a class="btn btn-teal" href="https://www.paypal.com/myaccount/autopay/" target="_blank" rel="noopener">Manage payments in PayPal</a>
+        <a class="btn btn-outline-dark" href="../member/">Change tier or pay annually</a>
+      </div>
+      <p class="portal-muted portal-small">Monthly memberships renew automatically through PayPal. If you cancel, you keep access until the end of the period you paid for.</p>
+      <h2 class="portal-h portal-h-gap">Security</h2>
+      <p class="portal-muted">You sign in with a one-time code sent to your email, so there’s no password to remember or reset. Lost a device? Sign out everywhere and sign in again.</p>
+      <button type="button" class="btn btn-outline-dark" data-action="sign-out-all">Sign out on all devices</button>
+      <p class="portal-msg" data-msg="security" role="status"></p>
+    </div>
+  </div>
+</section>
+
+</main>
+<section class="serve" aria-labelledby="serve-title">
+  <div class="wrap">
+    <h2 id="serve-title">Opportunities to serve</h2>
+    <ul>
+      <li><a href="../volunteer/">Volunteer with us</a></li>
+      <li><a href="../work-application/">Apply to join our team</a></li>
+      <li><a href="../member/">Become a member</a></li>
+      <li><a href="../contact/">Contact us</a></li>
+    </ul>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <h2><a href="../blog/" style="text-decoration:none">The PAMA</a></h2>
+      <address>The Pan-American Medical Association<br>600 1st Ave Ste 102 PMB 2470<br>Seattle, WA 98104</address>
+      <p><a href="mailto:info@pan-american.org">info@pan-american.org</a></p>
+      <a class="seal" href="https://app.candid.org/profile/16017740/pan-american-medical-association-33-2193485/?pkId=1db21589-f150-4dcc-a97b-51a67246ca57" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="https://widgets.guidestar.org/prod/v1/pdp/transparency-seal/16017740/svg" alt="Candid transparency seal" width="110"></a>
+    </div>
+    <div>
+      <h2>Follow</h2>
+      <ul class="social">
+        <li><a href="https://www.facebook.com/PanAmericanMedicalAssociation" target="_blank" rel="noopener" aria-label="PAMA on Facebook" title="Facebook"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg></a></li>
+        <li><a href="https://www.instagram.com/The_PAMA_" target="_blank" rel="noopener" aria-label="PAMA on Instagram" title="Instagram"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a></li>
+        <li><a href="https://linkedin.com/company/pan-american-medical-association" target="_blank" rel="noopener" aria-label="PAMA on LinkedIn" title="LinkedIn"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></a></li>
+        <li><a href="https://www.tiktok.com/@the_pama_" target="_blank" rel="noopener" aria-label="PAMA on TikTok" title="TikTok"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg></a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Organization</h2>
+      <ul>
+        <li><a href="../financial-transparency/">Financial transparency</a></li>
+        <li><a href="../members/">Member portal</a></li>
+        <li><a href="../faqs/">FAQs</a></li>
+        <li><a href="../privacy-transparency/">Privacy policy</a></li>
+        <li><a href="../newsletter/">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="legal"><div class="wrap">&copy;2026 Pan-American Medical Association. All Rights Reserved. A registered 501(c)(3) nonprofit organization, EIN 33-2193485. Gifts are tax-deductible as allowed by law.</div></div>
+</footer>
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/portal.js"></script>
+</body>
+</html>
