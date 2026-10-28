@@ -726,3 +726,4 @@ picture { display: contents; }
 .video-play:focus-visible { outline: 3px solid var(--gold, #c9a227); outline-offset: 3px; }
 
 .member-signin { margin: 1rem 0 0; font-weight: 600; }
+img[src$="the-pama-blog.jpg"] { object-position: 50% 50%; }
