@@ -12,7 +12,7 @@ ROOT = '.'
 SITE = 'https://www.pan-american.org/'
 HERE = os.path.dirname(__file__)
 TR = {lang: json.load(open(os.path.join(HERE, lang + '.json'), encoding='utf-8')) for lang in LANGS}
-LABEL = {'en': 'English', 'es': 'Español', 'pt': 'Português'}
+LABEL = {'en': 'English', **LANGS}
 SKIP_SCHEMES = ('http:', 'https:', '//', '#', 'mailto:', 'tel:', 'data:', 'javascript:')
 missing = set()
 
@@ -70,7 +70,7 @@ def localize(page, lang):
             el.string = t
         else:
             el[a] = t
-    soup.html['lang'] = lang
+    soup.html['lang'] = HREFLANG.get(lang, lang)
     # Rewrite relative URLs for the deeper location, pointing to translated pages where they exist.
     base_dir = page
     new_dir = lang + '/' + page
@@ -104,7 +104,7 @@ def fix_url(v, base_dir, new_dir, lang):
 
 def alternates(page):
     tags = ['<link rel="alternate" hreflang="en" href="%s%s">' % (SITE, page)]
-    tags += ['<link rel="alternate" hreflang="%s" href="%s%s/%s">' % (l, SITE, l, page) for l in LANGS]
+    tags += ['<link rel="alternate" hreflang="%s" href="%s%s/%s">' % (HREFLANG.get(l, l), SITE, l, page) for l in LANGS]
     tags.append('<link rel="alternate" hreflang="x-default" href="%s%s">' % (SITE, page))
     return '\n'.join(tags)
 
@@ -121,7 +121,8 @@ def switcher(cur_dir, cur_lang, page):
         else:
             target = code + '/' + (page if page is not None else '')
         cur = ' aria-current="true"' if code == cur_lang else ''
-        items.append('<li><a href="%s" hreflang="%s" lang="%s"%s>%s</a></li>' % (rel(cur_dir, target), code, code, cur, LABEL[code]))
+        tag = HREFLANG.get(code, code)
+        items.append('<li><a href="%s" hreflang="%s" lang="%s"%s>%s</a></li>' % (rel(cur_dir, target), tag, tag, cur, LABEL[code]))
     return ('<li class="lang-li"><details class="lang-menu"><summary aria-label="Language / Idioma">'
             '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.9a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8ZM12 4c.8 1.1 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.9 1.9-4ZM4.3 14a8 8 0 0 1 0-4h3.3a16.5 16.5 0 0 0 0 4H4.3Zm.8 2h2.9c.3 1.3.8 2.5 1.4 3.6A8 8 0 0 1 5.1 16ZM8 8H5.1a8 8 0 0 1 4.3-3.6C8.8 5.5 8.3 6.7 8 8Zm4 12c-.8-1.1-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.9-1.9 4Zm2.3-6H9.7a14.6 14.6 0 0 1 0-4h4.6a14.6 14.6 0 0 1 0 4Zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 0 1-4.3 3.6Zm1.8-5.6a16.5 16.5 0 0 0 0-4h3.3a8 8 0 0 1 0 4h-3.3Z"/></svg>'
             '<span>%s</span></summary><ul>%s</ul></details></li>' % (cur_lang.upper(), ''.join(items)))

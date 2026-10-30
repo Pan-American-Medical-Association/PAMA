@@ -3,7 +3,8 @@ import hashlib, re
 from bs4 import BeautifulSoup, NavigableString, Comment, Doctype
 
 PAGES = ['', 'about/', 'programs/', 'donate/', 'member/', 'contact/', 'coalition/', 'guatemala/', 'philly-for-cuba/']
-LANGS = {'es': 'Español', 'pt': 'Português'}
+LANGS = {'es': 'Español', 'pt': 'Português', 'fr': 'Français', 'it': 'Italiano', 'zh': '中文'}
+HREFLANG = {'zh': 'zh-Hans'}  # BCP-47 tags where they differ from the folder name
 INLINE = {'a', 'abbr', 'b', 'br', 'cite', 'code', 'em', 'i', 'small', 'span', 'strong', 'sub', 'sup',
           'time', 'mark', 'u', 'q', 's', 'wbr', 'img', 'input', 'picture', 'source'}
 SKIP = {'script', 'style', 'noscript', 'svg', 'code', 'pre', 'template', 'head'}

@@ -6,7 +6,9 @@ from common import *
 root = sys.argv[1] if len(sys.argv) > 1 else '.'
 segs = {}
 for p in PAGES:
-    soup = soup_of(open(os.path.join(root, page_file(p)), encoding='utf-8').read())
+    html = open(os.path.join(root, page_file(p)), encoding='utf-8').read()
+    html = re.sub(r'<li class="lang-li">.*?</details></li>', '', html, flags=re.S)  # language menu is not translated
+    soup = soup_of(html)
     for kind, node in segments(soup):
         src = inner(node) if kind == 'html' else str(node)
         if src.strip():
