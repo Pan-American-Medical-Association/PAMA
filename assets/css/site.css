@@ -66,7 +66,7 @@ p { margin: 0 0 1em; }
 .site-nav .nav-login { border: 1.5px solid var(--teal); color: var(--teal-dark); font-weight: 600; padding: .45rem .9rem; margin-left: .35rem; }
 .site-nav .nav-login:hover { background: var(--teal); color: var(--white); }
 .site-nav .nav-login[aria-current="page"] { box-shadow: none; border-radius: 6px; background: var(--teal); color: var(--white); }
-@media (max-width: 1120px) {
+@media (max-width: 1200px) {
   .nav-toggle { display: block; }
   .site-nav { display: none; position: absolute; left: 0; right: 0; top: 72px; background: var(--white); border-bottom: 1px solid var(--line); padding: .5rem 1.25rem 1rem; }
   .site-nav.open { display: block; }
@@ -734,12 +734,12 @@ img[src$="the-pama-blog.jpg"] { object-position: 50% 50%; }
 .site-nav .lang-menu ul { min-width: 160px; }
 .site-nav .lang-menu a[aria-current="true"] { font-weight: 700; color: var(--teal-dark); box-shadow: none; }
 .brand span { white-space: nowrap; }
-@media (min-width: 1121px) {
+@media (min-width: 1201px) {
   .brand { flex-shrink: 0; }
   .site-nav a, .site-nav summary { padding-left: .55rem; padding-right: .55rem; }
   .site-nav .nav-login, .site-nav .btn-donate { padding-left: .8rem; padding-right: .8rem; }
   .brand span { font-size: .95em; }
 }
-@media (min-width: 1121px) {
+@media (min-width: 1201px) {
   .site-nav .lang-menu summary span { display: none; }
 }

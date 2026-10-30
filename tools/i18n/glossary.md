@@ -62,3 +62,25 @@ For the home-page headline "United We Stand, Health In Every Land" use the meani
 | medical supplies | fournitures médicales | forniture mediche | 医疗物资 |
 | tax-deductible | déductible des impôts (aux États-Unis) | deducibile dalle tasse (negli Stati Uniti) | 可抵税（美国） |
 | clinician(s) | professionnel(s) de santé | professionisti sanitari | 临床医护人员 |
+
+## More languages: Russian (ru), German (de), Polish (pl)
+Register: Russian = formal «вы» (lowercase in web copy), Russian quotation marks «…»; German = formal "Sie", German quotation marks „…“; Polish = polite plural/impersonal forms common on nonprofit sites ("Przekaż darowiznę", "Skontaktuj się z nami"), Polish quotation marks „…”.
+Keep-as-is rules above apply (organization name, partner names, SSI/CIM/SMIT, "Equity in Action", numbers, money, addresses, emails).
+Home headline "United We Stand, Health In Every Land" = meaning "United for the health of the world".
+
+| English | ru | de | pl |
+|---|---|---|---|
+| Donate / Donate now | Пожертвовать / Пожертвовать сейчас | Spenden / Jetzt spenden | Wesprzyj / Przekaż darowiznę |
+| Member login | Вход для участников | Mitglieder-Login | Logowanie członków |
+| Member portal | Портал участников | Mitgliederportal | Portal członków |
+| Become a member / Membership | Стать участником / Членство | Mitglied werden / Mitgliedschaft | Zostań członkiem / Członkostwo |
+| Logistics Coalition | Логистическая коалиция | Logistik-Koalition | Koalicja logistyczna |
+| Programs / Impact / Blog / About | Программы / Результаты / Блог / О нас | Programme / Wirkung / Blog / Über uns | Programy / Wpływ / Blog / O nas |
+| Financial Transparency | Финансовая прозрачность | Finanzielle Transparenz | Przejrzystość finansowa |
+| Contact Us | Связаться с нами | Kontakt | Kontakt |
+| Volunteer | Волонтёрство / Стать волонтёром | Ehrenamt / Ehrenamtlich mitmachen | Wolontariat / Zostań wolontariuszem |
+| fiscal sponsor(ship) | фискальное спонсорство / фискальный спонсор | Treuhandschaft (Fiscal Sponsorship) / Treuhandträger | sponsoring fiskalny / sponsor fiskalny |
+| underserved communities | недостаточно обслуживаемые сообщества | unterversorgte Gemeinschaften | społeczności o ograniczonym dostępie do opieki |
+| medical supplies | медицинские материалы | medizinisches Material | materiały medyczne |
+| tax-deductible | вычитается из налогооблагаемой базы (в США) | steuerlich absetzbar (in den USA) | odliczane od podatku (w USA) |
+| clinician(s) | медицинские специалисты | medizinische Fachkräfte | personel medyczny |

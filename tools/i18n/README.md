@@ -1,6 +1,6 @@
 # Site translations (Spanish /es/, Portuguese /pt/)
 
-Key pages listed in `common.py` (PAGES) are published in the languages in LANGS: Spanish, Portuguese, French, Italian and Simplified Chinese (/es/, /pt/, /fr/, /it/, /zh/).
+Key pages listed in `common.py` (PAGES) are published in the languages in LANGS: Spanish, Portuguese, French, Italian, Simplified Chinese, Russian, German and Polish (/es/, /pt/, /fr/, /it/, /zh/, /ru/, /de/, /pl/).
 English pages are the source; never edit files under `es/` or `pt/` by hand.
 
 After changing an English key page:
