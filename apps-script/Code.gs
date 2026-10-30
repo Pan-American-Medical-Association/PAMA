@@ -605,6 +605,7 @@ function doPost(e) {
     if (isPayPal_(e)) return handlePayPal_(e);
     const data = parseBody_(e);
     if (/^portal_/.test(String(data.action || ''))) return handlePortal_(data);   // Portal.gs
+    if (/^chat_/.test(String(data.action || ''))) return handleChat_(data);       // Chat.gs
     if (data._gotcha) return json_({ ok: true });            // spam trap
     const form = FORMS[data.form_type];
     if (!form) throw new Error('Unknown form_type: ' + data.form_type);

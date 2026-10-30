@@ -65,6 +65,34 @@
   </div>
 </section>
 
+<section class="ask" id="ask" aria-labelledby="ask-title">
+  <div class="wrap ask-grid">
+    <div class="ask-intro">
+      <p class="eyebrow">Ask PAMA</p>
+      <h2 id="ask-title">Questions about our work or about public health?</h2>
+      <p>Our assistant answers from this website and from <em>Medicina General Integral</em> (Vols. I–V), the Cuban primary-care textbook used to train family physicians. Every answer lists its sources.</p>
+      <p class="ask-note"><strong>For education only.</strong> It is not medical advice and cannot diagnose. In an emergency, call your local emergency number.</p>
+    </div>
+    <div class="ask-box" data-chat>
+      <div class="ask-log" data-chat-log aria-live="polite">
+        <div class="ask-msg ask-bot"><p>Hello! Ask me about PAMA’s programs, how to help, or a public-health topic. You can write in any language.</p></div>
+      </div>
+      <div class="ask-chips" data-chat-chips>
+        <button type="button" class="ask-chip">How can I donate medical supplies?</button>
+        <button type="button" class="ask-chip">What are the warning signs of dengue?</button>
+        <button type="button" class="ask-chip">How is high blood pressure prevented?</button>
+        <button type="button" class="ask-chip">What does PAMA do in Guatemala?</button>
+      </div>
+      <form class="ask-form" data-chat-form>
+        <label for="ask-input" class="visually-hidden">Your question</label>
+        <textarea id="ask-input" name="q" rows="1" maxlength="1000" placeholder="Type your question…" required></textarea>
+        <button type="submit" class="btn btn-gold">Ask</button>
+      </form>
+      <p class="ask-fine">Questions are saved without names or contact details to improve the assistant. Do not share personal health information. <a href="privacy-transparency/">Privacy</a></p>
+    </div>
+  </div>
+</section>
+
 <section class="impact-band" aria-labelledby="impact-title">
   <div class="wrap">
     <h2 id="impact-title" class="visually-hidden">Our impact in numbers</h2>
@@ -244,5 +272,6 @@
   </div>
 </div>
 <script src="assets/js/site.js"></script>
+<script src="assets/js/chat.js" defer></script>
 </body>
 </html>

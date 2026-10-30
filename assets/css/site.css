@@ -764,3 +764,37 @@ picture > source { display: none; }
   .testimonial:not(.no-img) { grid-template-columns: 1fr; justify-items: center; text-align: center; }
   .testimonial:not(.no-img) img { width: 140px; height: 140px; }
 }
+
+/* ---------- Ask PAMA (home-page assistant) ---------- */
+.ask { background: linear-gradient(180deg, var(--mist) 0%, #f7faf9 100%); border-top: 4px solid var(--gold); }
+.ask-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; padding-top: clamp(2.5rem, 6vw, 4rem); padding-bottom: clamp(2.5rem, 6vw, 4rem); }
+.ask .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; font-weight: 700; color: var(--teal); margin: 0 0 .5rem; }
+.ask-intro h2 { margin-top: 0; font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.15; }
+.ask-intro p { color: var(--ink-soft); }
+.ask-note { font-size: .95rem; background: var(--white); border-left: 4px solid var(--gold); padding: .7rem .9rem; border-radius: 0 8px 8px 0; }
+.ask-box { background: var(--white); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 10px 30px rgba(13,59,62,.08); padding: 1rem; display: flex; flex-direction: column; gap: .8rem; min-width: 0; }
+.ask-log { max-height: 26rem; min-height: 9rem; overflow-y: auto; display: flex; flex-direction: column; gap: .7rem; padding: .25rem; scroll-behavior: smooth; }
+.ask-msg { max-width: 92%; padding: .7rem .95rem; border-radius: 14px; font-size: .98rem; line-height: 1.55; overflow-wrap: anywhere; }
+.ask-msg p { margin: 0 0 .5rem; } .ask-msg p:last-child { margin-bottom: 0; }
+.ask-msg ul { margin: .2rem 0 .5rem; padding-left: 1.2rem; }
+.ask-bot { background: var(--mist); color: var(--ink); border-bottom-left-radius: 4px; align-self: flex-start; }
+.ask-user { background: var(--teal-deep); color: var(--white); border-bottom-right-radius: 4px; align-self: flex-end; white-space: pre-wrap; }
+.ask-err { background: #fff4e5; color: #6a4a00; }
+.ask-cite { font-size: .72em; font-weight: 700; vertical-align: super; color: var(--teal-dark); text-decoration: none; padding: 0 .1em; }
+.ask-sources { margin: .6rem 0 0; padding: .55rem 0 0; border-top: 1px solid var(--line); list-style: none; font-size: .85rem; color: var(--ink-soft); }
+.ask-sources li { margin: .15rem 0; } .ask-sources b { color: var(--teal-dark); margin-right: .3rem; }
+.ask-typing span { display: inline-block; width: .45rem; height: .45rem; margin-right: .25rem; border-radius: 50%; background: var(--teal); animation: ask-dot 1.2s infinite ease-in-out; }
+.ask-typing span:nth-child(2) { animation-delay: .15s; } .ask-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes ask-dot { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+.ask-chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.ask-chip { font: inherit; font-size: .88rem; padding: .4rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: var(--white); color: var(--teal-deep); cursor: pointer; text-align: left; transition: border-color .2s, background .2s; }
+.ask-chip:hover, .ask-chip:focus-visible { border-color: var(--teal); background: var(--mist); }
+.ask-form { display: flex; gap: .5rem; align-items: flex-end; }
+.ask-form textarea { flex: 1; min-width: 0; font: inherit; font-size: 1rem; resize: none; max-height: 9rem; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: 12px; background: #fbfdfc; color: var(--ink); }
+.ask-form textarea:focus { outline: 2px solid var(--teal); outline-offset: 1px; border-color: var(--teal); }
+.ask-form .btn { flex: none; padding: .7rem 1.3rem; }
+.ask-form .btn[disabled] { opacity: .55; cursor: wait; }
+.ask-fine { font-size: .8rem; color: var(--ink-soft); margin: 0; }
+@media (max-width: 860px) { .ask-grid { grid-template-columns: 1fr; } .ask-log { max-height: 22rem; } }
+@media (prefers-reduced-motion: reduce) { .ask-typing span { animation: none; } .ask-log { scroll-behavior: auto; } }
+.ask-chips[hidden] { display: none; }

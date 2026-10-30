@@ -82,3 +82,25 @@ Monthly subscribe link format: https://www.paypal.com/webapps/billing/plans/subs
 | Member Profiles | Written by members from "My profile" | Show in directory = Yes lists them for other members |
 
 Each tab has an **EXAMPLE** row (hidden with Show = No) to copy.
+
+## Ask PAMA chat assistant (home page)
+
+The "Ask PAMA" box on the home page sends questions to this same web app (`action: chat_ask`, handled in `Chat.gs`). Claude answers using a private search index of the English website pages and *Medicina General Integral*, Vols. I–V (ECIMED, 2014). Answers cite their sources.
+
+- **Index:** 97 files in the Drive folder **"PAMA Chat Index (private — do not share)"** (ID `1_qxGcGbdhlILZP7vA75hRh7KRdJbb4ds`), owned by admin@. The book text is copyrighted, so never share this folder or commit the index to GitHub.
+- **Rebuild the index** after big website changes or when adding books: `python3 tools/chat/build_index.py <folder of pdftotext .raw.txt files> . <out dir>`, then replace the files in the Drive folder.
+- **Log:** each question goes to the **Chat Log** tab: time, language, question, sources and token counts. No names, emails or IP addresses are stored.
+- **Limits:** 20 questions per visitor per hour. There is also a site-wide daily cap (Script property `CHAT_DAILY_LIMIT`, default 400).
+
+### One-time setup
+
+1. Create an API key at console.anthropic.com (Settings → API keys), signed in with the PAMA account. Add a monthly spend limit under Billing → Limits.
+2. In Apps Script, open **Project Settings → Script properties** and add `ANTHROPIC_API_KEY` with the key as its value. Only paste the key here; never put it in website code or email it.
+   - Optional: `CHAT_MODEL`, default `claude-sonnet-5-5`; use `claude-haiku-5-5` for a lower cost.
+   - Optional: `CHAT_DAILY_LIMIT`.
+3. Add a new script file named **Chat** and paste in `apps-script/Chat.gs` from GitHub. Also re-paste `Code.gs`, which adds one routing line.
+4. Select `testChatSearch` and click **Run**. Google will ask for two new permissions, Drive (to read the index) and external requests (to call Claude); approve them. The log should list MGI chapters and PAMA pages.
+5. Run `testChatAnswer` to confirm Claude responds.
+6. Go to **Deploy → Manage deployments → "Website forms" → Edit**, choose **New version**, then **Deploy**. Keep the same URL.
+
+Until the key is set, the chat box shows: "The assistant is almost ready."
