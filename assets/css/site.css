@@ -743,3 +743,24 @@ img[src$="the-pama-blog.jpg"] { object-position: 50% 50%; }
 @media (min-width: 1201px) {
   .site-nav .lang-menu summary span { display: none; }
 }
+
+/* <source> inside <picture> must never take up a grid or flex slot */
+picture > source { display: none; }
+
+/* Voices from the field: quote cards */
+.wrap:has(> .testimonial) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
+.wrap:has(> .testimonial) > h2 { grid-column: 1 / -1; margin-bottom: .25rem; order: -2; }
+.testimonial:not(.no-img) { order: -1; }
+.testimonial, .testimonial.no-img { display: block; max-width: none; margin: 0; padding: 1.75rem 1.9rem; background: var(--mist); border: 0; border-left: 4px solid var(--gold); border-radius: 14px; }
+.testimonial blockquote { font-size: 1.15rem; line-height: 1.5; }
+.testimonial blockquote footer { font-weight: 600; color: var(--teal-dark); margin-top: 1rem; }
+.testimonial:not(.no-img) { grid-column: 1 / -1; display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 2rem; align-items: center; background: var(--white); border: 1px solid var(--line); border-left: 4px solid var(--gold); box-shadow: 0 10px 30px rgba(13, 59, 62, .08); }
+.testimonial:not(.no-img) img { width: 170px; height: 170px; box-shadow: 0 0 0 6px var(--gold-soft); }
+.testimonial:not(.no-img) blockquote { font-size: 1.3rem; }
+@media (max-width: 1000px) {
+  .wrap:has(> .testimonial) { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .testimonial:not(.no-img) { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .testimonial:not(.no-img) img { width: 140px; height: 140px; }
+}
