@@ -66,29 +66,30 @@
 </section>
 
 <section class="ask" id="ask" aria-labelledby="ask-title">
-  <div class="wrap ask-grid">
-    <div class="ask-intro">
-      <p class="eyebrow">Ask PAMA</p>
-      <h2 id="ask-title">Questions about our work or about public health?</h2>
-      <p>Our assistant answers from this website and from a library of Cuban medical textbooks, including <em>Medicina General Integral</em>, the primary-care text used to train family physicians. Every answer lists its sources.</p>
-      <p class="ask-note"><strong>For education only.</strong> It is not medical advice and cannot diagnose. In an emergency, call your local emergency number.</p>
-    </div>
-    <div class="ask-box" data-chat>
+  <div class="wrap">
+    <div class="ask-card" data-chat>
+      <div class="ask-head">
+        <span class="ask-avatar" aria-hidden="true"><img src="assets/img/pama-emblem-v2.png" alt="" width="44" height="44" loading="lazy"></span>
+        <div class="ask-head-text">
+          <h2 id="ask-title">Ask PAMA</h2>
+          <p><span class="ask-dot" aria-hidden="true"></span>Online now · Ask me anything about PAMA or public health</p>
+        </div>
+      </div>
       <div class="ask-log" data-chat-log aria-live="polite">
-        <div class="ask-msg ask-bot"><p>Hello! Ask me about PAMA’s programs, how to help, or a public-health topic. You can write in any language.</p></div>
+        <div class="ask-msg ask-bot"><p>Hi there! 👋 Ask me about PAMA’s programs, how you can help, or any public-health question.</p></div>
       </div>
       <div class="ask-chips" data-chat-chips>
-        <button type="button" class="ask-chip">How can I donate medical supplies?</button>
-        <button type="button" class="ask-chip">What are the warning signs of dengue?</button>
-        <button type="button" class="ask-chip">How is high blood pressure prevented?</button>
-        <button type="button" class="ask-chip">What does PAMA do in Guatemala?</button>
+        <button type="button" class="ask-chip"><span aria-hidden="true">📦 </span>How can I donate medical supplies?</button>
+        <button type="button" class="ask-chip"><span aria-hidden="true">🦟 </span>What are the warning signs of dengue?</button>
+        <button type="button" class="ask-chip"><span aria-hidden="true">❤️ </span>How is high blood pressure prevented?</button>
+        <button type="button" class="ask-chip"><span aria-hidden="true">🌎 </span>What does PAMA do in Guatemala?</button>
       </div>
       <form class="ask-form" data-chat-form>
         <label for="ask-input" class="visually-hidden">Your question</label>
         <textarea id="ask-input" name="q" rows="1" maxlength="1000" placeholder="Type your question…" required></textarea>
-        <button type="submit" class="btn btn-gold">Ask</button>
+        <button type="submit" class="ask-send" aria-label="Send"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button>
       </form>
-      <p class="ask-fine">Questions are saved without names or contact details to improve the assistant. Do not share personal health information. <a href="privacy-transparency/">Privacy</a></p>
+      <p class="ask-fine">For education only, not medical advice. In an emergency, call your local emergency number. Questions are saved without names. <a href="privacy-transparency/">Privacy</a></p>
     </div>
   </div>
 </section>

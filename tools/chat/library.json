@@ -45,7 +45,7 @@
     "short": "Intro. Neuropediatría (conferencia)"
   },
   "_default_notes": {
-    "title": "Apuntes de clase de medicina, Cuba — %s",
-    "short": "Apuntes: %s"
+    "title": "Course notes, Cuban medical school — %s",
+    "short": "Course notes: %s"
   }
 }

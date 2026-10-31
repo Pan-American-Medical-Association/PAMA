@@ -77,7 +77,7 @@ if LIB_DIR:
         if meta_b:
             sources.append({'type': 'book', 'title': meta_b['title'], 'short': meta_b['short']})
         else:
-            name = re.sub(r'^Conf - ', 'Conferencia: ', stem)
+            name = re.sub(r'^Conf - ', 'Lecture: ', stem)
             d = CATALOG['_default_notes']
             sources.append({'type': 'book', 'title': d['title'] % name, 'short': d['short'] % name})
         si = len(sources) - 1

@@ -73,29 +73,30 @@
 </div>
 </section>
 <section aria-labelledby="ask-title" class="ask" id="ask">
-<div class="wrap ask-grid">
-<div class="ask-intro">
-<p class="eyebrow">Спросите PAMA</p>
-<h2 id="ask-title">Вопросы о нашей работе или об общественном здоровье?</h2>
-<p>Наш ассистент отвечает на основе этого сайта и библиотеки кубинских медицинских учебников, в том числе <em>Medicina General Integral</em> — учебника по первичной помощи, по которому готовят семейных врачей. В каждом ответе указаны источники.</p>
-<p class="ask-note"><strong>Только в образовательных целях.</strong> Это не медицинская консультация, и ассистент не ставит диагнозы. В экстренной ситуации звоните по местному номеру экстренной помощи.</p>
+<div class="wrap">
+<div class="ask-card" data-chat="">
+<div class="ask-head">
+<span aria-hidden="true" class="ask-avatar"><img alt="" height="44" loading="lazy" src="../assets/img/pama-emblem-v2.png" width="44"/></span>
+<div class="ask-head-text">
+<h2 id="ask-title">Спросите PAMA</h2>
+<p><span aria-hidden="true" class="ask-dot"></span>В сети · Спросите что угодно о PAMA или общественном здоровье</p>
 </div>
-<div class="ask-box" data-chat="">
+</div>
 <div aria-live="polite" class="ask-log" data-chat-log="">
-<div class="ask-msg ask-bot"><p>Здравствуйте! Спросите о программах PAMA, о том, как помочь, или на тему общественного здоровья. Можно писать на любом языке.</p></div>
+<div class="ask-msg ask-bot"><p>Здравствуйте! 👋 Спросите о программах PAMA, о том, как помочь, или на любую тему общественного здоровья.</p></div>
 </div>
 <div class="ask-chips" data-chat-chips="">
-<button class="ask-chip" type="button">Как пожертвовать медицинские материалы?</button>
-<button class="ask-chip" type="button">Каковы тревожные признаки денге?</button>
-<button class="ask-chip" type="button">Как предотвратить высокое давление?</button>
-<button class="ask-chip" type="button">Что делает PAMA в Гватемале?</button>
+<button class="ask-chip" type="button"><span aria-hidden="true">📦 </span>Как пожертвовать медицинские материалы?</button>
+<button class="ask-chip" type="button"><span aria-hidden="true">🦟 </span>Каковы тревожные признаки денге?</button>
+<button class="ask-chip" type="button"><span aria-hidden="true">❤️ </span>Как предотвратить высокое давление?</button>
+<button class="ask-chip" type="button"><span aria-hidden="true">🌎 </span>Что делает PAMA в Гватемале?</button>
 </div>
 <form class="ask-form" data-chat-form="">
 <label class="visually-hidden" for="ask-input">Ваш вопрос</label>
 <textarea id="ask-input" maxlength="1000" name="q" placeholder="Введите ваш вопрос…" required="" rows="1"></textarea>
-<button class="btn btn-gold" type="submit">Спросить</button>
+<button aria-label="Отправить" class="ask-send" type="submit"><svg aria-hidden="true" height="20" viewbox="0 0 24 24" width="20"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z" fill="currentColor"></path></svg></button>
 </form>
-<p class="ask-fine">Вопросы сохраняются без имён и контактных данных, чтобы улучшить ассистента. Не сообщайте личную информацию о здоровье. <a href="../privacy-transparency/">Конфиденциальность</a></p>
+<p class="ask-fine">Только в образовательных целях, это не медицинская консультация. В экстренной ситуации звоните по местному номеру экстренной помощи. Вопросы сохраняются без имён. <a href="../privacy-transparency/">Конфиденциальность</a></p>
 </div>
 </div>
 </section>
