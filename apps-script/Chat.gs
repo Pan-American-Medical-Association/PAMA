@@ -238,7 +238,9 @@ function crc32_(str) {
 let CHAT_FILE_CACHE_ = {};
 function indexFile_(name) {
   if (CHAT_FILE_CACHE_[name]) return CHAT_FILE_CACHE_[name];
-  const idx = indexFileIds_();
+  let idx = indexFileIds_();
+  if (!idx.ids[name]) idx = indexFileIds_(true);              // listing may be stale: refresh once
+  if (!idx.ids[name]) throw new Error('Index file missing: ' + name);
   const key = 'chat:f:' + idx.folder.slice(-12) + ':' + name;     // per index version, so a rebuild never mixes files
   const cache = CacheService.getScriptCache();
   let b64 = cache.get(key);
@@ -246,7 +248,6 @@ function indexFile_(name) {
   if (b64) {
     bytes = Utilities.base64Decode(b64);
   } else {
-    if (!idx.ids[name]) throw new Error('Index file missing: ' + name);
     bytes = DriveApp.getFileById(idx.ids[name]).getBlob().getBytes();
     b64 = Utilities.base64Encode(bytes);
     if (b64.length < 95000) cache.put(key, b64, 21600);
@@ -257,25 +258,40 @@ function indexFile_(name) {
 }
 
 /**
- * The index lives in CHAT.INDEX_FOLDER_ID. Each rebuild goes into a new subfolder named like "v2026-10-31";
- * the newest subfolder (by name) is used, so updating the library never needs a code change.
+ * The index lives in CHAT.INDEX_FOLDER_ID. Each rebuild goes into a new subfolder named like "v2026-10-31".
+ * The newest COMPLETE subfolder is used (all files listed in its meta.json.gz are present), so an upload in
+ * progress is never picked up half-finished. Updating the library never needs a code change.
  */
 let CHAT_IDS_ = null;
-function indexFileIds_() {
-  if (CHAT_IDS_) return CHAT_IDS_;
+function indexFileIds_(refresh) {
+  if (CHAT_IDS_ && !refresh) return CHAT_IDS_;
   const cache = CacheService.getScriptCache();
-  const hit = cache.get('chat:index-v2');
-  if (hit) { const h = JSON.parse(hit); if (h && h.folder && h.ids) return (CHAT_IDS_ = h); }
+  if (!refresh) {
+    const hit = cache.get('chat:index-v3');
+    if (hit) { const h = JSON.parse(hit); if (h && h.folder && h.ids) return (CHAT_IDS_ = h); }
+  }
   const parent = DriveApp.getFolderById(CHAT.INDEX_FOLDER_ID);
-  let folder = parent, best = '';
+  const candidates = [];
   const subs = parent.getFolders();
-  while (subs.hasNext()) { const f = subs.next(); const n = f.getName(); if (/^v\d/.test(n) && n > best) { best = n; folder = f; } }
-  const ids = {};
-  const it = folder.getFiles();
-  while (it.hasNext()) { const f = it.next(); ids[f.getName()] = f.getId(); }
-  CHAT_IDS_ = { folder: folder.getId(), ids: ids };
-  cache.put('chat:index-v2', JSON.stringify(CHAT_IDS_), 600);
-  return CHAT_IDS_;
+  while (subs.hasNext()) { const f = subs.next(); if (/^v\d/.test(f.getName())) candidates.push(f); }
+  candidates.sort(function (a, b) { return a.getName() < b.getName() ? 1 : -1; });
+  candidates.push(parent);                                       // the original index, if nothing newer is complete
+  for (let i = 0; i < candidates.length; i++) {
+    const ids = {};
+    const it = candidates[i].getFiles();
+    while (it.hasNext()) { const f = it.next(); ids[f.getName()] = f.getId(); }
+    if (!ids['meta.json.gz']) continue;
+    const meta = JSON.parse(Utilities.ungzip(Utilities.newBlob(DriveApp.getFileById(ids['meta.json.gz']).getBlob().getBytes(), 'application/x-gzip')).getDataAsString('UTF-8'));
+    let complete = true;
+    for (let k = 0; k < meta.NP && complete; k++) if (!ids['p' + pad2_(k) + '.json.gz']) complete = false;
+    for (let k = 0; k < meta.NC && complete; k++) if (!ids['c' + pad2_(k) + '.json.gz']) complete = false;
+    if (!complete) continue;
+    CHAT_IDS_ = { folder: candidates[i].getId(), ids: ids };
+    CHAT_FILE_CACHE_ = { 'meta.json.gz': meta };
+    cache.put('chat:index-v3', JSON.stringify(CHAT_IDS_), 600);
+    return CHAT_IDS_;
+  }
+  throw new Error('No complete chat index found in the PAMA Chat Index folder.');
 }
 
 function pad2_(n) { return (n < 10 ? '0' : '') + n; }
