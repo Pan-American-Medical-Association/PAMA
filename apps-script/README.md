@@ -85,10 +85,11 @@ Each tab has an **EXAMPLE** row (hidden with Show = No) to copy.
 
 ## Ask PAMA chat assistant (home page)
 
-The "Ask PAMA" box on the home page sends questions to this same web app (`action: chat_ask`, handled in `Chat.gs`). Claude answers using a private search index of the English website pages and *Medicina General Integral*, Vols. I–V (ECIMED, 2014). Answers cite their sources.
+The "Ask PAMA" box on the home page sends questions to this same web app (`action: chat_ask`, handled in `Chat.gs`). Claude answers using a private search index of the English website pages and the PAMA medical library: Cuban textbooks (*Medicina General Integral* I–V, Obstetricia y Perinatología, Manual de Procedimientos en Ginecología, and more, mostly ECIMED) plus Cuban course notes and lectures. The list of titles is in `tools/chat/library.json`. Answers cite their sources.
 
-- **Index:** 97 files in the Drive folder **"PAMA Chat Index (private — do not share)"** (ID `1_qxGcGbdhlILZP7vA75hRh7KRdJbb4ds`), owned by admin@. The book text is copyrighted, so never share this folder or commit the index to GitHub.
-- **Rebuild the index** after big website changes or when adding books: `python3 tools/chat/build_index.py <folder of pdftotext .raw.txt files> . <out dir>`, then replace the files in the Drive folder.
+- **Index:** the Drive folder **"PAMA Chat Index (private — do not share)"** (ID `1_qxGcGbdhlILZP7vA75hRh7KRdJbb4ds`), owned by admin@. Each rebuild goes in a new subfolder named `vYYYY-MM-DD…`, and the assistant automatically uses the newest one, within 10 minutes. You can delete older version folders. The book text is copyrighted, so never share this folder or commit the index to GitHub.
+- **Rebuild the index** after big website changes or when adding books: `python3 tools/chat/build_index.py <MGI .raw.txt dir> . <out dir> <library .raw.txt dir>`. Upload the output into a new `v…` subfolder.
+- **Not included (copyright):** commercial publisher textbooks in the Drive folder: Harrison, Farreras-Rozman, Botella, Robbins, Netter, First Aid and Blueprints. Also left out: exams, images, videos and Apple Pages files.
 - **Log:** each question goes to the **Chat Log** tab: time, language, question, sources and token counts. No names, emails or IP addresses are stored.
 - **Limits:** 20 questions per visitor per hour. There is also a site-wide daily cap (Script property `CHAT_DAILY_LIMIT`, default 400).
 

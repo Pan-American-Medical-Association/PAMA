@@ -1,5 +1,7 @@
 """Build the private search index for the PAMA chat assistant.
-Usage: python3 build_index.py <mgi_txt_dir> <site_root> <out_dir>
+Usage: python3 build_index.py <mgi_txt_dir> <site_root> <out_dir> [<library_txt_dir>]
+<library_txt_dir> holds pdftotext output (*.raw.txt, \f page breaks) for the other library books and course notes;
+titles come from library.json (files not listed there are labelled as course notes).
 Output: meta.json, pNN.json.gz (postings shards), cNN.json.gz (passage shards). Upload out_dir's files to the
 'PAMA Chat Index' Drive folder (never publish them: the book text is copyrighted)."""
 import sys, os, re, json, gzip, math, glob, zlib
@@ -8,6 +10,8 @@ from textproc import tokens
 from bs4 import BeautifulSoup
 
 MGI_DIR, SITE, OUT = sys.argv[1:4]
+LIB_DIR = sys.argv[4] if len(sys.argv) > 4 else None
+CATALOG = json.load(open(os.path.join(os.path.dirname(__file__), 'library.json'), encoding='utf-8'))
 NP, NC = 48, 48            # shard counts (postings / passages)
 CHUNK, OVERLAP = 230, 40   # words
 os.makedirs(OUT, exist_ok=True)
@@ -54,6 +58,42 @@ for path in sorted(glob.glob(os.path.join(MGI_DIR, '*.raw.txt'))):
         text = '\n'.join(l for l in text.splitlines() if not re.fullmatch(r'\s*\d{1,4}\s*', l))
         words += [(w, pno) for w in text.split()]
     add_chunks(si, words, lambda p, ca=chapter_at: ca.get(p, ''))
+
+# --- Other library books and course notes ---
+def chapter_heading(lines, k, m):
+    tl = []
+    for x in lines[k + 1:k + 5]:
+        if not x:
+            continue
+        if x.upper() != x or not re.search(r'[A-ZÁÉÍÓÚÑ]{3}', x):
+            break
+        tl.append(x)
+    return ('Cap. %s. %s' % (m.group(1), ' '.join(tl).title()[:90])).rstrip('. ')
+
+if LIB_DIR:
+    for path in sorted(glob.glob(os.path.join(LIB_DIR, '*.raw.txt'))):
+        stem = os.path.basename(path)[:-len('.raw.txt')]
+        meta_b = CATALOG.get(stem)
+        if meta_b:
+            sources.append({'type': 'book', 'title': meta_b['title'], 'short': meta_b['short']})
+        else:
+            name = re.sub(r'^Conf - ', 'Conferencia: ', stem)
+            d = CATALOG['_default_notes']
+            sources.append({'type': 'book', 'title': d['title'] % name, 'short': d['short'] % name})
+        si = len(sources) - 1
+        pages = open(path, encoding='utf-8', errors='replace').read().split('\f')
+        chapter_at, current, words = {}, '', []
+        for pno, page in enumerate(pages, start=1):
+            lines = [l.strip() for l in page.splitlines()]
+            for k, l in enumerate(lines):
+                m = re.match(r'^CAP[IÍ]TULO\s+(\d+)\s*$', l, re.I)
+                if m:
+                    current = chapter_heading(lines, k, m)
+            chapter_at[pno] = current
+            text = re.sub(r'-\n(\w)', r'\1', page)
+            text = '\n'.join(l for l in text.splitlines() if not re.fullmatch(r'\s*\d{1,4}\s*', l))
+            words += [(w, pno) for w in text.split()]
+        add_chunks(si, words, lambda p, ca=chapter_at: ca.get(p, ''))
 
 # --- Website (English pages and blog) ---
 skip = re.compile(r'^(es|pt|fr|it|zh|ru|de|pl|tools|apps-script|members|404)(/|$)')

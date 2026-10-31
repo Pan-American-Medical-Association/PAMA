@@ -513,5 +513,6 @@
  "0ba83cb8e8ae": "Votre question",
  "3562777bc6a3": "Envoyer",
  "54b7582f232f": "Les questions sont enregistrées sans nom ni coordonnées afin d’améliorer l’assistant. Ne partagez pas d’informations personnelles de santé. <t1>Confidentialité</t1>",
- "a351c059a3d2": "Écrivez votre question…"
+ "a351c059a3d2": "Écrivez votre question…",
+ "69bce321b8ab": "Notre assistant répond à partir de ce site et d’une bibliothèque de manuels médicaux cubains, dont <t1>Medicina General Integral</t1>, le manuel de soins primaires utilisé pour former les médecins de famille. Chaque réponse indique ses sources."
 }

@@ -1,0 +1,15 @@
+{
+  "_about": "Catalog for the PAMA chat library (metadata only). Keys are text-file stems from the private PAMA Medical Library folder. Never commit book text.",
+  "medicina_interna_tomo i": {"title": "Temas de Medicina Interna, Tomo I (Roca Goderich, ECIMED)", "short": "Medicina Interna T. I"},
+  "medicina_interna_tomo ii": {"title": "Temas de Medicina Interna, Tomo II (Roca Goderich, ECIMED)", "short": "Medicina Interna T. II"},
+  "completo_Tomo_I": {"title": "Propedéutica Clínica y Semiología Médica, Tomo I (Llanio Navarro, ECIMED)", "short": "Propedéutica T. I"},
+  "completo_Tomo_II": {"title": "Propedéutica Clínica y Semiología Médica, Tomo II (Llanio Navarro, ECIMED)", "short": "Propedéutica T. II"},
+  "Obstetricia y Ginecologia (2004)": {"title": "Obstetricia y Ginecología (Rigol Ricardo, ECIMED, 2004)", "short": "Rigol Obstetricia y Ginecología"},
+  "Dermatologia (2002)": {"title": "Dermatología (Manzur, Díaz Almeida y Cortés, ECIMED, 2002)", "short": "Dermatología (ECIMED 2002)"},
+  "Urologia": {"title": "Urología (ECIMED)", "short": "Urología (ECIMED)"},
+  "Obstetricia y Perinatologia - Diagnostico y Tratamiento (2012)": {"title": "Obstetricia y Perinatología. Diagnóstico y Tratamiento (Santisteban Alba et al., ECIMED, 2012)", "short": "Obstetricia y Perinatología (2012)"},
+  "Manual de Procedimientos en Ginecologia (2006)": {"title": "Manual de Procedimientos en Ginecología (Cabezas Cruz, Cutié León y Santisteban Alba, ECIMED, 2006)", "short": "Manual de Procedimientos en Ginecología (2006)"},
+  "Guia para examen fisico en paciente sano": {"title": "Guía para el examen físico en el paciente sano (Arenas Falcón, Aranda Canosa et al., ELAM, 2007)", "short": "Guía de examen físico (ELAM)"},
+  "Intro NeuroPediatria": {"title": "Introducción a la Neuropediatría (Pozo Alonso, Hospital Pediátrico William Soler, 2018) — conferencia", "short": "Intro. Neuropediatría (conferencia)"},
+  "_default_notes": {"title": "Apuntes de clase de medicina, Cuba — %s", "short": "Apuntes: %s"}
+}
