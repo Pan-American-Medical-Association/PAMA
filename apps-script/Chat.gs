@@ -305,7 +305,7 @@ function librarySearch_(query, scope, k) {
     const detail = src.type === 'book' ? ('p. ' + c[1] + (c[2] ? ' · ' + c[2] : '')) : '';
     out.push({
       id: id, type: src.type, title: src.type === 'book' ? src.short : src.title, detail: detail, url: src.url || '',
-      cite: src.type === 'book' ? (src.title + ', PDF p. ' + c[1] + (c[2] ? ', ' + c[2] : '')) : (src.title + ' — ' + src.url),
+      cite: src.type === 'book' ? (src.title + (src.pg === 'printed' ? ', p. ' : ', PDF p. ') + c[1] + (c[2] ? ', ' + c[2] : '')) : (src.title + ' — ' + src.url),
       text: c[3]
     });
   }

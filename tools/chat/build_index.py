@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 MGI_DIR, SITE, OUT = sys.argv[1:4]
 LIB_DIR = sys.argv[4] if len(sys.argv) > 4 else None
 CATALOG = json.load(open(os.path.join(os.path.dirname(__file__), 'library.json'), encoding='utf-8'))
-NP, NC = 48, 48            # shard counts (postings / passages)
+NP, NC = 96, 96            # shard counts (postings / passages)
 CHUNK, OVERLAP = 230, 40   # words
 os.makedirs(OUT, exist_ok=True)
 docs = []                  # {s: source idx, p: page, h: heading, t: text}
@@ -84,6 +84,11 @@ if LIB_DIR:
         pages = open(path, encoding='utf-8', errors='replace').read().split('\f')
         chapter_at, current, words = {}, '', []
         for pno, page in enumerate(pages, start=1):
+            mk = re.match(r'@@PAGE (\d+) @@CAP ([^\n]*)\n', page)
+            if mk:                                   # from split_running_headers.py: printed page + chapter
+                pno, current = int(mk.group(1)), mk.group(2)
+                sources[si]['pg'] = 'printed'
+                page = page[mk.end():]
             lines = [l.strip() for l in page.splitlines()]
             for k, l in enumerate(lines):
                 m = re.match(r'^CAP[IÍ]TULO\s+(\d+)\s*$', l, re.I)
