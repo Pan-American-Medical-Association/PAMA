@@ -847,10 +847,12 @@ picture > source { display: none; }
 .ask-page-head { background: linear-gradient(135deg, var(--teal-deep), var(--teal)); color: var(--white); }
 .ask-page-head h1 { color: var(--white); }
 .ask-page-head .lead { color: #d7e7e6; }
-.ask-page .wrap { max-width: 820px; }
-.pama-chat-panel.is-inline { position: static; width: auto; height: min(680px, calc(100vh - 160px)); min-height: 460px; max-height: none; animation: none; margin: 0 auto; }
-.pama-chat-panel.is-inline .ask-log { max-height: none; }
+.ask-page.section { padding-top: 0; padding-bottom: 0; }
+.ask-page .wrap { max-width: 640px; padding-top: 1.5rem; padding-bottom: 2rem; }
+.pama-chat-panel.is-inline { position: static; width: auto; height: auto; min-height: 0; max-height: none; animation: none; margin: 0 auto; }
+.pama-chat-panel.is-inline .ask-log { flex: none; min-height: 0; max-height: min(28rem, calc(100vh - 300px)); }
 .ask-page-note { font-size: .85rem; color: var(--ink-soft); text-align: center; margin-top: 1rem; }
-@media (max-width: 600px) { .pama-chat-panel.is-inline { position: static; height: calc(100vh - 140px); min-height: 420px; } }
+@media (max-width: 600px) { .pama-chat-panel.is-inline { position: static; height: auto; } .pama-chat-panel.is-inline .ask-log { max-height: calc(100vh - 280px); } }
 .pama-chat-fab[hidden], .pama-chat-x[hidden] { display: none; }
-.ask-page-head .wrap { padding-top: 2.2rem; padding-bottom: 2.2rem; }
+.ask-page-head .wrap { padding-top: 1.6rem; padding-bottom: 1.6rem; }
+.ask-page-head h1 { margin-bottom: .4rem; }
