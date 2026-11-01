@@ -37,7 +37,7 @@ const CHAT_SYSTEM = [
   '',
   'You help with two kinds of questions:',
   '1. About PAMA: programs (Cuba medical supply logistics, Aldea Pitzal in Guatemala, Solidarity Medical Impact Teams, Philly for Cuba), donating, volunteering, membership, events, partners, financial transparency. Use the website results.',
-  '2. General public-health and clinical education, using the PAMA medical library: Cuban medical textbooks in Spanish (mainly Editorial Ciencias Médicas, Havana: Medicina General Integral, Medicina Interna, Propedéutica, Obstetricia y Ginecología, Dermatología and others) plus Cuban medical-school course notes and lectures (labelled "Course notes").',
+  '2. General public-health and clinical education, using the PAMA medical library: Cuban medical textbooks in Spanish (mainly Editorial Ciencias Médicas, Havana: Medicina General Integral, Medicina Interna, Propedéutica, Obstetricia y Ginecología, Dermatología and others) plus Cuban medical-school course notes and lectures (labelled "Course notes"), plus clinical study notes and open-access references in English.',
   '',
   'Rules:',
   '- Always call search_library before answering any factual question. Whatever language the user writes in, search medical topics in Spanish first (most of the library is in Spanish) and also in English if the Spanish search finds little; search PAMA questions in English. You may search up to 3 times.',
@@ -298,21 +298,36 @@ function pad2_(n) { return (n < 10 ? '0' : '') + n; }
 
 function librarySearch_(query, scope, k) {
   const meta = indexFile_('meta.json.gz');
+  const sups = scope === 'website' ? [] : loadSupplements_();
   const terms = chatTokens_(query).filter(function (t, i, a) { return a.indexOf(t) === i; }).slice(0, 12);
-  const N = meta.N, avg = meta.avgdl, L = meta.len, scores = {};
+  const avg = meta.avgdl, L = meta.len, scores = {};
+  const N = meta.N + sups.reduce(function (n, s) { return n + s.len.length; }, 0);
   terms.forEach(function (t) {
     const ps = indexFile_('p' + pad2_(crc32_(t) % meta.NP) + '.json.gz')[t] || [];
-    const df = ps.length / 2;
+    const supLists = sups.map(function (s) { return s.post[t] || []; });
+    const df = ps.length / 2 + supLists.reduce(function (n, l) { return n + l.length / 2; }, 0);
     if (!df || df > N * 0.5) return;
     const idf = Math.log(1 + (N - df + 0.5) / (df + 0.5));
     for (let i = 0; i < ps.length; i += 2) {
       const d = ps[i], tf = ps[i + 1];
       scores[d] = (scores[d] || 0) + idf * tf * 2.2 / (tf + 1.2 * (0.25 + 0.75 * L[d] / avg));
     }
+    supLists.forEach(function (l, sk) {
+      for (let i = 0; i < l.length; i += 2) {
+        const key = 's' + sk + ':' + l[i], tf = l[i + 1];
+        scores[key] = (scores[key] || 0) + idf * tf * 2.2 / (tf + 1.2 * (0.25 + 0.75 * sups[sk].len[l[i]] / avg));
+      }
+    });
   });
   const ranked = Object.keys(scores).sort(function (a, b) { return scores[b] - scores[a]; });
   const out = [];
   for (let i = 0; i < ranked.length && out.length < k; i++) {
+    if (ranked[i].charAt(0) === 's') {                       // passage from a weekly supplement
+      const parts = ranked[i].slice(1).split(':'), sup = sups[Number(parts[0])], doc = sup.docs[Number(parts[1])];
+      out.push({ id: ranked[i], type: 'book', title: sup.source.short, detail: doc[0] || '', url: '',
+        cite: sup.source.title + (doc[0] ? ', ' + doc[0] : ''), text: doc[1] });
+      continue;
+    }
     const id = Number(ranked[i]);
     const c = indexFile_('c' + pad2_(id % meta.NC) + '.json.gz')[String(id)];
     const src = meta.sources[c[0]];
@@ -326,6 +341,134 @@ function librarySearch_(query, scope, k) {
     });
   }
   return out;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Weekly additions ("supplements")                                  */
+/*                                                                    */
+/*  Each week a Claude review looks at new files in the Medical PDF   */
+/*  folder and marks them "approved" (your own notes or openly        */
+/*  licensed sources) or "held" in chat-approvals.json, inside the    */
+/*  private PAMA Chat Index folder. chatProcessApproved() — run daily */
+/*  by a trigger — turns each approved file into a small searchable   */
+/*  file in the "supplements" folder. Files that are later held or    */
+/*  deleted are removed again.                                        */
+/* ------------------------------------------------------------------ */
+
+let CHAT_SUPS_ = null;
+function loadSupplements_() {
+  if (CHAT_SUPS_) return CHAT_SUPS_;
+  const cache = CacheService.getScriptCache();
+  let list = cache.get('chat:sup-list');
+  if (list) list = JSON.parse(list);
+  else {
+    list = [];
+    const it = DriveApp.getFolderById(CHAT.INDEX_FOLDER_ID).getFoldersByName('supplements');
+    if (it.hasNext()) {
+      const files = it.next().getFiles();
+      while (files.hasNext()) { const f = files.next(); if (/^sup-.*\.json\.gz$/.test(f.getName())) list.push([f.getId(), f.getLastUpdated().getTime()]); }
+    }
+    cache.put('chat:sup-list', JSON.stringify(list), 600);
+  }
+  CHAT_SUPS_ = list.map(function (x) {
+    const key = 'chat:sup:' + x[0] + ':' + x[1];
+    let b64 = cache.get(key), bytes;
+    if (b64) bytes = Utilities.base64Decode(b64);
+    else {
+      bytes = DriveApp.getFileById(x[0]).getBlob().getBytes();
+      b64 = Utilities.base64Encode(bytes);
+      if (b64.length < 95000) cache.put(key, b64, 21600);
+    }
+    return JSON.parse(Utilities.ungzip(Utilities.newBlob(bytes, 'application/x-gzip')).getDataAsString('UTF-8'));
+  });
+  return CHAT_SUPS_;
+}
+
+function chatProcessApproved() {
+  const started = Date.now();
+  const root = DriveApp.getFolderById(CHAT.INDEX_FOLDER_ID);
+  const af = root.getFilesByName('chat-approvals.json');
+  if (!af.hasNext()) { console.log('No chat-approvals.json yet.'); return; }
+  const approvals = JSON.parse(af.next().getBlob().getDataAsString('UTF-8')).files || {};
+  const folders = root.getFoldersByName('supplements');
+  const supFolder = folders.hasNext() ? folders.next() : root.createFolder('supplements');
+  const have = {};
+  const it = supFolder.getFiles();
+  while (it.hasNext()) { const f = it.next(); const m = f.getName().match(/^sup-(.+)\.json\.gz$/); if (m) have[m[1]] = f; }
+  let added = 0, removed = 0;
+  Object.keys(have).forEach(function (id) {                   // approval withdrawn → remove
+    if (!approvals[id] || approvals[id].status !== 'approved') { have[id].setTrashed(true); removed++; }
+  });
+  Object.keys(approvals).forEach(function (id) {
+    const a = approvals[id];
+    if (a.status !== 'approved' || have[id] || Date.now() - started > 4.5 * 60 * 1000) return;
+    try {
+      const text = chatFileText_(id, root);
+      if (!text || text.trim().length < 200) { console.log('No usable text in ' + a.title); return; }
+      const sup = chatBuildSupplement_(id, a, text);
+      supFolder.createFile(Utilities.gzip(Utilities.newBlob(JSON.stringify(sup), 'application/json'), 'sup-' + id + '.json.gz'));
+      added++;
+    } catch (e) { logError_('chat-supplement', e, id + ' ' + a.title); }
+  });
+  CacheService.getScriptCache().remove('chat:sup-list');
+  console.log('Supplements added: ' + added + ', removed: ' + removed);
+}
+
+/** Plain text of a PDF, Word file or Google Doc (PDF/Word are converted through a temporary Google Doc). */
+function chatFileText_(id, root) {
+  const token = ScriptApp.getOAuthToken();
+  const auth = { Authorization: 'Bearer ' + token };
+  const file = DriveApp.getFileById(id);
+  let docId = id, temp = null;
+  if (file.getMimeType() !== MimeType.GOOGLE_DOCS) {
+    const res = UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + id + '/copy?fields=id', {
+      method: 'post', contentType: 'application/json', headers: auth, muteHttpExceptions: true,
+      payload: JSON.stringify({ name: 'tmp-chat-' + id, mimeType: MimeType.GOOGLE_DOCS, parents: [root.getId()] })
+    });
+    if (res.getResponseCode() !== 200) throw new Error('Convert failed ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 200));
+    docId = temp = JSON.parse(res.getContentText()).id;
+  }
+  try {
+    const out = UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + docId + '/export?mimeType=text/plain', { headers: auth, muteHttpExceptions: true });
+    if (out.getResponseCode() !== 200) throw new Error('Export failed ' + out.getResponseCode());
+    return out.getContentText('UTF-8');
+  } finally {
+    if (temp) DriveApp.getFileById(temp).setTrashed(true);
+  }
+}
+
+function chatBuildSupplement_(id, a, text) {
+  const lines = text.replace(/\r/g, '').split('\n');
+  const words = [];                                           // [word, heading]
+  let heading = '';
+  lines.forEach(function (l) {
+    const t = l.trim();
+    if (!t) return;
+    if (t.length < 70 && !/[.,;:]$/.test(t) && /^[A-ZÁÉÍÓÚÑ0-9]/.test(t) && t.split(' ').length <= 8) heading = t;
+    t.split(/\s+/).forEach(function (w) { words.push([w, heading]); });
+  });
+  const CHUNK = 230, OVERLAP = 40, docs = [], len = [], post = {};
+  for (let i = 0; i < words.length; i += CHUNK - OVERLAP) {
+    const seg = words.slice(i, i + CHUNK);
+    if (seg.length < 25 && docs.length) { docs[docs.length - 1][1] += ' ' + seg.map(function (x) { return x[0]; }).join(' '); break; }
+    docs.push([seg[0][1], seg.map(function (x) { return x[0]; }).join(' ')]);
+  }
+  docs.forEach(function (d, di) {
+    const toks = chatTokens_(d[0] + ' ' + d[1]);
+    len.push(toks.length);
+    const tf = {};
+    toks.forEach(function (t) { tf[t] = (tf[t] || 0) + 1; });
+    Object.keys(tf).forEach(function (t) { (post[t] = post[t] || []).push(di, tf[t]); });
+  });
+  const kind = a.kind === 'open' ? 'Open-access source' : 'Study notes';
+  return { v: 1, id: id, source: { type: 'book', title: (a.source || kind) + ' — ' + a.title, short: a.short || a.title }, docs: docs, len: len, post: post };
+}
+
+/** Run once from the editor: process approved files every morning at about 4 AM. */
+function chatSetupTrigger() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'chatProcessApproved') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('chatProcessApproved').timeBased().everyDays(1).atHour(4).create();
+  chatProcessApproved();
 }
 
 /* ------------------------------------------------------------------ */
