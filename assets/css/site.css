@@ -766,9 +766,7 @@ picture > source { display: none; }
 }
 
 /* ---------- Ask PAMA (home-page assistant) ---------- */
-.ask { background: radial-gradient(1200px 400px at 50% -10%, rgba(18,124,122,.18), transparent 70%), linear-gradient(180deg, #e6efed 0%, #f6f9f8 100%); }
-.ask .wrap { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-.ask-card { max-width: 620px; margin: 0 auto; background: var(--white); border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px -20px rgba(13,59,62,.35), 0 2px 6px rgba(13,59,62,.08); border: 1px solid rgba(13,59,62,.08); display: flex; flex-direction: column; }
+.ask-card { margin: 0; background: var(--white); border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px -20px rgba(13,59,62,.35), 0 2px 6px rgba(13,59,62,.08); border: 1px solid rgba(13,59,62,.08); display: flex; flex-direction: column; }
 .ask-head { display: flex; align-items: center; gap: .65rem; padding: .6rem 1rem; color: var(--white); background: linear-gradient(120deg, var(--teal-deep) 0%, var(--teal) 60%, #1a9a8f 100%); background-size: 200% 200%; animation: ask-sheen 12s ease-in-out infinite; }
 @keyframes ask-sheen { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 .ask-avatar { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--white); display: grid; place-items: center; box-shadow: 0 0 0 3px rgba(255,255,255,.25); }
@@ -808,3 +806,39 @@ picture > source { display: none; }
 .ask-fine { font-size: .7rem; color: var(--ink-soft); margin: 0; padding: 0 1rem .6rem; text-align: center; }
 @media (max-width: 600px) { .ask-log { max-height: 18rem; } .ask-msg { max-width: 92%; } .ask-card { border-radius: 18px; } }
 @media (prefers-reduced-motion: reduce) { .ask-head, .ask-dot, .ask-dots span, .ask-msg, .ask-chip { animation: none; } .ask-log { scroll-behavior: auto; } }
+
+/* ---------- Floating chat bubble (every page) ---------- */
+.pama-chat { position: fixed; right: 20px; bottom: 20px; z-index: 9000; font-family: var(--sans); }
+.pama-chat-fab { width: 62px; height: 62px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; background: var(--white); color: var(--white); box-shadow: 0 10px 28px -6px rgba(13,59,62,.55), 0 0 0 3px var(--teal); transition: transform .2s cubic-bezier(.2,.8,.2,1), background .2s, box-shadow .2s; position: relative; }
+.pama-chat-fab::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 3px solid var(--teal); animation: pama-ring 2.8s ease-out infinite; pointer-events: none; }
+@keyframes pama-ring { 0% { transform: scale(1); opacity: .7; } 80%, 100% { transform: scale(1.35); opacity: 0; } }
+.pama-chat-fab:hover { transform: scale(1.07); }
+.pama-chat-fab:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+.pama-chat-logo { width: 46px; height: 46px; object-fit: contain; border-radius: 50%; transition: transform .3s, opacity .2s; }
+.pama-chat-close { position: absolute; opacity: 0; transform: rotate(-90deg); transition: transform .3s, opacity .2s; }
+.pama-chat.is-open .pama-chat-fab { background: var(--teal-deep); }
+.pama-chat.is-open .pama-chat-fab::after { animation: none; opacity: 0; }
+.pama-chat.is-open .pama-chat-logo { opacity: 0; transform: rotate(90deg) scale(.6); }
+.pama-chat.is-open .pama-chat-close { opacity: 1; transform: none; }
+.pama-chat-tip { position: absolute; right: 74px; bottom: 12px; white-space: nowrap; background: var(--white); color: var(--teal-deep); font-weight: 600; font-size: .9rem; padding: .55rem .9rem; border-radius: 14px 14px 4px 14px; box-shadow: 0 8px 24px -8px rgba(13,59,62,.45); cursor: pointer; animation: ask-in .4s both; }
+.pama-chat-tip[hidden] { display: none; }
+.pama-chat-panel { position: absolute; right: 0; bottom: 78px; width: 380px; height: min(580px, calc(100vh - 120px)); max-height: calc(100vh - 120px); transform-origin: bottom right; animation: pama-pop .28s cubic-bezier(.2,.8,.2,1); }
+.pama-chat-panel[hidden] { display: none; }
+@keyframes pama-pop { from { opacity: 0; transform: translateY(14px) scale(.94); } to { opacity: 1; transform: none; } }
+.pama-chat-panel .ask-head { flex: none; }
+.pama-chat-panel .ask-head-text { flex: 1; min-width: 0; }
+.pama-chat-x { flex: none; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: var(--white); display: grid; place-items: center; cursor: pointer; transition: background .2s; }
+.pama-chat-x:hover { background: rgba(255,255,255,.28); }
+.pama-chat-panel .ask-log { flex: 1; min-height: 0; max-height: none; }
+.pama-chat-panel .ask-chips { flex: none; flex-wrap: wrap; }
+.pama-chat-panel .ask-chip { white-space: normal; text-align: left; }
+.pama-chat-panel .ask-form, .pama-chat-panel .ask-fine { flex: none; }
+@media (max-width: 600px) {
+  .pama-chat { right: 14px; bottom: 14px; }
+  .pama-chat-fab { width: 56px; height: 56px; }
+  .pama-chat-logo { width: 42px; height: 42px; }
+  .pama-chat-panel { position: fixed; left: 8px; right: 8px; bottom: 80px; width: auto; height: auto; top: 12px; max-height: none; }
+  .pama-chat-tip { right: 66px; }
+}
+@media print { .pama-chat { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pama-chat-fab::after, .pama-chat-panel, .pama-chat-tip { animation: none; } }
