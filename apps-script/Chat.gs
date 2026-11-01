@@ -415,7 +415,11 @@ function chatProcessApproved() {
 
 /** Rows of the approvals sheet: File ID | Title | Status | Kind | Citation label | Source | Reason | Reviewed */
 function chatReadApprovals_() {
-  const rows = SpreadsheetApp.openById(CHAT.APPROVALS_SHEET_ID).getSheets()[0].getDataRange().getValues();
+  // Read through the Drive export (CSV of the first tab), which only needs the Drive permission this project already has.
+  const res = UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + CHAT.APPROVALS_SHEET_ID + '/export?mimeType=text/csv',
+    { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+  if (res.getResponseCode() !== 200) throw new Error('Could not read the approvals sheet: ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 200));
+  const rows = Utilities.parseCsv(res.getContentText('UTF-8'));
   const out = {};
   rows.slice(1).forEach(function (r) {
     const id = String(r[0] || '').trim();
