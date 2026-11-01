@@ -109,11 +109,11 @@ Until the key is set, the chat box shows: "The assistant is almost ready."
 ### Weekly additions (Step 2 notes and open sources)
 
 1. **Add files** to the Drive folder **Libros → Medical PDF** (PDF, Word or Google Docs; subfolders are fine).
-2. **Every Sunday**, a scheduled Claude task reviews the new files and records a decision in `chat-approvals.json`, which is in the private "PAMA Chat Index" folder:
+2. **Every Sunday**, a scheduled Claude task reviews the new files and records a decision in the **"Ask PAMA — Library Approvals"** Google Sheet, which is in the private "PAMA Chat Index" folder:
    - **approved:** your own notes, written in your own words, or openly licensed sources such as StatPearls (NCBI Bookshelf, CC BY), WHO/PAHO, CDC, USPSTF, NIH or MedlinePlus.
    - **held:** text copied from commercial study resources such as AMBOSS, UWorld, First Aid, Kaplan or OnlineMedEd. Their licenses allow personal study only, so held files are never published. The task tells you which files were held and why.
-3. **Every morning at about 4 AM**, `chatProcessApproved()` in Apps Script turns newly approved files into searchable "supplement" files, so they reach the chatbot within a day. If you change a file's status in `chat-approvals.json` to `held`, it is removed the next morning.
+3. **Every morning at about 4 AM**, `chatProcessApproved()` in Apps Script turns newly approved files into searchable "supplement" files, so they reach the chatbot within a day. To change a decision, edit the **Status** column in the sheet (`approved` or `held`). The change takes effect the next morning.
 
-**One-time setup:** after pasting the current Chat.gs, select **chatSetupTrigger** and click **Run**. Google will ask to approve permission to manage triggers.
+**One-time setup:** after pasting the current Chat.gs, select **chatSetupTrigger** and click **Run**. Google will ask to approve permissions for triggers and Sheets.
 
 **Answer language:** the assistant replies in the language the visitor writes in (any of the site's 9 languages), translating from the Spanish books as needed.

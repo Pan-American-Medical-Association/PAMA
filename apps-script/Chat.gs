@@ -21,6 +21,7 @@
 
 const CHAT = {
   INDEX_FOLDER_ID: '1_qxGcGbdhlILZP7vA75hRh7KRdJbb4ds',
+  APPROVALS_SHEET_ID: '1b72s_KmmtieMDkgNTOP1rvY0hyn_l-3SGQloVKCl7oI',   // "Ask PAMA — Library Approvals"
   DEFAULT_MODEL: 'claude-sonnet-5-5',
   MAX_TOKENS: 1000,
   MAX_QUESTION_CHARS: 1200,
@@ -348,8 +349,8 @@ function librarySearch_(query, scope, k) {
 /*                                                                    */
 /*  Each week a Claude review looks at new files in the Medical PDF   */
 /*  folder and marks them "approved" (your own notes or openly        */
-/*  licensed sources) or "held" in chat-approvals.json, inside the    */
-/*  private PAMA Chat Index folder. chatProcessApproved() — run daily */
+/*  licensed sources) or "held" in the "Ask PAMA — Library Approvals" */
+/*  sheet (private folder). chatProcessApproved() — run daily         */
 /*  by a trigger — turns each approved file into a small searchable   */
 /*  file in the "supplements" folder. Files that are later held or    */
 /*  deleted are removed again.                                        */
@@ -387,9 +388,7 @@ function loadSupplements_() {
 function chatProcessApproved() {
   const started = Date.now();
   const root = DriveApp.getFolderById(CHAT.INDEX_FOLDER_ID);
-  const af = root.getFilesByName('chat-approvals.json');
-  if (!af.hasNext()) { console.log('No chat-approvals.json yet.'); return; }
-  const approvals = JSON.parse(af.next().getBlob().getDataAsString('UTF-8')).files || {};
+  const approvals = chatReadApprovals_();
   const folders = root.getFoldersByName('supplements');
   const supFolder = folders.hasNext() ? folders.next() : root.createFolder('supplements');
   const have = {};
@@ -412,6 +411,19 @@ function chatProcessApproved() {
   });
   CacheService.getScriptCache().remove('chat:sup-list');
   console.log('Supplements added: ' + added + ', removed: ' + removed);
+}
+
+/** Rows of the approvals sheet: File ID | Title | Status | Kind | Citation label | Source | Reason | Reviewed */
+function chatReadApprovals_() {
+  const rows = SpreadsheetApp.openById(CHAT.APPROVALS_SHEET_ID).getSheets()[0].getDataRange().getValues();
+  const out = {};
+  rows.slice(1).forEach(function (r) {
+    const id = String(r[0] || '').trim();
+    if (!id) return;
+    out[id] = { title: String(r[1] || ''), status: String(r[2] || '').trim().toLowerCase(), kind: String(r[3] || '').trim().toLowerCase(),
+      short: String(r[4] || '') || String(r[1] || ''), source: String(r[5] || '') };
+  });
+  return out;
 }
 
 /** Plain text of a PDF, Word file or Google Doc (PDF/Word are converted through a temporary Google Doc). */
