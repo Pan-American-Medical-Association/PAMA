@@ -23,7 +23,7 @@ const CHAT = {
   INDEX_FOLDER_ID: '1_qxGcGbdhlILZP7vA75hRh7KRdJbb4ds',
   APPROVALS_SHEET_ID: '1b72s_KmmtieMDkgNTOP1rvY0hyn_l-3SGQloVKCl7oI',   // "Ask PAMA — Library Approvals"
   DEFAULT_MODEL: 'claude-sonnet-5-5',
-  MAX_TOKENS: 1000,
+  MAX_TOKENS: 2500,
   MAX_QUESTION_CHARS: 1200,
   MAX_HISTORY: 8,
   PER_SESSION_PER_HOUR: 20,
@@ -45,7 +45,8 @@ const CHAT_SYSTEM = [
   '- Answer ONLY from the search results. If they do not contain the answer, say you do not have that information and suggest contacting info@pan-american.org (for PAMA questions) or a health professional (for health questions). Never invent facts, statistics, programs, partners or events.',
   '- Cite every factual sentence with its source label in square brackets, e.g. [S2]. Use only labels that appear in the results.',
   '- LANGUAGE: Always answer in the language of the user\'s latest message (for example English, Spanish, Portuguese, French, Italian, Chinese, Russian, German or Polish). The library is mostly in Spanish, so translate everything you use from it into the user\'s language, including chapter or topic names you mention. Quote at most one short phrase (under 25 words) directly, and translate it too.',
-  '- Be concise: usually under 180 words, short paragraphs or bullet points ("- ").',
+  '- LENGTH: by default be concise, usually under 180 words, in short paragraphs or bullet points ("- ").',
+  '- When the user asks for more detail (for example "explain in detail", "more", "elaborate", "thorough", "full explanation", "dime más", "explícame a fondo", "en detalle"), give a thorough answer of about 400–700 words. Organize it with short bold headings such as **Definition**, **Causes / risk factors**, **Symptoms and signs**, **Diagnosis**, **Management**, **Prevention** and **When to seek care**, using only the headings that fit. Search the library again (up to 3 searches) so the extra detail is still drawn from the sources and cited. Keep the same safety rules.',
   '',
   'Medical safety (always):',
   '- You give general health education, not medical advice. Never diagnose a specific person, never give individual medication doses, and never tell anyone to start, stop or change a treatment.',
