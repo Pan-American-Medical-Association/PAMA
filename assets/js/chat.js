@@ -194,7 +194,27 @@
   input.addEventListener('input', function () { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 112) + 'px'; });
   chips.addEventListener('click', function (e) { var b = e.target.closest('.ask-chip'); if (b) ask(b.getAttribute('data-q')); });
 
-  if (store('pamaChatOpen') === '1') setOpen(true);
+  /* Links: /ask/ shows the chat full-size in the page; any page opens it with #ask or ?chat=1;
+     ?q=... pre-fills a question (not sent until the visitor presses send). */
+  var params = new URLSearchParams(location.search);
+  var preset = (params.get('q') || '').slice(0, 300);
+  var inline = document.querySelector('[data-chat-inline]');
+  if (inline) {
+    inline.appendChild(panel);
+    panel.classList.add('is-inline');
+    panel.setAttribute('role', 'region');
+    panel.querySelector('.pama-chat-x').hidden = true;
+    panel.hidden = false;
+    fab.hidden = true; tip.hidden = true;
+    if (preset) input.value = preset;
+    input.focus({ preventScroll: true });
+    return;
+  }
+  if (location.hash === '#ask' || params.get('chat') === '1' || preset) {
+    setOpen(true);
+    if (preset) input.value = preset;
+  }
+  else if (store('pamaChatOpen') === '1') setOpen(true);
   else if (!store('pamaChatTipShown')) {           // a friendly nudge once per visit
     setTimeout(function () { if (panel.hidden) { tip.hidden = false; store('pamaChatTipShown', '1'); setTimeout(function () { tip.hidden = true; }, 7000); } }, 6000);
   }
