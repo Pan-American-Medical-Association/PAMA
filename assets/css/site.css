@@ -783,6 +783,10 @@ picture > source { display: none; }
 .ask-bot { background: var(--mist); color: var(--ink); border-bottom-left-radius: 6px; align-self: flex-start; }
 .ask-user { background: linear-gradient(135deg, var(--teal-deep), var(--teal-dark)); color: var(--white); border-bottom-right-radius: 6px; align-self: flex-end; white-space: pre-wrap; box-shadow: 0 6px 16px -8px rgba(13,59,62,.6); }
 .ask-err { background: #fff4e5; color: #6a4a00; }
+.ask-give { background: var(--gold-soft); border: 1px solid #e6d29c; }
+.ask-give p { margin: 0 0 .55rem; }
+.ask-give-btn { display: inline-block; padding: .45rem .9rem; border-radius: 999px; background: var(--teal); color: #fff; font-weight: 600; font-size: .88rem; text-decoration: none; }
+.ask-give-btn:hover, .ask-give-btn:focus-visible { filter: brightness(1.1); color: #fff; }
 .ask-cite { font-size: .72em; font-weight: 700; vertical-align: super; color: var(--teal-dark); text-decoration: none; padding: 0 .1em; }
 .ask-sources { margin: .65rem 0 0; padding: .55rem 0 0; border-top: 1px dashed var(--line); list-style: none; font-size: .82rem; color: var(--ink-soft); }
 .ask-sources li { margin: .15rem 0; } .ask-sources b { display: inline-grid; place-items: center; min-width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--teal); color: var(--white); font-size: .7rem; margin-right: .35rem; }

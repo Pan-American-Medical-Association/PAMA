@@ -10,6 +10,9 @@
  *    (Álvarez Sintes, ECIMED, 2014). The index files live in the "PAMA Chat Index" Drive folder and are
  *    never published, because the book text is copyrighted.
  *  - Answers cite their sources ([S1], [S2] …), which the website shows as book/page or page links.
+ *  - For current news (outbreaks, alerts, recent health news in the Americas) Claude can also use Anthropic's
+ *    web search, limited to the trusted health sources in CHAT.WEB_DOMAINS and to 2 searches per answer.
+ *    Set the script property CHAT_WEB_SEARCH to "off" to turn it off.
  *
  * Setup (Project Settings → Script properties):
  *  - ANTHROPIC_API_KEY  your key from console.anthropic.com (required)
@@ -30,6 +33,8 @@ const CHAT = {
   DEFAULT_DAILY_LIMIT: 400,
   RESULTS_PER_SEARCH: 6,
   MAX_SEARCH_ROUNDS: 3,
+  WEB_MAX_USES: 2,
+  WEB_DOMAINS: ['paho.org', 'who.int', 'cdc.gov', 'salud.msp.gob.cu', 'mspas.gob.gt'],
   LOG_SHEET: 'Chat Log'
 };
 
@@ -42,6 +47,7 @@ const CHAT_SYSTEM = [
   '',
   'Rules:',
   '- Always call search_library before answering any factual question. Whatever language the user writes in, search medical topics in Spanish first (most of the library is in Spanish) and also in English if the Spanish search finds little; search PAMA questions in English. You may search up to 3 times.',
+  '- CURRENT NEWS: when the question is about recent or current events (an outbreak now, a health alert, this year\'s cases, recent news, "latest", "today", "this week"), also use web_search, which covers PAHO, WHO, CDC and ministries of health in the Americas. Say how recent the information is (give the date when the source shows one). Do not use web_search for general medical knowledge or PAMA questions; use search_library for those. Facts from web_search are cited automatically, so do not add [S] labels to them.',
   '- Answer ONLY from the search results. If they do not contain the answer, say you do not have that information and suggest contacting info@pan-american.org (for PAMA questions) or a health professional (for health questions). Never invent facts, statistics, programs, partners or events.',
   '- Cite every factual sentence with its source label in square brackets, e.g. [S2]. Use only labels that appear in the results.',
   '- LANGUAGE: Always answer in the language of the user\'s latest message (for example English, Spanish, Portuguese, French, Italian, Chinese, Russian, German or Polish). The library is mostly in Spanish, so translate everything you use from it into the user\'s language, including chapter or topic names you mention. Quote at most one short phrase (under 25 words) directly, and translate it too.',
@@ -141,21 +147,40 @@ function chatRateLimit_(session) {
 /* ------------------------------------------------------------------ */
 
 function chatWithClaude_(key, messages) {
-  const model = PropertiesService.getScriptProperties().getProperty('CHAT_MODEL') || CHAT.DEFAULT_MODEL;
+  const props = PropertiesService.getScriptProperties();
+  const model = props.getProperty('CHAT_MODEL') || CHAT.DEFAULT_MODEL;
+  let web = String(props.getProperty('CHAT_WEB_SEARCH') || 'on').toLowerCase() !== 'off';
+  const system = CHAT_SYSTEM + '\nToday\'s date is ' + Utilities.formatDate(new Date(), 'America/Denver', 'yyyy-MM-dd') + '.';
   const convo = messages.slice();
   const found = [];                 // passages shown to Claude, in label order (S1, S2 …)
   const seen = {};
-  let usage = { input: 0, output: 0 };
+  let usage = { input: 0, output: 0, web: 0 };
+  let pauses = 0;
   for (let round = 0; round <= CHAT.MAX_SEARCH_ROUNDS; round++) {
-    const body = { model: model, max_tokens: CHAT.MAX_TOKENS, system: CHAT_SYSTEM, messages: convo };
-    if (round < CHAT.MAX_SEARCH_ROUNDS) body.tools = [CHAT_TOOL];
-    const res = claudeCall_(key, body);
+    const body = { model: model, max_tokens: CHAT.MAX_TOKENS, system: system, messages: convo };
+    if (round < CHAT.MAX_SEARCH_ROUNDS) {
+      body.tools = [CHAT_TOOL];
+      if (web) body.tools.push({ type: 'web_search_20250305', name: 'web_search', max_uses: CHAT.WEB_MAX_USES, allowed_domains: CHAT.WEB_DOMAINS });
+    }
+    let res;
+    try { res = claudeCall_(key, body); }
+    catch (err) {                    // web search switched off for the account, or not offered for this model
+      if (!web || !/web.?search|server_tool|tool type|tools\.\d/i.test(String(err && err.message))) throw err;
+      logError_('chat-web', err, '');
+      web = false; round--; continue;
+    }
     usage.input += (res.usage && res.usage.input_tokens) || 0;
     usage.output += (res.usage && res.usage.output_tokens) || 0;
+    usage.web += (res.usage && res.usage.server_tool_use && res.usage.server_tool_use.web_search_requests) || 0;
     const blocks = res.content || [];
+    if (res.stop_reason === 'pause_turn' && pauses < 2) {   // long web search: send the turn back to let it finish
+      pauses++; round--;
+      convo.push({ role: 'assistant', content: blocks });
+      continue;
+    }
     const uses = blocks.filter(function (b) { return b.type === 'tool_use'; });
     if (res.stop_reason !== 'tool_use' || !uses.length) {
-      const answer = blocks.filter(function (b) { return b.type === 'text'; }).map(function (b) { return b.text; }).join('\n').trim();
+      const answer = finalText_(blocks, found, seen);
       return { answer: answer, sources: citedSources_(answer, found), model: model, usage: usage };
     }
     convo.push({ role: 'assistant', content: blocks });
@@ -172,6 +197,30 @@ function chatWithClaude_(key, messages) {
     convo.push({ role: 'user', content: results });
   }
   return { answer: '', sources: [], model: model, usage: usage };
+}
+
+/** The answer text after the last search, with web citations turned into [S#] labels like library sources. */
+function finalText_(blocks, found, seen) {
+  let start = 0;
+  blocks.forEach(function (b, i) { if (b.type !== 'text') start = i + 1; });
+  return blocks.slice(start).filter(function (b) { return b.type === 'text'; }).map(function (b) {
+    const labels = [];
+    (b.citations || []).forEach(function (c) {
+      if (c.type !== 'web_search_result_location' || !c.url) return;
+      const id = 'web:' + c.url;
+      if (!(id in seen)) {
+        let host = '';
+        try { host = String(c.url).replace(/^https?:\/\//, '').split('/')[0].replace(/^www\./, ''); } catch (e) {}
+        found.push({ id: id, type: 'web', title: c.title || host || c.url, detail: host, url: c.url });
+        seen[id] = found.length;
+      }
+      const label = '[S' + seen[id] + ']';
+      if (labels.indexOf(label) < 0) labels.push(label);
+    });
+    if (!labels.length) return b.text;
+    const m = b.text.match(/^([\s\S]*?)(\s*)$/);       // put the labels before any trailing space or newline
+    return m[1] + ' ' + labels.join(' ') + m[2];
+  }).join('').trim();
 }
 
 function claudeCall_(key, body) {
@@ -504,7 +553,8 @@ function chatLog_(question, result, lang) {
     let q = String(question).slice(0, 500);
     if (/^[=+\-@]/.test(q)) q = "'" + q;
     sh.appendRow([new Date(), lang, q, result.sources.map(function (s) { return s.title + (s.detail ? ' ' + s.detail.split(' · ')[0] : ''); }).join('; '),
-      result.model, result.usage.input, result.usage.output]);
+      result.model, result.usage.input, result.usage.output, result.usage.web || 0]);
+    if (sh.getLastRow() > 1 && sh.getRange(1, 8).getValue() === '') sh.getRange(1, 8).setValue('Web searches').setFontWeight('bold');
   } catch (e) { console.error(e); }
 }
 
