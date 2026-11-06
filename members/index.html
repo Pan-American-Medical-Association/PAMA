@@ -121,6 +121,7 @@
       <a href="#resources" data-tab="resources">Resources</a>
       <a href="#opportunities" data-tab="opportunities">Opportunities</a>
       <a href="#directory" data-tab="directory">Directory</a>
+      <a href="#chart" data-tab="chart">PAMA Chart</a>
       <a href="#profile" data-tab="profile">My profile</a>
       <a href="#membership" data-tab="membership">Membership</a>
     </nav>
@@ -151,6 +152,7 @@
           <a href="#directory"><strong>Member directory</strong><span>Find colleagues across the Americas</span></a>
           <a href="#resources"><strong>Resources</strong><span>Research, reports and program guides</span></a>
           <a href="#membership"><strong>Membership and payments</strong><span>Plan, renewal and PayPal</span></a>
+          <a href="#chart"><strong>PAMA Chart</strong><span>Clinical record for PAMA clinicians</span></a>
         </nav>
         </div>
         <div class="portal-box">
@@ -200,6 +202,45 @@
       <p class="portal-muted">Members who chose to be listed. Only signed-in members can see this page. <a href="#profile">Manage how you appear</a>.</p>
       <div class="portal-filters"><input type="search" placeholder="Search by name, specialty, country or language" aria-label="Search the directory" data-filter="directory"></div>
       <div class="portal-cards" data-list="directory"></div>
+    </div>
+
+    <!-- PAMA Chart (clinical record) -->
+    <div class="portal-panel" data-panel="chart" hidden>
+      <div class="portal-chart-hero">
+        <img src="../assets/img/pama-emblem-v2.png" alt="" width="72" height="72">
+        <div>
+          <h2 class="portal-h">PAMA Chart</h2>
+          <p class="portal-muted">PAMA’s bilingual (English/Español) clinical record for our clinicians: clinic schedule, patient charts, visit notes with dot phrases, orders, results and referral letters. Built with our partners for clinics across the Americas.</p>
+        </div>
+      </div>
+      <div class="portal-grid-2">
+        <div class="portal-box">
+          <h3 class="portal-h">Open PAMA Chart</h3>
+          <p>Sign in with your <strong>PAMA Google account</strong> (@pan-american.org). Only clinicians approved by PAMA can open patient records, and every action is logged.</p>
+          <p><a class="btn btn-teal" href="https://chart.pan-american.org/" target="_blank" rel="noopener" data-track="chart_open">Open PAMA Chart ↗</a></p>
+          <h3 class="portal-h portal-h-gap">Install it as an app</h3>
+          <ul class="portal-steps">
+            <li><strong>Computer (Chrome or Edge):</strong> open PAMA Chart and click <em>Install app</em> at the top, or the install icon in the address bar.</li>
+            <li><strong>Android:</strong> open it in Chrome, tap <em>⋮</em> → <em>Install app</em>.</li>
+            <li><strong>iPhone or iPad:</strong> open it in Safari, tap <em>Share</em> → <em>Add to Home Screen</em>.</li>
+          </ul>
+          <p class="portal-muted portal-small">The app keeps no patient information on your device. Lock your phone or computer, and never share your sign-in.</p>
+        </div>
+        <div class="portal-box">
+          <h3 class="portal-h">Request clinician access</h3>
+          <p class="portal-muted">For PAMA clinicians (physicians, nurses, NPs, PAs, community health workers) seeing patients in PAMA programs. We review each request and reply by email.</p>
+          <form class="form pama-form portal-chart-form" data-form="contact" novalidate>
+            <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+            <input type="hidden" name="reason" value="PAMA Chart access request">
+            <div class="row"><div><label for="chart-first">First name <span class="req" aria-hidden="true">*</span></label><input id="chart-first" name="first_name" type="text" autocomplete="given-name" required></div><div><label for="chart-last">Last name <span class="req" aria-hidden="true">*</span></label><input id="chart-last" name="last_name" type="text" autocomplete="family-name" required></div></div>
+            <div><label for="chart-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="chart-email" name="email" type="email" autocomplete="email" required></div>
+            <div><label for="chart-site">Clinic or program where you’ll use it <span class="req" aria-hidden="true">*</span></label><input id="chart-site" name="organization" type="text" required placeholder="e.g. Aldea Pitzal clinic, Guatemala"></div>
+            <div><label for="chart-msg">Your role and license <span class="req" aria-hidden="true">*</span></label><textarea id="chart-msg" name="message" rows="3" required placeholder="e.g. MD, New Mexico license #…; I already have a @pan-american.org account / I need one"></textarea></div>
+            <div><button class="btn btn-teal" type="submit">Request access</button></div>
+            <div class="form-status" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <!-- Profile -->
@@ -302,5 +343,6 @@
 <script src="../assets/js/site.js"></script>
 <script src="../assets/js/chat.js" defer></script>
 <script src="../assets/js/portal.js"></script>
+<script src="../assets/js/forms.js"></script>
 </body>
 </html>
