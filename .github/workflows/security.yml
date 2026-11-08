@@ -1,0 +1,15 @@
+name: Weekly security checks
+on:
+  schedule: [{ cron: '17 9 * * 1' }]   # Mondays ~3 AM Mountain
+  pull_request:
+  workflow_dispatch:
+permissions: { contents: read }
+jobs:
+  secrets:
+    name: No secrets in the code or history
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: gitleaks
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --redact -v
