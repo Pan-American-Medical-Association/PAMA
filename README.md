@@ -8,7 +8,7 @@ The plain HTML version of [pan-american.org](https://www.pan-american.org), rebu
 - `assets/css/site.css` holds all styles; `assets/js/site.js` runs the mobile menu and the campaign pop-up.
 - `assets/img/` holds the site's images, resized for the web.
 - `404.html` is the not-found page. Its links resolve from the site root, so it works at any URL depth.
-- `cart/`, `more/` and `home/` are redirect pages for old Squarespace URLs.
+- `cart/`, `more/` and `home/` are redirect pages for old Squarespace URLs. `blog/category/public+health/` and `<lang>/privacy-transparency/` redirect old links that Google reported as 404s; `404.html` also forwards any `/blog/category/` or `/blog/tag/` link to the blog.
 - `.nojekyll` tells GitHub Pages to serve the files exactly as they are.
 
 All internal links are **relative** (for example `../donate/`), so the same files work at the GitHub test address (`/PAMA/`) and at `www.pan-american.org`. Keep that pattern when adding pages or links.
