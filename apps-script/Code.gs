@@ -27,7 +27,13 @@ const CONFIG = {
   PAYPAL_SANDBOX: false,                                  // true only while testing with PayPal sandbox
   MEMBERSHIP_KEYWORDS: ['member'],                        // item names containing these count as memberships
   ANNUAL_DAYS: 366,                                       // access length for one-time annual payments
-  GRACE_DAYS: 7                                           // extra days before removing a lapsed monthly member
+  GRACE_DAYS: 7,                                          // extra days before removing a lapsed monthly member
+  // Security (see SECURITY.md). The PayPal account that must receive membership payments is read from
+  // Script Properties: PAYPAL_RECEIVER_EMAIL and/or PAYPAL_MERCHANT_ID. Payments to any other account are held.
+  MIN_MEMBERSHIP_AMOUNT: 5,                               // lowest real dues ($5/month); anything less is held
+  MEMBERSHIP_CURRENCY: 'USD',
+  FORM_LIMIT_PER_EMAIL: 5,                                // submissions per email address per hour
+  FORM_LIMIT_GLOBAL: 120                                  // submissions across the whole site per hour
 };
 
 const FORMS = {
@@ -610,6 +616,7 @@ function doPost(e) {
     const form = FORMS[data.form_type];
     if (!form) throw new Error('Unknown form_type: ' + data.form_type);
     validate_(form, data);
+    if (!formRateOk_(data.email)) return json_({ ok: false, error: 'Too many submissions. Please try again later.' });
 
     const lock = LockService.getScriptLock();
     lock.waitLock(20000);
@@ -634,7 +641,8 @@ function doPost(e) {
     return json_({ ok: true });
   } catch (err) {
     logError_('doPost', err, e && e.postData ? e.postData.contents : '');
-    return json_({ ok: false, error: String(err.message || err) });
+    // Never send internal error details to the browser; the full error is in the log.
+    return json_({ ok: false, error: 'Submission could not be processed.' });
   }
 }
 
@@ -647,6 +655,27 @@ function parseBody_(e) {
     try { return JSON.parse(e.postData.contents); } catch (x) { /* fall through to form fields */ }
   }
   return e.parameter || {};
+}
+
+/** Per-email and site-wide hourly limits so the forms can't be used to spam inboxes or the donors list. */
+function formRateOk_(email) {
+  const cache = CacheService.getScriptCache();
+  const hour = Utilities.formatDate(new Date(), 'UTC', 'yyyyMMddHH');
+  const kE = 'form_e_' + hour + '_' + Utilities.base64EncodeWebSafe(Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256, String(email))).slice(0, 24);
+  const kG = 'form_g_' + hour;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const e = Number(cache.get(kE) || 0), g = Number(cache.get(kG) || 0);
+    if (e >= CONFIG.FORM_LIMIT_PER_EMAIL || g >= CONFIG.FORM_LIMIT_GLOBAL) {
+      logError_('rate limit', new Error('Form rate limit hit'), (e >= CONFIG.FORM_LIMIT_PER_EMAIL ? 'per-email' : 'global'));
+      return false;
+    }
+    cache.put(kE, String(e + 1), 3600);
+    cache.put(kG, String(g + 1), 3600);
+    return true;
+  } finally { lock.releaseLock(); }
 }
 
 function validate_(form, data) {
@@ -806,12 +835,44 @@ function isMembershipPayment_(p) {
   return /^subscr_|^recurring_payment/.test(String(p.txn_type || ''));
 }
 
+/**
+ * A PayPal-verified notification only proves PayPal sent it, not that the money came to PAMA.
+ * Check the receiving account, the currency and the amount before granting membership.
+ * Returns a reason string when the notification must be held, or '' when it is fine.
+ */
+function paymentProblem_(p) {
+  const props = PropertiesService.getScriptProperties();
+  const wantEmail = String(props.getProperty('PAYPAL_RECEIVER_EMAIL') || '').toLowerCase().trim();
+  const wantId = String(props.getProperty('PAYPAL_MERCHANT_ID') || '').trim();
+  if (!wantEmail && !wantId) return 'Receiver not configured (set PAYPAL_RECEIVER_EMAIL or PAYPAL_MERCHANT_ID in Script Properties)';
+  const gotEmail = String(p.receiver_email || p.business || '').toLowerCase().trim();
+  const gotId = String(p.receiver_id || '').trim();
+  const okReceiver = (wantEmail && gotEmail === wantEmail) || (wantId && gotId === wantId);
+  if (!okReceiver) return 'Payment went to a different PayPal account (' + (gotEmail || gotId || 'unknown') + ')';
+  const t = String(p.txn_type || '');
+  const status = String(p.payment_status || '');
+  if (status === 'Refunded' || status === 'Reversed') return '';   // refunds only remove access
+  if (/cancel|eot|expired|suspended|failed/.test(t)) return '';    // endings only remove access
+  const cur = String(p.mc_currency || p.currency_code || CONFIG.MEMBERSHIP_CURRENCY);
+  if (cur !== CONFIG.MEMBERSHIP_CURRENCY) return 'Unexpected currency ' + cur;
+  const amt = Number(p.mc_gross || p.amount || p.mc_amount3 || p.amount3 || p.amount_per_cycle || 0);
+  if (!(amt >= CONFIG.MIN_MEMBERSHIP_AMOUNT)) return 'Amount ' + amt + ' is below the lowest membership dues';
+  return '';
+}
+
+function alertTeam_(subject, body) {
+  try { MailApp.sendEmail({ to: CONFIG.NOTIFY.join(','), subject: '[PAMA security] ' + subject, body: body }); }
+  catch (err) { logError_('alertTeam_', err, subject); }
+}
+
 function applyMembership_(p) {
   const t = String(p.txn_type || '');
   const status = String(p.payment_status || '');
   const email = String(p.payer_email || '').toLowerCase().trim();
   if (!email) return 'No payer email';
   if (!isMembershipPayment_(p)) return 'Not a membership payment';
+  const held = paymentProblem_(p);
+  if (held) { alertTeam_('PayPal notification held for review', held + '\n\nPayer: ' + email + '\nType: ' + t + '\nTxn: ' + (p.txn_id || p.subscr_id || '')); return 'HELD: ' + held; }
 
   const now = new Date();
   const start = ['subscr_signup', 'recurring_payment_profile_created'];
