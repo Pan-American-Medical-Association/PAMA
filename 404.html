@@ -15,9 +15,9 @@
 <script src="assets/js/motion.js" defer></script>
 <script>
 /* Send old Squarespace blog category/tag links and translated privacy links to the right page */
-(function(){var p=location.pathname.replace(/^\/PAMA/i,'');
-if(/^\/blog\/(category|tag)\//i.test(p)){location.replace('/blog/');}
-else if(/^\/(es|pt|fr|it|zh|ru|de|pl)\/privacy-transparency\/?$/i.test(p)){location.replace('/privacy-transparency/');}
+(function(){var b=/^\/PAMA(\/|$)/i.test(location.pathname)?'/PAMA':'',p=location.pathname.slice(b.length);
+if(/^\/blog\/(category|tag)\//i.test(p)){location.replace(b+'/blog/');}
+else if(/^\/(es|pt|fr|it|zh|ru|de|pl)\/privacy-transparency\/?$/i.test(p)){location.replace(b+'/privacy-transparency/');}
 })();
 </script>
 <script>document.write('<base href="'+(/^\/PAMA(\/|$)/i.test(location.pathname)?'/PAMA/':'/')+'">');</script>
