@@ -13,6 +13,13 @@
 </script>
 <script src="assets/js/analytics.js" defer></script>
 <script src="assets/js/motion.js" defer></script>
+<script>
+/* Send old Squarespace blog category/tag links and translated privacy links to the right page */
+(function(){var p=location.pathname.replace(/^\/PAMA/i,'');
+if(/^\/blog\/(category|tag)\//i.test(p)){location.replace('/blog/');}
+else if(/^\/(es|pt|fr|it|zh|ru|de|pl)\/privacy-transparency\/?$/i.test(p)){location.replace('/privacy-transparency/');}
+})();
+</script>
 <script>document.write('<base href="'+(/^\/PAMA(\/|$)/i.test(location.pathname)?'/PAMA/':'/')+'">');</script>
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
