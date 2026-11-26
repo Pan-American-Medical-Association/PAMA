@@ -106,6 +106,19 @@ The "Ask PAMA" box on the home page sends questions to this same web app (`actio
 
 Until the key is set, the chat box shows: "The assistant is almost ready."
 
+### Research papers (Consensus), optional
+
+When a visitor asks what studies show or how strong the evidence is, the assistant can also search peer-reviewed papers through the Consensus API (PubMed, Semantic Scholar, OpenAlex). Papers are cited like the other sources, with a link to the paper. It is read-only, uses at most 2 searches per answer, and has its own site-wide daily cap. **It stays off until you add the key.**
+
+1. Sign in at consensus.app with the PAMA account (the API needs a paid Consensus plan) and create a key at consensus.app/api-mcp/.
+2. In **Project Settings → Script properties**, add `CONSENSUS_API_KEY` with the key as its value. Only paste the key here; never put it in website code or email it.
+   - Optional: `CHAT_RESEARCH_DAILY_LIMIT`, default 200 searches per day across the whole site.
+   - Optional: set `CHAT_RESEARCH` to `off` to pause research search without removing the key.
+3. Paste the current `Chat.gs`, then select `testResearchSearch` and click **Run**. The log should show `HTTP 200` and three papers.
+4. Redeploy: **Deploy → Manage deployments → "Website forms" → Edit → New version → Deploy**.
+
+The **Chat Log** tab gets a **Research searches** column so you can watch usage.
+
 ### Weekly additions (Step 2 notes and open sources)
 
 1. **Add files** to the Drive folder **Libros → Medical PDF** (PDF, Word or Google Docs; subfolders are fine).
