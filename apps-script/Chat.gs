@@ -13,11 +13,17 @@
  *  - For current news (outbreaks, alerts, recent health news in the Americas) Claude can also use Anthropic's
  *    web search, limited to the trusted health sources in CHAT.WEB_DOMAINS and to 2 searches per answer.
  *    Set the script property CHAT_WEB_SEARCH to "off" to turn it off.
+ *  - For questions about research evidence, Claude can also search peer-reviewed papers through the
+ *    Consensus API (tool search_research). It is read-only, limited to 2 searches per answer and to a
+ *    site-wide daily cap, and it is OFF until the script property CONSENSUS_API_KEY is set.
  *
  * Setup (Project Settings → Script properties):
  *  - ANTHROPIC_API_KEY  your key from console.anthropic.com (required)
  *  - CHAT_MODEL         optional, default claude-sonnet-5-5 (claude-haiku-5-5 is cheaper)
  *  - CHAT_DAILY_LIMIT   optional, default 400 questions per day across the whole site
+ *  - CONSENSUS_API_KEY  optional; turns on research-paper search (key from consensus.app/api-mcp/)
+ *  - CHAT_RESEARCH_DAILY_LIMIT  optional, default 200 Consensus searches per day across the whole site
+ *  - CHAT_RESEARCH      optional; set to "off" to turn research search off without removing the key
  *
  * Code.gs routes any request whose "action" starts with "chat_" here.
  */
@@ -35,6 +41,11 @@ const CHAT = {
   MAX_SEARCH_ROUNDS: 3,
   WEB_MAX_USES: 2,
   WEB_DOMAINS: ['paho.org', 'who.int', 'cdc.gov', 'salud.msp.gob.cu', 'mspas.gob.gt'],
+  RESEARCH_URL: 'https://api.consensus.app/v1/search',
+  RESEARCH_PER_SEARCH: 5,
+  RESEARCH_MAX_USES: 2,
+  RESEARCH_DEFAULT_DAILY_LIMIT: 200,
+  RESEARCH_TEXT_CHARS: 1200,
   LOG_SHEET: 'Chat Log'
 };
 
@@ -143,6 +154,26 @@ function chatRateLimit_(session) {
 }
 
 /* ------------------------------------------------------------------ */
+const CHAT_RESEARCH_TOOL = {
+  name: 'search_research',
+  description: 'Search peer-reviewed research papers (Consensus: PubMed, Semantic Scholar, OpenAlex). Returns numbered papers with source labels: title, authors, year, journal and a summary or abstract. Use English keywords.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Plain-language research question in English, e.g. "oral rehydration solution child diarrhea mortality".' }
+    },
+    required: ['query']
+  }
+};
+
+const CHAT_RESEARCH_RULES = [
+  '',
+  'Research papers (search_research):',
+  '- Use search_research when the user asks what studies or research show, how strong the evidence is, or for recent research on a health topic. You may also use it after search_library when the library does not answer the question. Do not use it for questions about PAMA. At most 2 research searches per answer.',
+  '- Describe research findings as what a study found ("A 2010 review of 12 studies found …"), with the year, and cite the paper label. Do not turn study results into advice for a specific person.',
+  '- For basic definitions, symptoms and standard care, prefer the library. Prefer systematic reviews and meta-analyses over single small studies, and say when the evidence is limited or mixed.'
+].join('\n');
+
 /*  Claude with the search tool                                       */
 /* ------------------------------------------------------------------ */
 
@@ -150,16 +181,19 @@ function chatWithClaude_(key, messages) {
   const props = PropertiesService.getScriptProperties();
   const model = props.getProperty('CHAT_MODEL') || CHAT.DEFAULT_MODEL;
   let web = String(props.getProperty('CHAT_WEB_SEARCH') || 'on').toLowerCase() !== 'off';
-  const system = CHAT_SYSTEM + '\nToday\'s date is ' + Utilities.formatDate(new Date(), 'America/Denver', 'yyyy-MM-dd') + '.';
+  const researchKey = researchKey_(props);
+  let researchLeft = researchKey ? CHAT.RESEARCH_MAX_USES : 0;
+  const system = CHAT_SYSTEM + (researchKey ? '\n' + CHAT_RESEARCH_RULES : '') + '\nToday\'s date is ' + Utilities.formatDate(new Date(), 'America/Denver', 'yyyy-MM-dd') + '.';
   const convo = messages.slice();
   const found = [];                 // passages shown to Claude, in label order (S1, S2 …)
   const seen = {};
-  let usage = { input: 0, output: 0, web: 0 };
+  let usage = { input: 0, output: 0, web: 0, research: 0 };
   let pauses = 0;
   for (let round = 0; round <= CHAT.MAX_SEARCH_ROUNDS; round++) {
     const body = { model: model, max_tokens: CHAT.MAX_TOKENS, system: system, messages: convo };
     if (round < CHAT.MAX_SEARCH_ROUNDS) {
       body.tools = [CHAT_TOOL];
+      if (researchKey) body.tools.push(CHAT_RESEARCH_TOOL);
       if (web) body.tools.push({ type: 'web_search_20250305', name: 'web_search', max_uses: CHAT.WEB_MAX_USES, allowed_domains: CHAT.WEB_DOMAINS });
     }
     let res;
@@ -186,13 +220,23 @@ function chatWithClaude_(key, messages) {
     convo.push({ role: 'assistant', content: blocks });
     const results = uses.map(function (u) {
       const q = String((u.input && u.input.query) || '').slice(0, 300);
-      const hits = librarySearch_(q, (u.input && u.input.scope) || 'all', CHAT.RESULTS_PER_SEARCH);
+      let hits;
+      if (u.name === 'search_research') {
+        if (researchLeft <= 0) return { type: 'tool_result', tool_use_id: u.id, content: 'No more research searches for this answer. Answer from the results you have.' };
+        researchLeft--;
+        const r = researchSearch_(researchKey, q, props);
+        if (r.note) return { type: 'tool_result', tool_use_id: u.id, content: r.note };
+        usage.research++;
+        hits = r.hits;
+      } else {
+        hits = librarySearch_(q, (u.input && u.input.scope) || 'all', CHAT.RESULTS_PER_SEARCH);
+      }
       const lines = hits.map(function (h) {
         if (!(h.id in seen)) { found.push(h); seen[h.id] = found.length; }
         const label = 'S' + seen[h.id];
         return '[' + label + '] ' + h.cite + '\n' + h.text;
       });
-      return { type: 'tool_result', tool_use_id: u.id, content: lines.length ? lines.join('\n\n') : 'No results. Try different keywords (Spanish for medical topics).' };
+      return { type: 'tool_result', tool_use_id: u.id, content: lines.length ? lines.join('\n\n') : (u.name === 'search_research' ? 'No papers found. Try different English keywords.' : 'No results. Try different keywords (Spanish for medical topics).') };
     });
     convo.push({ role: 'user', content: results });
   }
@@ -238,6 +282,72 @@ function claudeCall_(key, body) {
     Utilities.sleep(1500 * (attempt + 1));
   }
   throw new Error('Claude API ' + last);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Research search (Consensus API, read-only)                         */
+/* ------------------------------------------------------------------ */
+
+/** The Consensus key, or '' when research search is off. */
+function researchKey_(props) {
+  if (String(props.getProperty('CHAT_RESEARCH') || 'on').toLowerCase() === 'off') return '';
+  return String(props.getProperty('CONSENSUS_API_KEY') || '').trim();
+}
+
+/** Counts one Consensus search against the site-wide daily cap. Returns false when the cap is reached. */
+function researchQuotaOk_(props) {
+  const cap = Number(props.getProperty('CHAT_RESEARCH_DAILY_LIMIT') || CHAT.RESEARCH_DEFAULT_DAILY_LIMIT);
+  const day = Utilities.formatDate(new Date(), 'America/Denver', 'yyyy-MM-dd');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const used = Number(props.getProperty('CHAT_RESEARCH_COUNT_' + day) || 0);
+    if (used >= cap) return false;
+    props.setProperty('CHAT_RESEARCH_COUNT_' + day, String(used + 1));
+    return true;
+  } finally { lock.releaseLock(); }
+}
+
+/** Searches Consensus. Returns { hits: [...] } or { note: 'message for Claude' }. Paper text is untrusted data. */
+function researchSearch_(key, query, props) {
+  if (!query) return { note: 'Empty query.' };
+  if (!researchQuotaOk_(props)) return { note: 'Research search has reached its daily limit. Answer from the library, or say the information is not available.' };
+  try {
+    const url = CHAT.RESEARCH_URL + '?query=' + encodeURIComponent(query) + '&page_size=' + CHAT.RESEARCH_PER_SEARCH + '&exclude_preprints=true';
+    const res = UrlFetchApp.fetch(url, {
+      method: 'get', muteHttpExceptions: true,
+      headers: { 'x-api-key': key, 'Accept': 'application/json' }
+    });
+    const code = res.getResponseCode();
+    if (code !== 200) throw new Error('Consensus API ' + code + ' ' + res.getContentText().slice(0, 300));
+    const data = JSON.parse(res.getContentText());
+    const papers = (Array.isArray(data) ? data : (data.results || data.data || data.papers || [])).slice(0, CHAT.RESEARCH_PER_SEARCH);
+    return { hits: papers.map(researchHit_).filter(function (h) { return h; }) };
+  } catch (err) {
+    logError_('chat-research', err, query);
+    return { note: 'Research search is unavailable right now. Answer from the library, or say the information is not available.' };
+  }
+}
+
+/** One Consensus paper → the same shape as a library passage. */
+function researchHit_(p) {
+  if (!p || typeof p !== 'object') return null;
+  const clean = function (v) { return String(v == null ? '' : v).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(); };
+  const title = clean(p.title);
+  if (!title) return null;
+  let authors = p.authors || p.author_names || '';
+  if (Array.isArray(authors)) authors = authors.map(function (a) { return typeof a === 'string' ? a : (a && (a.name || a.display_name)) || ''; }).filter(String);
+  authors = Array.isArray(authors) ? (authors.length > 2 ? authors[0] + ' et al.' : authors.join(' and ')) : clean(authors);
+  const year = clean(p.publish_year || p.year || String(p.publication_date || '').slice(0, 4));
+  const journal = clean(p.journal_name || p.journal || p.venue);
+  const doi = clean(p.doi).replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
+  let link = clean(p.url || p.consensus_url || p.link);
+  if (!/^https:\/\//i.test(link)) link = doi ? 'https://doi.org/' + doi : '';
+  const chunks = Array.isArray(p.full_text_chunks) ? p.full_text_chunks.map(function (c) { return clean(typeof c === 'string' ? c : c && c.text); }).join(' ') : '';
+  const text = [p.takeaway ? 'Key finding: ' + clean(p.takeaway) : '', clean(p.abstract) || chunks].filter(String).join('\n').slice(0, CHAT.RESEARCH_TEXT_CHARS);
+  const detail = [authors, year].filter(String).join(', ') + (journal ? ' · ' + journal : '');
+  return { id: 'paper:' + (doi || link || title), type: 'paper', title: title, detail: detail, url: link,
+    cite: 'Research paper: ' + title + (detail ? ' (' + detail + ')' : ''), text: text || '(No summary available.)' };
 }
 
 /** Sources the answer actually cites, in label order. */
@@ -553,8 +663,9 @@ function chatLog_(question, result, lang) {
     let q = String(question).slice(0, 500);
     if (/^[=+\-@]/.test(q)) q = "'" + q;
     sh.appendRow([new Date(), lang, q, result.sources.map(function (s) { return s.title + (s.detail ? ' ' + s.detail.split(' · ')[0] : ''); }).join('; '),
-      result.model, result.usage.input, result.usage.output, result.usage.web || 0]);
+      result.model, result.usage.input, result.usage.output, result.usage.web || 0, result.usage.research || 0]);
     if (sh.getLastRow() > 1 && sh.getRange(1, 8).getValue() === '') sh.getRange(1, 8).setValue('Web searches').setFontWeight('bold');
+    if (sh.getLastRow() > 1 && sh.getRange(1, 9).getValue() === '') sh.getRange(1, 9).setValue('Research searches').setFontWeight('bold');
   } catch (e) { console.error(e); }
 }
 
@@ -565,6 +676,21 @@ function chatLog_(question, result, lang) {
 function testChatSearch() {
   librarySearch_('hipertensión arterial tratamiento no farmacológico', 'all', 3).forEach(function (h) { console.log(h.cite); });
   librarySearch_('donate medical supplies', 'website', 3).forEach(function (h) { console.log(h.cite); });
+}
+
+/** Run after adding CONSENSUS_API_KEY: logs 3 papers, or the error, without counting toward the daily cap. */
+function testResearchSearch() {
+  const props = PropertiesService.getScriptProperties();
+  const key = researchKey_(props);
+  if (!key) { console.log('Research search is off: add the script property CONSENSUS_API_KEY.'); return; }
+  const res = UrlFetchApp.fetch(CHAT.RESEARCH_URL + '?query=' + encodeURIComponent('oral rehydration solution child diarrhea mortality') + '&page_size=3',
+    { method: 'get', muteHttpExceptions: true, headers: { 'x-api-key': key, 'Accept': 'application/json' } });
+  console.log('HTTP ' + res.getResponseCode());
+  if (res.getResponseCode() !== 200) { console.log(res.getContentText().slice(0, 500)); return; }
+  const data = JSON.parse(res.getContentText());
+  const papers = Array.isArray(data) ? data : (data.results || data.data || data.papers || []);
+  if (papers[0]) console.log('Fields: ' + Object.keys(papers[0]).join(', '));
+  papers.map(researchHit_).forEach(function (h) { if (h) console.log(h.cite + '\n  ' + h.url); });
 }
 
 function testChatAnswer() {
